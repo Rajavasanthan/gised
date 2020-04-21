@@ -33,7 +33,7 @@ class serverController {
 
 	function controller() {
 
-		$this->module = $this->commonObj->readJsonConfigurations('modules', 'module_name', $this->angularRequest['module']);
+		$this->module = $this->commonObj->readJsonConfigurations('modules', $this->angularRequest['module'], 'module_name');
 
 		require_once $this->module['file_path'];
 		$moduleObj = new $this->module['class_name'];

@@ -5,7 +5,8 @@
         "class_name" : "login"
     },
     {
-        "module_name" : "loginsample",
-        "file_name" : "class.module.loginsample.php"
+        "module_name" : "userProfile",
+        "file_path" : "classesmodule/class.module.userProfile.php",
+        "class_name" : "userProfile"
     }
 ]

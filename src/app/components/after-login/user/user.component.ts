@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProductService } from '../../../services/product.service';
 
 @Component({
   selector: 'app-user',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
-  constructor() { }
+  loggedProfile : any;
+
+  constructor(private product:ProductService) { 
+    
+  }
 
   ngOnInit() {
+    this.product.login();
+
+    this.loggedProfile = this.product.showProfile();
+  }
+
+  logout() {
+    this.product.logout();
   }
 
 }
