@@ -1,0 +1,76 @@
+<i class="far fa-circle registration__circle"></i>
+<form [formGroup]="loginForm" (ngSubmit)="loginFormSubmit()">
+<div class="registration__container">
+  <h2 class="registration__heading">Login</h2>
+  <!-- Username -->
+  <div class="registration__form-control registration__form-control--username">
+   <div class="registration__label">Username</div>
+   <div class="registration__input-container">
+    <i class="fas fa-user registration__icon"></i>
+    <input
+     type="text"
+     class="registration__input"
+     placeholder="Type your username" 
+     formControlName="emailId"
+    />
+   </div>
+  </div>
+
+  <!-- Password -->
+  <div class="registration__form-control">
+   <div class="registration__label">Password</div>
+   <div class="registration__input-container">
+    <i class="fas fa-lock registration__icon"></i>
+    <input
+     type="password"
+     class="registration__input"
+     placeholder="Type your password" 
+     formControlName="password"
+    />
+   </div>
+  </div>
+  <!-- Forgot Password -->
+  <a href="#" routerLink='forgotpassword' class="registration__forgot-password lead">Forgot Password</a>
+  <!-- Login-Button -->
+  <button type="submit" class="registration__login-btn btn btn-primary block btn-lg" [disabled]="!loginForm.valid">
+   Login
+  </button>
+  <!-- Signup -->
+  <p class="lead text-center">Or Sign Up using</p>
+  <div class="registration__signup-container">
+   <!-- Facebook -->
+   <a
+    href="#"
+    class="registration__signup-link registration__signup-link--facebook"
+   >
+    <i class="fab fa-facebook-f"></i>
+   </a>
+   <!-- Twitter -->
+   <a
+    href="#"
+    class="registration__signup-link registration__signup-link--twitter"
+   >
+    <i class="fab fa-twitter"></i>
+   </a>
+   <!-- Gmail -->
+   <a
+    href="#"
+    class="registration__signup-link registration__signup-link--google"
+   >
+    <i class="fab fa-google"></i>
+   </a>
+   <!-- LinkedIn -->
+   <a
+    href="#"
+    class="registration__signup-link registration__signup-link--linkedin"
+   >
+    <i class="fab fa-linkedin"></i>
+   </a>
+  </div>
+  <!-- Or Signup -->
+  <div class="registration__card-footer text-center">
+   <span class="lead" class="block">Have not account yet ?</span>
+   <a href="" routerLink="signup" class="block uppercase">Sign Up</a>
+  </div>
+ </div>
+</form>

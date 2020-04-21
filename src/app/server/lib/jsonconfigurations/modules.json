@@ -1,0 +1,11 @@
+[
+    {
+        "module_name" : "login",
+        "file_path" : "classesmodule/class.module.login.php",
+        "class_name" : "login"
+    },
+    {
+        "module_name" : "loginsample",
+        "file_name" : "class.module.loginsample.php"
+    }
+]

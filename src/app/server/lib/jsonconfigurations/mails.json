@@ -1,0 +1,12 @@
+[
+    {
+        "action" : "forgotpassword",
+        "mail_subject" : "Gised : Set New Password",
+        "mail_message" : "Kindly find below click here link for set new password to your account."
+    },
+    {
+        "action" : "signup",
+        "mail_subject" : "Gised : Mail Verification and Set Password",
+        "mail_message" : "Kindly find below click here link for complete mail verification and set password to your account."
+    }
+]
