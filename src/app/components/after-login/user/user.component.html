@@ -1,7 +1,7 @@
 <i class="far fa-circle application__circle"></i>
 <div class="application__nav">
 <a href="#" class="registration__forgot-password lead" (click)="logout()" style="margin-left:20px;color:black;font-size:15px;">Logout</a>
- <span class="application__nav--name">Jhon Doe</span>
+ <span class="application__nav--name">{{loggedProfile.title}}.{{loggedProfile.first_name}} {{loggedProfile.last_name}}</span>
  <i class="far fa-user-circle application__nav--icon"></i>
 </div>
 <div class="application__container">
@@ -13,7 +13,7 @@
    <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
   <img src="./assets/images/profile.jpeg" alt="" class="profile__image" />
-  <div class="profile__name">John Doe</div>
+  <div class="profile__name">{{loggedProfile.title}}.{{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
   <hr class="profile__line" />
   <!-- Profile Info -->
   <!-- Gender -->
@@ -22,7 +22,7 @@
     Gender
    </div>
    <div class="semi-bold">
-    Male
+    {{loggedProfile.gender}}
    </div>
   </div>
   <!-- Age -->
@@ -31,7 +31,7 @@
     Age
    </div>
    <div class="semi-bold">
-    26 years old
+    {{loggedProfile.age}} years old
    </div>
   </div>
   <!-- Country -->
@@ -40,7 +40,7 @@
     Country
    </div>
    <div class="semi-bold">
-    Malta
+    {{loggedProfile.country_name}}
    </div>
   </div>
   <!-- Contact -->
@@ -49,7 +49,7 @@
     Contact
    </div>
    <div class="semi-bold">
-    + 356 4283 4629
+    {{loggedProfile.mobile_no}}
    </div>
   </div>
   <!-- Email -->
@@ -58,23 +58,26 @@
     Email
    </div>
    <div class="semi-bold">
-    jhon.d@gmail.com
+    {{loggedProfile.email_id}}
    </div>
   </div>
  </div>
  <!-- Application Category -->
  <div class="application__category">
   <h6 class="lead-dark">Grant Category:</h6>
-  <select>
+  <!-- <select>
    <option value="education">Education</option>
    <option value="lorem">Lorem Ipsum</option>
    <option value="senore">Senore Deas</option>
-  </select>
+  </select> -->
+    <select placeholder="Grant Category"  formControlName="grantCategory">
+        <option *ngFor="let application of applications" value="application.application_details_id">{{application.application_name}}</option>
+    </select>
  </div>
  <!-- Application Status -->
  <div class="application__status">
   <h6 class="lead-dark">Current Status:</h6>
-  <span>Awaiting approval</span>
+  <span>{{userStatus}}</span>
  </div>
  <!-- Application Suggestion -->
  <div class="application__suggestion clearfix">
@@ -89,6 +92,7 @@
   <h6 class="lead-dark">Application Progress</h6>
   <!-- ************************************************************ -->
   <!-- First Contact -->
+  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactSubmit()">
   <div class="accordian__section first-contact">
    <div class="accordian__number">
     <span class="accordian__number-digit">1</span>
@@ -118,21 +122,21 @@
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea></textarea>
+       <textarea formControlName="describeIdea1"></textarea>
       </div>
       <!-- Textarea 2 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea></textarea>
+       <textarea formControlName="describeIdea2"></textarea>
       </div>
       <!-- Textarea 3 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea></textarea>
+       <textarea formControlName="describeIdea3"></textarea>
       </div>
      </div>
      <!-- *********** RIGHT SECTION ************ -->
@@ -140,80 +144,56 @@
       <!-- First Name -->
       <div class="first-contact__form-control">
        <span>First Name</span>
-       <input type="text" class="first-contact__input" />
+       <input type="text" class="first-contact__input"  formControlName="firstName"/>
       </div>
       <!-- Last Name -->
       <div class="first-contact__form-control">
        <span>Last Name</span>
-       <input type="text" class="first-contact__input" />
+       <input type="text" class="first-contact__input" formControlName="lastName" />
       </div>
       <!-- Email -->
       <div class="first-contact__form-control">
        <span>Email</span>
-       <input type="text" class="first-contact__input" />
+       <input type="text" class="first-contact__input" formControlName="email" />
       </div>
       <!-- Organization Name -->
       <div class="first-contact__form-control">
        <span>Organization Name</span>
-       <input type="text" class="first-contact__input" />
+       <input type="text" class="first-contact__input" formControlName="organizationName" />
       </div>
       <!-- Org Details -->
       <div class="first-contact__form-control">
        <span>Org Details</span>
-       <input type="text" class="first-contact__input" />
+       <input type="text" class="first-contact__input" formControlName="orgDetails" />
       </div>
       <!-- Sign up for details -->
       <div class="first-contact__form-control">
        <span>Sign up for emails</span>
-       <input type="checkbox" class="first-contact__right--checkbox" />
+       <input type="checkbox" class="first-contact__right--checkbox" formControlName="signUpEmail" />
       </div>
       <!-- =============== -->
       <h6 class="first-contact__source--heading">Source</h6>
       <div class="first-contact__source--container">
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
-       </div>
-       <div>
-        <input type="checkbox" />
-        <span class="lead-dark">Newspaper</span>
+        <!-- <select placeholder="Grant Category"  formControlName="grantCategory">
+            <option *ngFor="let application of applications" value="application.application_details_id">{{application.application_name}}</option>
+        </select> -->
+       <div *ngFor="let source of source">
+        <input type="checkbox" formControlName="sourceValue"  value="source.source_id"/>
+        <span class="lead-dark">{{source.source_name}}</span>
        </div>
        <div class="first-contact__source--others">
         <span class="lead-dark">Others</span>
-        <input type="text" />
+        <input type="text" formControlName="otherSourceValue"/>
        </div>
       </div>
-      <button class="btn btn-primary first-contact__submit-btn">
+      <button type="submit" class="btn btn-primary first-contact__submit-btn">
        Submit
       </button>
      </div>
     </div>
    </div>
   </div>
+  </form>
   <!-- ************************************************************* -->
   <!-- Brief Assesment -->
   <div class="accordian__section brief-assesment">

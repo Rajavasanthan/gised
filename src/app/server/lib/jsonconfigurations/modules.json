@@ -8,5 +8,10 @@
         "module_name" : "userProfile",
         "file_path" : "classesmodule/class.module.userProfile.php",
         "class_name" : "userProfile"
+    },
+    {
+        "module_name" : "application",
+        "file_path" : "classesmodule/class.module.application.php",
+        "class_name" : "application"
     }
 ]

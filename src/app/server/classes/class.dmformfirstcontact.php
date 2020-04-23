@@ -27,7 +27,7 @@ class dmformfirstcontact {
         $this->organization_name = '';
         $this->org_details = '';
         $this->sign_up_for_emails = 'Y';
-        $this->r_source_id = 0;
+        $this->r_source_id = '';
         $this->brief_idea = '';
         $this->explained_idea = '';
         $this->about_group = '';
@@ -45,12 +45,12 @@ class dmformfirstcontact {
                                             '$this->organization_name',
                                             '$this->org_details',
                                             '$this->sign_up_for_emails',
-                                            $this->r_source_id,
+                                            '$this->r_source_id',
                                             '$this->brief_idea',
                                             '$this->explained_idea',
                                             '$this->about_group',
-                                            '$this->created_date_time',
-                                            '$this->updated_date_time'
+                                            now(),
+                                            now()
                                             )";
 
         return $sql;
@@ -92,7 +92,7 @@ class dmformfirstcontact {
             $sql = $sql . " and sign_up_for_emails = " . $this->sign_up_for_emails;
         }
 
-        if($this->r_source_id != 0) {
+        if($this->r_source_id != '') {
             $sql = $sql . " and r_source_id = " . $this->r_source_id;
         }
 
@@ -134,7 +134,7 @@ class dmformfirstcontact {
         }
 
         if($this->organization_name != '') {
-            sql = $sql . $camaa." organization_name = " . $this->organization_name;
+            $sql = $sql . $camaa." organization_name = " . $this->organization_name;
             $camaa = ', ';
         }
 
@@ -148,7 +148,7 @@ class dmformfirstcontact {
             $camaa = ', ';
         }
 
-        if($this->r_source_id != 0) {
+        if($this->r_source_id != '') {
             $sql = $sql . $camaa." r_source_id = " . $this->r_source_id;
             $camaa = ', ';
         }
@@ -212,7 +212,7 @@ class dmformfirstcontact {
             $sql = $sql . " and sign_up_for_emails = " . $this->sign_up_for_emails;
         }
 
-        if($this->r_source_id != 0) {
+        if($this->r_source_id != '') {
             $sql = $sql . " and r_source_id = " . $this->r_source_id;
         }
 

@@ -5,6 +5,7 @@ class factstatustrackingdetails {
 
     //Variable declarations
     var $status_tracking_details_id;
+    var $r_user_id;
     var $r_application_details_id;
     var $r_form_details_id;
     var $r_form_id;
@@ -14,6 +15,7 @@ class factstatustrackingdetails {
     //Initial values for the variables
     function __construct() {
         $this->status_tracking_details_id = 0;
+        $this->r_user_id = 0;
         $this->r_application_details_id = 0;
         $this->r_form_details_id = 0;
         $this->r_form_id = 0;
@@ -25,6 +27,7 @@ class factstatustrackingdetails {
     function insertfactstatustrackingdetails() {
         $sql = "insert into fact_status_tracking_details values(
                                             $this->status_tracking_details_id,
+                                            $this->r_user_id,
                                             $this->r_application_details_id,
                                             $this->r_form_details_id,
                                             $this->r_form_id,
@@ -45,6 +48,10 @@ class factstatustrackingdetails {
 
         if($this->status_tracking_details_id != 0) {
             $sql = $sql . " and status_tracking_details_id = " . $this->status_tracking_details_id;
+        }
+
+        if($this->r_user_id != 0) {
+            $sql = $sql . " and r_user_id = " . $this->r_user_id;
         }
         
         if($this->r_application_details_id != 0) {
@@ -80,6 +87,12 @@ class factstatustrackingdetails {
 
         if($this->r_application_details_id != 0) {
             $sql = $sql . $camaa." r_application_details_id = " . $this->r_application_details_id;
+            $camaa = ', ';
+        }
+
+
+        if($this->r_user_id != 0) {
+            $sql = $sql . $camaa." r_user_id = " . $this->r_user_id;
             $camaa = ', ';
         }
 
@@ -123,6 +136,10 @@ class factstatustrackingdetails {
             $sql = $sql . " and status_tracking_details_id = " . $this->status_tracking_details_id;
         }
 
+        if($this->r_user_id != 0) {
+            $sql = $sql . " and r_user_id = " . $this->r_user_id;
+        }
+
         if($this->r_application_details_id != 0) {
             $sql = $sql . " and r_application_details_id = " . $this->r_application_details_id;
         }
@@ -145,6 +162,21 @@ class factstatustrackingdetails {
 
         return $sql;
     }
+
+
+    //Select query for the table
+    function selectfactstatustrackingdetailsUsingForStatus() {
+        $sql = "select
+                        *
+                from 
+                fact_status_tracking_details 
+                where 1 and r_user_id = " . $this->r_user_id . " ORDER BY status_tracking_details_id DESC";
+
+        
+
+        return $sql;
+    }
+
 
 }
 

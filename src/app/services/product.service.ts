@@ -11,15 +11,14 @@ export class ProductService {
   serverRequest : any;
   serverResponse : any;
   errorMsg : string;
+  
 
   constructor(rendererFactory: RendererFactory2, private router: Router, private server:ServerCallService) { 
 
     this.renderer = rendererFactory.createRenderer(null, null);
-
   }
 
-  showProfile() : any {
-
+  showProfile() {
     this.serverRequest = {
       'module' : 'userProfile',
       'action' : 'showprofile',
@@ -33,14 +32,13 @@ export class ProductService {
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
       } else {
-        return this.serverResponse.responseData;
+       return  this.serverResponse.responseData;
       }
     }, (error) => {
       this.errorMsg = 'Sorry! Something went wrong';
     }, () => {
       console.log('Completed');
     });
-
   }
 
   logout() {

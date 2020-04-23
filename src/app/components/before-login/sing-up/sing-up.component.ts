@@ -17,6 +17,7 @@ export class SingUpComponent implements OnInit {
   emailErrorMsg : string;
   errorMsg : string;
   countries : any;
+ 
 
   signUpForm = new FormGroup({
     fullName : new FormControl('', [Validators.required]),
