@@ -17,7 +17,7 @@
 
         function executeModule() {
             switch($this->action) {
-                case 'firstContact':
+                case 'firstcontactforminsertion':
                     $this->firstContactAction();
                     break;
                 default:
@@ -26,6 +26,14 @@
         }
 
         function firstContactAction() {
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user_id = $result[0]['user_id'];
+
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
             $dmfirstcontactObj->first_name = $this->input['firstName'];
@@ -42,17 +50,19 @@
             $sql = $dmfirstcontactObj->insertdmformfirstcontact();
             $result = dbConnection::insertQuery($sql);
 
-            $this->output = $sql;
-            //$dmfirstcontactId = $result->insert_id;
+            //$this->output = $sql;
+            $dmfirstcontactId = dbConnection::$dbObj->insert_id;
             //$this->output['last inser id'] = $result->insert_id;
 
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
+            $trackObj->r_user_id = $user_id;
             $trackObj->r_application_details_id = 1;
             $trackObj->r_form_details_id = 1;
-            $trackObj->r_form_id = 1;
+            $trackObj->r_form_id = $dmfirstcontactId;
             $trackObj->r_status_id = 2;
             $trackObj->approval_by = 0;
+            $trackObj->status = 'Y';
             $sql = $trackObj->insertfactstatustrackingdetails();
             $result = dbConnection::insertQuery($sql);
         }   

@@ -33,7 +33,7 @@ export class SingUpComponent implements OnInit {
     this.serverRequest = {
       'module' : 'login',
       'action' : 'getcountries',
-      'requestData' : '',
+      'requestData' : ''
     } 
 
     this.server.sendToServer(this.serverRequest).

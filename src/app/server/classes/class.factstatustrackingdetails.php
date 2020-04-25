@@ -11,6 +11,7 @@ class factstatustrackingdetails {
     var $r_form_id;
     var $r_status_id;
     var $approval_by;
+    var $status;
 
     //Initial values for the variables
     function __construct() {
@@ -21,6 +22,7 @@ class factstatustrackingdetails {
         $this->r_form_id = 0;
         $this->r_status_id = 0;
         $this->approval_by = 0;
+        $this->status = '';
     }
 
     //Insert query for the table
@@ -32,7 +34,8 @@ class factstatustrackingdetails {
                                             $this->r_form_details_id,
                                             $this->r_form_id,
                                             $this->r_status_id,
-                                            $this->approval_by
+                                            $this->approval_by,
+                                            '$this->status'
                                             )";
 
         return $sql;
@@ -72,6 +75,10 @@ class factstatustrackingdetails {
 
         if($this->approval_by != 0) {
             $sql = $sql . " and approval_by = " . $this->approval_by;
+        }
+
+        if($this->status != '') {
+            $sql = $sql . " and status = " . $this->status;
         }
 
         return $sql;
@@ -118,8 +125,12 @@ class factstatustrackingdetails {
         
         $sql = $sql . " where ";
 
-        if($this->status_tracking_details_id != 0) {
+        if($this->r_user_id != 0) {
             $sql = $sql . " status_tracking_details_id = " . $this->status_tracking_details_id;
+        }
+
+        if($this->status != '') {
+            $sql = $sql . " status = " . $this->status;
         }
 
         return $sql;
@@ -165,14 +176,16 @@ class factstatustrackingdetails {
 
 
     //Select query for the table
-    function selectfactstatustrackingdetailsUsingForStatus() {
+    function getFormStatus() {
         $sql = "select
                         *
                 from 
-                fact_status_tracking_details 
-                where 1 and r_user_id = " . $this->r_user_id . " ORDER BY status_tracking_details_id DESC";
-
-        
+                        fact_status_tracking_details 
+                where 
+                        1 
+                        and status = 'Y' 
+                        and r_user_id = " . $this->r_user_id 
+                        . " ORDER BY status_tracking_details_id DESC";
 
         return $sql;
     }

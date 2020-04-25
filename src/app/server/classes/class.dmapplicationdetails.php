@@ -6,18 +6,21 @@ class dmapplicationdetails {
     //Variable declarations
     var $application_details_id;
     var $application_name;
+    var $status;
 
     //Initial values for the variables
     function __construct() {
         $this->application_details_id = 0;
         $this->application_name = '';
+        $this->status = '';
     }
 
     //Insert query for the table
     function insertdmapplicationdetails() {
         $sql = "insert into dm_application_details values(
                                             $this->application_details_id,
-                                            '$this->application_name'
+                                            '$this->application_name',
+                                            '$this->status'
                                             )";
 
         return $sql;
@@ -37,6 +40,10 @@ class dmapplicationdetails {
 
         if($this->application_name != '') {
             $sql = $sql . " and application_name = " . $this->application_name;
+        }
+
+        if($this->status != '') {
+            $sql = $sql . " and status = '" . $this->status."'";
         }
 
         return $sql;

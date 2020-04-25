@@ -70,9 +70,11 @@
    <option value="lorem">Lorem Ipsum</option>
    <option value="senore">Senore Deas</option>
   </select> -->
-    <select placeholder="Grant Category"  formControlName="grantCategory">
-        <option *ngFor="let application of applications" value="application.application_details_id">{{application.application_name}}</option>
+  <form [formGroup]="applicationForm" (ngSubmit)="firstContactSubmit()">
+    <select placeholder="Grant Category"  formControlName="applicationValue">
+        <option *ngFor="let application of applications" value="application.application_details_id" selected>{{application.application_name}}</option>
     </select>
+ </form>
  </div>
  <!-- Application Status -->
  <div class="application__status">
@@ -92,7 +94,7 @@
   <h6 class="lead-dark">Application Progress</h6>
   <!-- ************************************************************ -->
   <!-- First Contact -->
-  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactSubmit()">
+  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormSubmit()">
   <div class="accordian__section first-contact">
    <div class="accordian__number">
     <span class="accordian__number-digit">1</span>
@@ -122,21 +124,21 @@
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea1"></textarea>
+       <textarea formControlName="describeIdea1" [value]="firstContactValues.brief_idea"></textarea>
       </div>
       <!-- Textarea 2 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea2"></textarea>
+       <textarea formControlName="describeIdea2" [value]="firstContactValues.explained_idea"></textarea>
       </div>
       <!-- Textarea 3 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea3"></textarea>
+       <textarea formControlName="describeIdea3" [value]="firstContactValues.about_group"></textarea>
       </div>
      </div>
      <!-- *********** RIGHT SECTION ************ -->
@@ -186,7 +188,7 @@
         <input type="text" formControlName="otherSourceValue"/>
        </div>
       </div>
-      <button type="submit" class="btn btn-primary first-contact__submit-btn">
+      <button type="submit" class="btn btn-primary first-contact__submit-btn" [disabled]="!firstContactForm.valid">
        Submit
       </button>
      </div>
@@ -386,7 +388,7 @@
      </p>
      <div class="final-approval__btn-container">
       <button class="btn btn-edit">Edit</button>
-      <button class="btn btn-draft">Save Draft</button>
+      <button class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>
       <button class="btn btn-primary">Submit</button>
      </div>
     </div>

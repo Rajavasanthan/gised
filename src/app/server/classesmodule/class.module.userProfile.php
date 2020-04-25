@@ -49,11 +49,11 @@
 
             require_once "classes/class.dmapplicationdetails.php";
             $applicationObj = new dmapplicationdetails();
+            $applicationObj->status = 'Y';
             $sql = $applicationObj->selectdmapplicationdetails();
             $result = dbConnection::selectQuery($sql);
             $this->output['applications'] = $result;
             
-
             require_once "classes/class.dmsource.php";
             $sourceObj = new dmsource();
             $sql = $sourceObj->selectdmsource();
@@ -63,25 +63,64 @@
             require_once "classes/class.factstatustrackingdetails.php";
             $factTrackObj = new factstatustrackingdetails();
             $factTrackObj->r_user_id = $userId;
-            $sql = $factTrackObj->selectfactstatustrackingdetailsUsingForStatus();
+            $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
-            
-            if(isset($result[0]['r_status_id'])) {
-                if($result[0]['r_status_id'] == 1) {
-                    $this->output['status'] = "Approved";
-                } else if($result[0]['r_status_id'] == 2) {
-                    $this->output['status'] = "Awaiting Approval";
-                }else if($result[0]['r_status_id'] == 3) {
-                    $this->output['status'] = "Draft";
-                }else{
-                    $this->output['status'] = "Hold";
-                }
+            $this->output['presentFormNo'] = $result[0]['r_form_details_id'];
+
+            if($result[0]['r_form_details_id'] == 1) {
+                $this->getFirstContactForm($result[0]['r_form_id']);
+            } else if($result[0]['r_form_details_id'] == 2) {
+                $this->getBriefAssesmentForm($result[0]['r_form_id']);
+            } else if($result[0]['r_form_details_id'] == 3) {
+                $this->getDetailedPresentationForm($result[0]['r_form_id']);
+            } else if($result[0]['r_form_details_id'] == 4) {
+                $this->getFinalApprovalForm($result[0]['r_form_id']);
             } else {
-                $this->output['status'] = "NILL";
+                $this->output['presentFormNo'] = 1;
+                $this->output['action'] = 'firstcontactforminsertion';
+            }
+
+            if(isset($result[0]['r_status_id'])) {
+                require_once "classes/class.dmstatus.php";
+                $dmStatusObj = new dmStatus();
+                $dmStatusObj->status_id = $result[0]['r_status_id'];
+                $sql = $dmStatusObj->selectdmstatus();
+                $result = dbConnection::selectQuery($sql);
+                $this->output['status'] = $result[0]['status_value'];
+            } else {
+                $this->output['status'] = "Nil";
             }
         
         }
 
+        function getFirstContactForm($formId) {
+
+            require_once "classes/class.dmformfirstcontact.php";
+            $firstFormObj = new dmformfirstcontact();
+            $firstFormObj->form_first_contact_id = $formId;
+            $sql = $firstFormObj->selectdmformfirstcontact();
+            $result = dbConnection::selectQuery($sql);
+
+            $this->output['sql'] = $sql;
+            foreach($result AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $this->output['firstContactForm'][$innerKey] = $innerValue;
+                }
+            }
+
+        }
+
+        function getBriefAssesmentForm() {
+            //briefAssesmentForm
+        }
+
+        function getDetailedPresentationForm() {
+            //detailedPresentationForm
+        }
+
+        function getFinalApprovalForm() {
+            //finalApprovalForm
+        }
 
         function defaultAction() {
             $this->output = "I am defaultAction. I got called successfully :)";

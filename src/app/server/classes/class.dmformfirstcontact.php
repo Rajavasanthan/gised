@@ -26,7 +26,7 @@ class dmformfirstcontact {
         $this->email_id = '';
         $this->organization_name = '';
         $this->org_details = '';
-        $this->sign_up_for_emails = 'Y';
+        $this->sign_up_for_emails = '';
         $this->r_source_id = '';
         $this->brief_idea = '';
         $this->explained_idea = '';
