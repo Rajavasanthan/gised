@@ -8,5 +8,10 @@
         "action" : "signup",
         "mail_subject" : "Gised : Mail Verification and Set Password",
         "mail_message" : "Kindly find below click here link for complete mail verification and set password to your account."
+    },
+    {
+        "action" : "feedback",
+        "mail_subject" : "Gised : Sugesstion and Feedback",
+        "mail_message" : "The gised accound user TITLE. USER_NAME(EMAIL_ID) sent below sugeestion to you.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
     }
 ]

@@ -25,4 +25,7 @@ define('SMTP_PORT', '465');
 define('SMTP_SENDER_MAILID', 'noreply@gised.com');
 define('SMTP_SENDER_MAIL_NAME', 'Gised');
 
+//Gised admin mail id
+define('GISED_ADMIN_MAIL_ID', 'nsatheeskumar.www@gmail.com');
+
 ?>

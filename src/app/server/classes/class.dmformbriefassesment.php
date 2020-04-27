@@ -37,8 +37,8 @@ class dmformbriefassesment {
                                             '$this->telephone_number',
                                             '$this->website_url',
                                             '$this->uploads',
-                                            '$this->created_date_time',
-                                            '$this->updated_date_time'
+                                            now(),
+                                            now()
                                             )";
 
         return $sql;
@@ -57,27 +57,27 @@ class dmformbriefassesment {
         }
 
         if($this->full_name != '') {
-            $sql = $sql . " and full_name = " . $this->full_name;
+            $sql = $sql . " and full_name = '" . $this->full_name ."'";
         }
 
         if($this->address != '') {
-            $sql = $sql . " and address = " . $this->address;
+            $sql = $sql . " and address = '" . $this->address ."'";
         }
 
         if($this->email_id != '') {
-            $sql = $sql . " and email_id = " . $this->email_id;
+            $sql = $sql . " and email_id = '" . $this->email_id ."'";
         }
 
         if($this->telephone_number != '') {
-            $sql = $sql . " and telephone_number = " . $this->telephone_number;
+            $sql = $sql . " and telephone_number = '" . $this->telephone_number ."'";
         }
 
         if($this->website_url != '') {
-            $sql = $sql . " and website_url = " . $this->website_url;
+            $sql = $sql . " and website_url = '" . $this->website_url ."'";
         }
 
         if($this->uploads != '') {
-            $sql = $sql . " and uploads = " . $this->uploads;
+            $sql = $sql . " and uploads = '" . $this->uploads ."'";
         }
 
         return $sql;
@@ -92,32 +92,32 @@ class dmformbriefassesment {
         $camaa = " ";
 
         if($this->full_name != '') {
-            $sql = $sql . $camaa. " full_name = " . $this->full_name;
+            $sql = $sql . $camaa. " full_name = '" . $this->full_name ."'";
             $camaa = ', ';
         }
 
         if($this->address != '') {
-            $sql = $sql .$camaa . " address = " . $this->address;
+            $sql = $sql .$camaa . " address = '" . $this->address ."'";
             $camaa = ', ';
         }
 
         if($this->email_id != '') {
-            $sql = $sql . $camaa. " email_id = " . $this->email_id;
+            $sql = $sql . $camaa. " email_id = '" . $this->email_id ."'";
             $camaa = ', ';
         }
 
         if($this->telephone_number != '') {
-            $sql = $sql . $camaa." telephone_number = " . $this->telephone_number;
+            $sql = $sql . $camaa." telephone_number = '" . $this->telephone_number ."'";
             $camaa = ', ';
         }
 
         if($this->website_url != '') {
-            $sql = $sql . $camaa." website_url = " . $this->website_url;
+            $sql = $sql . $camaa." website_url = '" . $this->website_url ."'";
             $camaa = ', ';
         }
 
         if($this->uploads != '') {
-            $sql = $sql . $camaa." uploads = " . $this->uploads;
+            $sql = $sql . $camaa." uploads = '" . $this->uploads ."'";
             $camaa = ', ';
         }        
         

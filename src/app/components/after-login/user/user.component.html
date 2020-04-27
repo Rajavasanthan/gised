@@ -70,32 +70,34 @@
    <option value="lorem">Lorem Ipsum</option>
    <option value="senore">Senore Deas</option>
   </select> -->
-  <form [formGroup]="applicationForm" (ngSubmit)="firstContactSubmit()">
+  <form [formGroup]="applicationForm">
     <select placeholder="Grant Category"  formControlName="applicationValue">
-        <option *ngFor="let application of applications" value="application.application_details_id" selected>{{application.application_name}}</option>
+        <option *ngFor="let application of applications" [value]="application.application_details_id">{{application.application_name}}</option>
     </select>
  </form>
  </div>
  <!-- Application Status -->
  <div class="application__status">
   <h6 class="lead-dark">Current Status:</h6>
-  <span>{{userStatus}}</span>
+  <span>{{currentStatus}}</span>
  </div>
  <!-- Application Suggestion -->
+ <form [formGroup]="feedBackForm" (ngSubmit)="feedBackFormSubmit()">
  <div class="application__suggestion clearfix">
   <h6>Suggestions or Comments</h6>
-  <textarea class="block"></textarea>
-  <button class="btn btn-primary">
+  <textarea class="block" formControlName="feedback"></textarea>
+  <button type="submit" class="btn btn-primary" [disabled]="!feedBackForm.valid">
    Submit
   </button>
  </div>
+</form>
  <!-- Application Progress -->
  <div class="application__progress">
   <h6 class="lead-dark">Application Progress</h6>
   <!-- ************************************************************ -->
   <!-- First Contact -->
-  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormSubmit()">
-  <div class="accordian__section first-contact">
+  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormInsert()">
+  <div class="accordian__section first-contact" id="firstContactFormId">
    <div class="accordian__number">
     <span class="accordian__number-digit">1</span>
     <i class="fas fa-check none accordian__check"></i>
@@ -108,8 +110,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <a href="#" class="text-primary">See details</a>
-      <a href="#" class="text-primary">Share the details</a>
+      <button class="text-primary" (click)="seeDetails(1)">See details</button>
+      <button class="text-primary" (click)="shareDetails(1)">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -124,21 +126,21 @@
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea1" [value]="firstContactValues.brief_idea"></textarea>
+       <textarea formControlName="describeIdea1" [value]="firstContactValues?.brief_idea"></textarea>
       </div>
       <!-- Textarea 2 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea2" [value]="firstContactValues.explained_idea"></textarea>
+       <textarea formControlName="describeIdea2" [value]="firstContactValues?.explained_idea"></textarea>
       </div>
       <!-- Textarea 3 -->
       <div class="first-contact__textarea-container">
        <div class="first-contact__left-question uppercase">
         How would you describe your idea to someone in 30 seconds or less ?
        </div>
-       <textarea formControlName="describeIdea3" [value]="firstContactValues.about_group"></textarea>
+       <textarea formControlName="describeIdea3" [value]="firstContactValues?.about_group"></textarea>
       </div>
      </div>
      <!-- *********** RIGHT SECTION ************ -->
@@ -146,49 +148,76 @@
       <!-- First Name -->
       <div class="first-contact__form-control">
        <span>First Name</span>
-       <input type="text" class="first-contact__input"  formControlName="firstName"/>
+       <input type="text" class="first-contact__input"  formControlName="firstName" [value]="firstContactValues?.first_name"/>
       </div>
       <!-- Last Name -->
       <div class="first-contact__form-control">
        <span>Last Name</span>
-       <input type="text" class="first-contact__input" formControlName="lastName" />
+       <input type="text" class="first-contact__input" formControlName="lastName" [value]="firstContactValues?.last_name"/>
       </div>
       <!-- Email -->
       <div class="first-contact__form-control">
        <span>Email</span>
-       <input type="text" class="first-contact__input" formControlName="email" />
+       <input type="text" class="first-contact__input" formControlName="email" [value]="firstContactValues?.email_id"/>
       </div>
       <!-- Organization Name -->
       <div class="first-contact__form-control">
        <span>Organization Name</span>
-       <input type="text" class="first-contact__input" formControlName="organizationName" />
+       <input type="text" class="first-contact__input" formControlName="organizationName" [value]="firstContactValues?.organization_name"/>
       </div>
       <!-- Org Details -->
       <div class="first-contact__form-control">
        <span>Org Details</span>
-       <input type="text" class="first-contact__input" formControlName="orgDetails" />
+       <input type="text" class="first-contact__input" formControlName="orgDetails" [value]="firstContactValues?.org_details"/>
       </div>
       <!-- Sign up for details -->
       <div class="first-contact__form-control">
        <span>Sign up for emails</span>
-       <input type="checkbox" class="first-contact__right--checkbox" formControlName="signUpEmail" />
+       <input type="checkbox" class="first-contact__right--checkbox" formControlName="signUpEmail" [checked]="(firstContactValues?.sign_up_for_emails==='Y') ? true : false " />
       </div>
       <!-- =============== -->
+    <form [formGroup]="firstContactForm.controls.sourceValue">
       <h6 class="first-contact__source--heading">Source</h6>
       <div class="first-contact__source--container">
-        <!-- <select placeholder="Grant Category"  formControlName="grantCategory">
-            <option *ngFor="let application of applications" value="application.application_details_id">{{application.application_name}}</option>
-        </select> -->
-       <div *ngFor="let source of source">
-        <input type="checkbox" formControlName="sourceValue"  value="source.source_id"/>
-        <span class="lead-dark">{{source.source_name}}</span>
-       </div>
-       <div class="first-contact__source--others">
-        <span class="lead-dark">Others</span>
-        <input type="text" formControlName="otherSourceValue"/>
-       </div>
+            <div>
+                    <input type="checkbox" formControlName="newspaper" [checked]="(firstContactValues.r_source_id.newspaper==true) ? true : false"/>
+                    <span class="lead-dark">Newspaper</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="edm" [checked]="firstContactValues?.r_source_id?.edm"/>
+                    <span class="lead-dark">EDM</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="sms" [checked]="firstContactValues.r_source_id.sms"/>
+                    <span class="lead-dark">SMS</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="website" [checked]="firstContactValues.r_source_id.website"/>
+                    <span class="lead-dark">Website</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="pressads" [checked]="(firstContactValues.r_source_id.pressads===true) ? true : false"/>
+                    <span class="lead-dark">Press Ads</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="online" [checked]="firstContactValues.r_source_id.online"/>
+                    <span class="lead-dark">Online</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="wordofmouth" [checked]="firstContactValues.r_source_id.wordofmouth"/>
+                    <span class="lead-dark">Word of mouth</span>
+                   </div>
+                   <div>
+                    <input type="checkbox" formControlName="maildrop" [checked]="firstContactValues.r_source_id.maildrop"/>
+                    <span class="lead-dark">Maildrop</span>
+                   </div>
+                   <div class="first-contact__source--others">
+                    <span class="lead-dark">Others</span>
+                    <input type="text" formControlName="others" [value]="firstContactValues.r_source_id.others"/>
+                   </div>
       </div>
-      <button type="submit" class="btn btn-primary first-contact__submit-btn" [disabled]="!firstContactForm.valid">
+    </form>
+      <button type="submit" class="btn btn-primary first-contact__submit-btn" >
        Submit
       </button>
      </div>
@@ -198,6 +227,7 @@
   </form>
   <!-- ************************************************************* -->
   <!-- Brief Assesment -->
+  <form [formGroup]="briefAssesmentForm" (ngSubmit)="briefAssesmentFormInsert()" id="briefAssesmentFormId">
   <div class="accordian__section brief-assesment">
    <div class="accordian__number">
     <span class="accordian__number--digit">2</span>
@@ -211,7 +241,7 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <a href="#" class="text-primary">See details</a>
+      <a href="#" class="text-primary" (click)="seeDetails(2)">See details</a>
       <a href="#" class="text-primary">Share the details</a>
      </div>
      <div class="accordian__completed--text">
@@ -221,23 +251,23 @@
     <div class="brief-assesment__container accordian__main-data">
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Name</span>
-      <input type="text" class="brief-assesment__form-control--input" />
+      <input type="text" class="brief-assesment__form-control--input" formControlName="name" [value]="briefAssesmentValues.full_name"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Address</span>
-      <input type="text" class="brief-assesment__form-control--input" />
+      <input type="text" class="brief-assesment__form-control--input" formControlName="address" [value]="briefAssesmentValues.address"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Email</span>
-      <input type="text" class="brief-assesment__form-control--input" />
+      <input type="text" class="brief-assesment__form-control--input" formControlName="email" [value]="briefAssesmentValues.email_id"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Telephone Number</span>
-      <input type="text" class="brief-assesment__form-control--input" />
+      <input type="text" class="brief-assesment__form-control--input" formControlName="telephoneNo" [value]="briefAssesmentValues.telephone_number"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Website (Optional)</span>
-      <input type="checkbox" />
+      <input type="checkbox" formControlName="website"  [checked]="(briefAssesmentValues.website_url==='Y') ? true : false " />
      </div>
      <!-- ====== -->
      <div class="brief-assesment__fileupload-section">
@@ -247,7 +277,7 @@
         address
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="purposeOfProject1" multiple (change)="getSelectedFileList($event)"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -256,14 +286,14 @@
         >Detailed Information about the organization conducting the project
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="detailedInformation" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
-      <div class="brief-assesment__fileupload-container">
+      <div class="brief-assesment__fileupload-container" multiple>
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="estimatedBudget" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -272,7 +302,7 @@
         >Period of time for which founds are requested
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="periodOfTime" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -282,7 +312,7 @@
         address
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="purposeOfProject2" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -293,8 +323,10 @@
     </div>
    </div>
   </div>
+</form>
   <!-- ************************************************************* -->
   <!-- Detailed Presentation -->
+  <form [formGroup]="detailedPresentaionForm" (ngSubmit)="detailedPresentaionFormInsert()" id="detailedPresentationFormId">
   <div class="accordian__section detailed-presentation">
    <div class="accordian__number">
     <span class="accordian__number-digit">3</span>
@@ -324,7 +356,7 @@
         address
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="purposeOfProject1"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -333,14 +365,14 @@
         >Detailed Information about the organization conducting the project
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="detailedInformation"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="estimatedBudget"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -349,7 +381,7 @@
         >Period of time for which founds are requested
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="periodOfTime"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -359,7 +391,7 @@
         address
        </span>
        <div>
-        <input type="file" class="" />
+        <input type="file" class="" formControlName="purposeOfProject2"/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
@@ -372,6 +404,7 @@
     </div>
    </div>
   </div>
+  </form>
   <!-- ************************************************************* -->
   <!-- Final Approval -->
   <div class="accordian__section final-approval">
@@ -387,7 +420,7 @@
       complete.
      </p>
      <div class="final-approval__btn-container">
-      <button class="btn btn-edit">Edit</button>
+      <button class="btn btn-edit" (click)="editForm()">Edit</button>
       <button class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>
       <button class="btn btn-primary">Submit</button>
      </div>

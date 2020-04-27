@@ -54,30 +54,74 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['applications'] = $result;
             
-            require_once "classes/class.dmsource.php";
-            $sourceObj = new dmsource();
-            $sql = $sourceObj->selectdmsource();
-            $result = dbConnection::selectQuery($sql);
-            $this->output['sources'] = $result;
-
             require_once "classes/class.factstatustrackingdetails.php";
             $factTrackObj = new factstatustrackingdetails();
             $factTrackObj->r_user_id = $userId;
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
-            $this->output['presentFormNo'] = $result[0]['r_form_details_id'];
 
-            if($result[0]['r_form_details_id'] == 1) {
+            $this->output['close']['firstContactFormClose'] = 'OPEN';
+            $this->output['close']['briefAssesmentFormClose'] = 'OPEN';
+            $this->output['close']['detailedPresentationFormClose'] = 'OPEN';
+            if($result[0]['r_form_details_id'] == 1 && $result[0]['r_status_id'] == 3) {
                 $this->getFirstContactForm($result[0]['r_form_id']);
-            } else if($result[0]['r_form_details_id'] == 2) {
+                $this->setFormNoAndAction(1, 'firstcontactformupdation');
+            } else if($result[0]['r_form_details_id'] == 1 && $result[0]['r_status_id'] == 2) {
+                $this->getFirstContactForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(0, 'Nil');
+            } else if($result[0]['r_form_details_id'] == 1 && $result[0]['r_status_id'] == 1) {
+                $this->getFirstContactForm($result[1]['r_form_id']);
+                $this->setFormNoAndAction(2, 'briefassesmentforminsertion');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 2 && $result[0]['r_status_id'] == 3) {
+                $this->getFirstContactForm($result[1]['r_form_id']);
                 $this->getBriefAssesmentForm($result[0]['r_form_id']);
-            } else if($result[0]['r_form_details_id'] == 3) {
+                $this->setFormNoAndAction(2, 'briefassesmentformupdation');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 2 && $result[0]['r_status_id'] == 2) {
+                $this->getFirstContactForm($result[1]['r_form_id']);
+                $this->getBriefAssesmentForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(0, 'Nil');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 2 && $result[0]['r_status_id'] == 1) {
+                $this->getFirstContactForm($result[1]['r_form_id']);
+                $this->getBriefAssesmentForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(3, 'detailedpresentationforminsertion');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+                $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 3 && $result[0]['r_status_id'] == 3) {
+                $this->getFirstContactForm($result[2]['r_form_id']);
+                $this->getBriefAssesmentForm($result[1]['r_form_id']);
                 $this->getDetailedPresentationForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(3, 'detailedpresentationformupdation');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+                $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 3 && $result[0]['r_status_id'] == 2) {
+                $this->getFirstContactForm($result[2]['r_form_id']);
+                $this->getBriefAssesmentForm($result[1]['r_form_id']);
+                $this->getDetailedPresentationForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(0, 'Nil');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+                $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
+            } else if($result[0]['r_form_details_id'] == 3 && $result[0]['r_status_id'] == 1) {
+                $this->getFirstContactForm($result[2]['r_form_id']);
+                $this->getBriefAssesmentForm($result[1]['r_form_id']);
+                $this->getDetailedPresentationForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(4, 'finalapprovalforminsertion');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+                $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
+                $this->output['close']['detailedPresentationFormClose'] = 'CLOSE';
             } else if($result[0]['r_form_details_id'] == 4) {
+                $this->getFirstContactForm($result[3]['r_form_id']);
+                $this->getBriefAssesmentForm($result[2]['r_form_id']);
+                $this->getDetailedPresentationForm($result[1]['r_form_id']);
                 $this->getFinalApprovalForm($result[0]['r_form_id']);
+                $this->setFormNoAndAction(4, 'finalapprovalforminsertion');
+                $this->output['close']['firstContactFormClose'] = 'CLOSE';
+                $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
+                $this->output['close']['detailedPresentationFormClose'] = 'CLOSE';
             } else {
-                $this->output['presentFormNo'] = 1;
-                $this->output['action'] = 'firstcontactforminsertion';
+                $this->setFormNoAndAction(1, 'firstcontactforminsertion');
             }
 
             if(isset($result[0]['r_status_id'])) {
@@ -93,6 +137,13 @@
         
         }
 
+        function setFormNoAndAction($formNo, $action) {
+
+            $this->output['presentFormNo'] = $formNo;
+            $this->output['action'] = $action;
+
+        }
+
         function getFirstContactForm($formId) {
 
             require_once "classes/class.dmformfirstcontact.php";
@@ -101,7 +152,6 @@
             $sql = $firstFormObj->selectdmformfirstcontact();
             $result = dbConnection::selectQuery($sql);
 
-            $this->output['sql'] = $sql;
             foreach($result AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['firstContactForm'][$innerKey] = $innerValue;
@@ -110,8 +160,20 @@
 
         }
 
-        function getBriefAssesmentForm() {
-            //briefAssesmentForm
+        function getBriefAssesmentForm($formId) {
+            
+            require_once "classes/class.dmformbriefassesment.php";
+            $briefAssesObj = new dmformbriefassesment();
+            $briefAssesObj->form_brief_assesment_id = $formId;
+            $sql = $briefAssesObj->selectdmformbriefassesment();
+            $result = dbConnection::selectQuery($sql);
+
+            foreach($result AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $this->output['briefAssesmentForm'][$innerKey] = $innerValue;
+                }
+            }
+
         }
 
         function getDetailedPresentationForm() {

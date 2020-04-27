@@ -92,8 +92,8 @@ class factstatustrackingdetails {
 
         $camaa = " ";        
 
-        if($this->r_application_details_id != 0) {
-            $sql = $sql . $camaa." r_application_details_id = " . $this->r_application_details_id;
+        if($this->status_tracking_details_id != 0) {
+            $sql = $sql . $camaa." status_tracking_details_id = " . $this->status_tracking_details_id;
             $camaa = ', ';
         }
 
@@ -125,12 +125,15 @@ class factstatustrackingdetails {
         
         $sql = $sql . " where ";
 
-        if($this->r_user_id != 0) {
+        $camaa = " ";   
+        if($this->status_tracking_details_id != 0) {
             $sql = $sql . " status_tracking_details_id = " . $this->status_tracking_details_id;
+            $camaa = ', ';
         }
 
         if($this->status != '') {
-            $sql = $sql . " status = " . $this->status;
+            $sql = $sql . " status = '" . $this->status."'";
+            $camaa = ', ';
         }
 
         return $sql;

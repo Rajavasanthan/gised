@@ -45,7 +45,7 @@ class dmformfirstcontact {
                                             '$this->organization_name',
                                             '$this->org_details',
                                             '$this->sign_up_for_emails',
-                                            '$this->r_source_id',
+                                            compress('$this->r_source_id'),
                                             '$this->brief_idea',
                                             '$this->explained_idea',
                                             '$this->about_group',
@@ -59,7 +59,8 @@ class dmformfirstcontact {
     //Select query for the table
     function selectdmformfirstcontact() {
         $sql = "select
-                        *
+                        *,
+                        uncompress(r_source_id) as r_source_id 
                 from 
                 dm_form_first_contact 
                 where 1 ";
@@ -119,52 +120,52 @@ class dmformfirstcontact {
         
         $camaa = " ";        
         if($this->first_name != '') {
-            $sql = $sql .$camaa. " first_name = " . $this->first_name;
+            $sql = $sql .$camaa. " first_name = '" . $this->first_name ."'";
             $camaa = ', ';
         }
 
         if($this->last_name != '') {
-            $sql = $sql .$camaa. " last_name = " . $this->last_name;
+            $sql = $sql .$camaa. " last_name = '" . $this->last_name ."'";
             $camaa = ', ';
         }
 
         if($this->email_id != '') {
-            $sql = $sql .$camaa. " email_id = " . $this->email_id;
+            $sql = $sql .$camaa. " email_id = '" . $this->email_id ."'";
             $camaa = ', ';
         }
 
         if($this->organization_name != '') {
-            $sql = $sql . $camaa." organization_name = " . $this->organization_name;
+            $sql = $sql . $camaa." organization_name = '" . $this->organization_name ."'";
             $camaa = ', ';
         }
 
         if($this->org_details != '') {
-            $sql = $sql . $camaa." org_details = " . $this->org_details;
+            $sql = $sql . $camaa." org_details = '" . $this->org_details ."'";
             $camaa = ', ';
         }
 
         if($this->sign_up_for_emails != '') {
-            $sql = $sql . $camaa." sign_up_for_emails = " . $this->sign_up_for_emails;
+            $sql = $sql . $camaa." sign_up_for_emails = '" . $this->sign_up_for_emails ."'";
             $camaa = ', ';
         }
 
         if($this->r_source_id != '') {
-            $sql = $sql . $camaa." r_source_id = " . $this->r_source_id;
+            $sql = $sql . $camaa." r_source_id = compress('" . $this->r_source_id ."')";
             $camaa = ', ';
         }
 
         if($this->brief_idea != '') {
-            $sql = $sql . $camaa." brief_idea = " . $this->brief_idea;
+            $sql = $sql . $camaa." brief_idea = '" . $this->brief_idea ."'";
             $camaa = ', ';
         }
 
         if($this->explained_idea != '') {
-            $sql = $sql . $camaa." explained_idea = " . $this->explained_idea;
+            $sql = $sql . $camaa." explained_idea = '" . $this->explained_idea ."'";
             $camaa = ', ';
         }
 
         if($this->about_group != '') {
-            $sql = $sql . $camaa." about_group = " . $this->about_group;
+            $sql = $sql . $camaa." about_group = '" . $this->about_group ."'";
             $camaa = ', ';
         }
 

@@ -13,5 +13,10 @@
         "module_name" : "application",
         "file_path" : "classesmodule/class.module.application.php",
         "class_name" : "application"
+    },
+    {
+        "module_name" : "mailer",
+        "file_path" : "classesmodule/class.module.mailer.php",
+        "class_name" : "mailer"
     }
 ]
