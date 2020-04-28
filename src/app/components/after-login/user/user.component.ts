@@ -4,6 +4,7 @@ import { ProductService } from '../../../services/product.service';
 import { ServerCallService } from '../../../services/server-call.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Configurations } from '../../../config/configurations';
 
 //Specifid the this component schema
 @Component({
@@ -37,6 +38,38 @@ export class UserComponent implements OnInit {
   firstContactFormSelector : any;
   briefAssesmentFormSelector : any;
   detailedPresentationFormSelector : any;
+
+   //Files Size Allowed
+   maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
+
+   //Files Accepet Types
+   fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
+
+   //Breaf assesment files
+   uploadFiles_2_0:string  [] = [];
+   uploadFiles_2_1:string [] = [];
+   uploadFiles_2_2:string [] = [];
+   uploadFiles_2_3:string [] = [];
+   uploadFiles_2_4:string [] = [];
+ 
+   uploadFiles_2_0Len =0;
+   uploadFiles_2_1Len =0;
+   uploadFiles_2_2Len =0;
+   uploadFiles_2_3Len =0;
+   uploadFiles_2_4Len =0;
+ 
+   //Detailed Presentation Files
+   uploadFiles_3_0:string  [] = [];
+   uploadFiles_3_1:string [] = [];
+   uploadFiles_3_2:string [] = [];
+   uploadFiles_3_3:string [] = [];
+   uploadFiles_3_4:string [] = [];
+ 
+   uploadFiles_3_0Len =0;
+   uploadFiles_3_1Len =0;
+   uploadFiles_3_2Len =0;
+   uploadFiles_3_3Len =0;
+   uploadFiles_3_4Len =0;
 
   //Application form and variables declared
   applicationForm = new FormGroup({
@@ -328,7 +361,7 @@ export class UserComponent implements OnInit {
 
 
   //Brief assesment form insertion
-  briefAssesmentFormInsert() {
+  /*briefAssesmentFormInsert() {
 
     if(this.presentFormNo == 0) {
       alert("Till get approve, You cant proceed with another form");
@@ -338,10 +371,10 @@ export class UserComponent implements OnInit {
     this.briefAssesmentForm.controls.status.setValue(2);
     this.formSubmit(this.briefAssesmentForm.value);
 
-  }
+  }*/
 
   //Detailed presentation form insertion
-  detailedPresentaionFormInsert() {
+  /*detailedPresentaionFormInsert() {
 
     if(this.presentFormNo == 0) {
       alert("Till get approve, You cant proceed with another form");
@@ -351,7 +384,7 @@ export class UserComponent implements OnInit {
     this.detailedPresentaionForm.controls.status.setValue(2);
     this.formSubmit(this.detailedPresentaionForm.value);
 
-  }
+  }*/
 
   //Detailed presentation form insertion
   finalApprovalFormInsert() {
@@ -434,6 +467,226 @@ export class UserComponent implements OnInit {
       }
     }
 
+  }
+
+
+  /****************************Brief Assesment Form works *******************************/
+    
+  onFileChangePurpose(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+          this.uploadFiles_2_0.push(event.target.files[i]);
+          this.uploadFiles_2_0Len = this.uploadFiles_2_0Len + 1;
+      }
+    }
+  }
+
+  onFileChangeDetailed(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+          this.uploadFiles_2_1.push(event.target.files[i]);
+          this.uploadFiles_2_1Len = this.uploadFiles_2_1Len + 1;
+      }
+    }
+  }
+
+  onFileChangeEstimated(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+          this.uploadFiles_2_2.push(event.target.files[i]);
+          this.uploadFiles_2_2Len = this.uploadFiles_2_2Len + 1;
+      }
+    }
+  }
+
+  onFileChangePeriod(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+          this.uploadFiles_2_3.push(event.target.files[i]);
+          this.uploadFiles_2_3Len = this.uploadFiles_2_3Len + 1;
+      }
+    }
+  }
+
+  onFileChangePurpose1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+          this.uploadFiles_2_4.push(event.target.files[i]);
+          this.uploadFiles_2_4Len = this.uploadFiles_2_4Len + 1;
+      }
+    }
+  }
+
+  //Brief assesment form insertion
+  briefAssesmentFormInsert() {
+
+    if(this.presentFormNo == 0) {
+      alert("Till get approve, You cant proceed with another form");
+      return false;
+    }
+
+    this.briefAssesmentForm.controls.status.setValue(2);
+    //this.formSubmit(this.briefAssesmentForm.value);
+
+    const formData = new FormData();
+      
+    for (var i = 0; i < this.uploadFiles_2_0.length; i++) { 
+      formData.append("purpose[]", this.uploadFiles_2_0[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_1.length; i++) { 
+      formData.append("detailed[]", this.uploadFiles_2_1[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_2.length; i++) { 
+      formData.append("estimated[]", this.uploadFiles_2_2[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_3.length; i++) { 
+      formData.append("period[]", this.uploadFiles_2_3[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_4.length; i++) { 
+      formData.append("purpose1[]", this.uploadFiles_2_4[i]);
+    }
+
+    //formData.append("imgname","Balamurugan")
+      
+
+    var briefAssesmentFileNames = this.fileUpload(formData);
+
+  }
+
+
+  // briefAssesmentSubmit(){    
+   
+  // }
+
+
+
+
+  /***************************************Detailed Presentation******************************************/
+  onFileChangePurpose_1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+        this.uploadFiles_3_0.push(event.target.files[i]);
+        this.uploadFiles_3_0Len = this.uploadFiles_3_0Len + 1;
+      }
+          
+    }
+  }
+
+  onFileChangeDetailed_1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+        this.uploadFiles_3_1.push(event.target.files[i]);
+        this.uploadFiles_3_1Len = this.uploadFiles_3_1Len + 1;
+      }
+    }
+  }
+
+  onFileChangeEstimated_1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+        this.uploadFiles_3_2.push(event.target.files[i]);
+        this.uploadFiles_3_2Len = this.uploadFiles_3_2Len + 1;
+      }
+    }
+  }
+
+  onFileChangePeriod_1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+        this.uploadFiles_3_3.push(event.target.files[i]);
+        this.uploadFiles_3_3Len = this.uploadFiles_3_3Len + 1;
+      }
+    }
+  }
+
+  onFileChangePurpose1_1(event) {
+    for (var i = 0; i < event.target.files.length; i++) { 
+      if (event.target.files[i].size > this.maxAllowedSize) {
+      	alert("File is too big! Max Allowed 15MB");
+      }else{
+        this.uploadFiles_3_4.push(event.target.files[i]);
+        this.uploadFiles_3_4Len = this.uploadFiles_3_4Len + 1;
+      }
+    }
+  }
+
+  //Detailed presentation form insertion
+  detailedPresentaionFormInsert() {
+
+    if(this.presentFormNo == 0) {
+      alert("Till get approve, You cant proceed with another form");
+      return false;
+    }
+
+    this.detailedPresentaionForm.controls.status.setValue(2);
+    this.formSubmit(this.detailedPresentaionForm.value);
+
+    const formData = new FormData();
+      
+    for (var i = 0; i < this.uploadFiles_3_0.length; i++) { 
+      formData.append("purpose[]", this.uploadFiles_3_0[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_3_1.length; i++) { 
+      formData.append("detailed[]", this.uploadFiles_3_1[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_3_2.length; i++) { 
+      formData.append("estimated[]", this.uploadFiles_3_2[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_3_3.length; i++) { 
+      formData.append("period[]", this.uploadFiles_3_3[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_3_4.length; i++) { 
+      formData.append("purpose1[]", this.uploadFiles_3_4[i]);
+    }
+
+    //formData.append("imgname","Balamurugan")
+    
+    var briefAssesmentFileNames = this.fileUpload(formData);
+   
+  }
+
+  fileUpload(formData){
+    this.server.sendToServer1(formData).
+    subscribe((response) => {
+      //this.serverResponse = JSON.parse(this.server.decryption(response['response']));
+      //this.serverResponse = JSON.parse(response);
+      console.log('RESPONSE : ', JSON.stringify(response));
+      alert('success');
+      return JSON.stringify(response);
+    }, (error) => {
+      this.errorMsg = 'Sorry! Something went wrong';
+      //console.log('Error : ', JSON.stringify(error));
+      alert(this.errorMsg);
+      this.router.navigate(['/']);
+    }, () => {
+      console.log('Completed');
+    });
   }
 
 }

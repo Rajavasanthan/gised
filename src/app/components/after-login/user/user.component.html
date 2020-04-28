@@ -277,9 +277,9 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject1" multiple (change)="getSelectedFileList($event)"/>
+        <input type="file" class="" formControlName="purposeOfProject1" [accept]="fileTypes" multiple (change)="onFileChangePurpose($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_2_0Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
         {{file}}
@@ -289,19 +289,19 @@
         >Detailed Information about the organization conducting the project
        </span>
        <div>
-        <input type="file" class="" formControlName="detailedInformation" multiple/>
+        <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_2_1Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
         {{file}}
       </div>
-      <div class="brief-assesment__fileupload-container" multiple>
+      <div class="brief-assesment__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
-        <input type="file" class="" formControlName="estimatedBudget" multiple/>
+        <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_2_2Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
         {{file}}
@@ -311,9 +311,9 @@
         >Period of time for which founds are requested
        </span>
        <div>
-        <input type="file" class="" formControlName="periodOfTime" multiple/>
+        <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_2_3Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
         {{file}}
@@ -324,9 +324,9 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject2" multiple/>
+        <input type="file" class="" formControlName="purposeOfProject2" [accept]="fileTypes"  multiple (change)="onFileChangePurpose1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_2_4Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
         {{file}}
@@ -371,9 +371,9 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject1" multiple/>
+        <input type="file" class="" formControlName="purposeOfProject1"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose_1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_3_0Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
         {{file}}
@@ -383,9 +383,9 @@
         >Detailed Information about the organization conducting the project
        </span>
        <div>
-        <input type="file" class="" formControlName="detailedInformation" multiple/>
+        <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed_1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_3_1Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
         {{file}}
@@ -393,9 +393,9 @@
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
-        <input type="file" class="" formControlName="estimatedBudget" multiple/>
+        <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated_1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_3_2Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
         {{file}}
@@ -405,9 +405,9 @@
         >Period of time for which founds are requested
        </span>
        <div>
-        <input type="file" class="" formControlName="periodOfTime" multiple/>
+        <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod_1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_3_3Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
         {{file}}
@@ -418,9 +418,9 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject2" multiple/>
+        <input type="file" class="" formControlName="purposeOfProject2"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose1_1($event)"/>
         <button class="btn btn-primary">Upload</button>
-       </div>
+       </div>{{uploadFiles_3_4Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
         {{file}}

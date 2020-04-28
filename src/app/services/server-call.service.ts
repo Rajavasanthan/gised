@@ -16,6 +16,10 @@ export class ServerCallService {
     return this.http.post(Configurations.SERVER_PATH, JSON.stringify({'request':this.encryption(request)}));
   }
 
+  sendToServer1(request) {
+    return this.http.post(Configurations.SERVER_PATH_UPLOAD, request);
+  }
+
   encryption(plainData) {
     return btoa(JSON.stringify(plainData));
   }
