@@ -152,9 +152,10 @@
             $sql = $firstFormObj->selectdmformfirstcontact();
             $result = dbConnection::selectQuery($sql);
 
+            $this->output['result'] = $sql;
             foreach($result AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $this->output['firstContactForm'][$innerKey] = $innerValue;
+                    $this->output['firstContactForm'][$innerKey] = ($innerKey == 'r_source_id') ? json_decode($innerValue) : $innerValue;
                 }
             }
 
@@ -170,14 +171,26 @@
 
             foreach($result AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $this->output['briefAssesmentForm'][$innerKey] = $innerValue;
+                    $this->output['briefAssesmentForm'][$innerKey] = ($innerKey == 'uploads') ? json_decode($innerValue) : $innerValue;
                 }
             }
 
         }
 
-        function getDetailedPresentationForm() {
-            //detailedPresentationForm
+        function getDetailedPresentationForm($formId) {
+           
+            require_once "classes/class.dmformdetailedpresentation.php";
+            $detPressObj = new dmformdetailedpresentation();
+            $detPressObj->form_detailed_presentation_id = $formId;
+            $sql = $detPressObj->selectdmformdetailedpresentation();
+            $result = dbConnection::selectQuery($sql);
+
+            foreach($result AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $this->output['detailedPresentationForm'][$innerKey] = ($innerKey == 'uploads') ? json_decode($innerValue) : $innerValue;
+                }
+            }
+
         }
 
         function getFinalApprovalForm() {

@@ -62,7 +62,7 @@
             $dmfirstcontactObj->organization_name = $this->input['organizationName'];
             $dmfirstcontactObj->org_details = $this->input['orgDetails'];
             $dmfirstcontactObj->sign_up_for_emails = ($this->input['signUpEmail']) ? 'Y' : 'N' ;
-            $dmfirstcontactObj->r_source_id = $this->input['sourceValue'];
+            $dmfirstcontactObj->r_source_id = json_encode($this->input['sourceValue']);
             $dmfirstcontactObj->brief_idea = $this->input['describeIdea1'];
             $dmfirstcontactObj->explained_idea = $this->input['describeIdea2'];
             $dmfirstcontactObj->about_group = $this->input['describeIdea3'];
@@ -156,7 +156,7 @@
             $briefAssesObj->email_id = $this->input['email'];
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
-            $briefAssesObj->uploads = '';
+            $briefAssesObj->uploads = '{"purposeOfProject1":["filename1.txt","filename2.txt"],"detailedInformation":["filename1.txt","filename2.txt"],"estimatedBudget":["filename1.txt","filename2.txt","filename3.txt","filename4.txt"],"periodOfTime":["filename1.txt"],"purposeOfProject2":["filename1.txt","filename2.txt"]}';
             $sql = $briefAssesObj->insertdmformbriefassesment();
             $result = dbConnection::insertQuery($sql);
             $briefAssesId = dbConnection::$dbObj->insert_id;
@@ -229,7 +229,37 @@
 
         function detailedPresentationFormInsertionAction() {
 
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user_id = $result[0]['user_id'];
 
+            require_once "classes/class.dmformdetailedpresentation.php";
+            $detPressObj = new dmformdetailedpresentation();
+            $detPressObj->uploads = '{"purposeOfProject1":["filename1.txt","filename2.txt"],"detailedInformation":["filename1.txt","filename2.txt"],"estimatedBudget":["filename1.txt","filename2.txt","filename3.txt","filename4.txt"],"periodOfTime":["filename1.txt"],"purposeOfProject2":["filename1.txt","filename2.txt"]}';
+            $sql = $detPressObj->insertdmformdetailedpresentation();
+            $result = dbConnection::insertQuery($sql);
+            $detPressId = dbConnection::$dbObj->insert_id;
+
+            require_once "classes/class.factstatustrackingdetails.php";
+            $trackObj = new factstatustrackingdetails();
+            $trackObj->r_user_id = $user_id;
+            $trackObj->r_application_details_id = 1;
+            $trackObj->r_form_details_id = 3;
+            $trackObj->r_form_id = $detPressId;
+            $trackObj->r_status_id = $this->input['status'];
+            $trackObj->approval_by = 0;
+            $trackObj->status = 'Y';
+            $sql = $trackObj->insertfactstatustrackingdetails();
+            $result = dbConnection::insertQuery($sql);
+
+            if($this->input['status'] == 3) {
+                $this->setFormNoActionMsg(2, 'detailedpresentationformupdation', 'Detailed presentation form saved successfully', $this->input['status']);
+            } else if($this->input['status'] == 2) {
+                $this->setFormNoActionMsg(0, '', 'Detailed presentation form submited to approver successfully', $this->input['status']);
+            }
 
         }
 

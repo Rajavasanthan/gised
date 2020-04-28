@@ -180,7 +180,7 @@
       <h6 class="first-contact__source--heading">Source</h6>
       <div class="first-contact__source--container">
             <div>
-                    <input type="checkbox" formControlName="newspaper" [checked]="(firstContactValues.r_source_id.newspaper==true) ? true : false"/>
+                    <input type="checkbox" formControlName="newspaper" [checked]="(firstContactValues?.r_source_id?.newspaper==true) ? true : false"/>
                     <span class="lead-dark">Newspaper</span>
                    </div>
                    <div>
@@ -188,32 +188,32 @@
                     <span class="lead-dark">EDM</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="sms" [checked]="firstContactValues.r_source_id.sms"/>
+                    <input type="checkbox" formControlName="sms" [checked]="firstContactValues?.r_source_id?.sms"/>
                     <span class="lead-dark">SMS</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="website" [checked]="firstContactValues.r_source_id.website"/>
+                    <input type="checkbox" formControlName="website" [checked]="firstContactValues?.r_source_id?.website"/>
                     <span class="lead-dark">Website</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="pressads" [checked]="(firstContactValues.r_source_id.pressads===true) ? true : false"/>
+                    <input type="checkbox" formControlName="pressads" [checked]="(firstContactValues?.r_source_id?.pressads===true) ? true : false"/>
                     <span class="lead-dark">Press Ads</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="online" [checked]="firstContactValues.r_source_id.online"/>
+                    <input type="checkbox" formControlName="online" [checked]="firstContactValues?.r_source_id?.online"/>
                     <span class="lead-dark">Online</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="wordofmouth" [checked]="firstContactValues.r_source_id.wordofmouth"/>
+                    <input type="checkbox" formControlName="wordofmouth" [checked]="firstContactValues?.r_source_id?.wordofmouth"/>
                     <span class="lead-dark">Word of mouth</span>
                    </div>
                    <div>
-                    <input type="checkbox" formControlName="maildrop" [checked]="firstContactValues.r_source_id.maildrop"/>
+                    <input type="checkbox" formControlName="maildrop" [checked]="firstContactValues?.r_source_id?.maildrop"/>
                     <span class="lead-dark">Maildrop</span>
                    </div>
                    <div class="first-contact__source--others">
                     <span class="lead-dark">Others</span>
-                    <input type="text" formControlName="others" [value]="firstContactValues.r_source_id.others"/>
+                    <input type="text" formControlName="others" [value]="firstContactValues?.r_source_id?.others"/>
                    </div>
       </div>
     </form>
@@ -227,8 +227,8 @@
   </form>
   <!-- ************************************************************* -->
   <!-- Brief Assesment -->
-  <form [formGroup]="briefAssesmentForm" (ngSubmit)="briefAssesmentFormInsert()" id="briefAssesmentFormId">
-  <div class="accordian__section brief-assesment">
+  <form [formGroup]="briefAssesmentForm" (ngSubmit)="briefAssesmentFormInsert()">
+  <div class="accordian__section brief-assesment" id="briefAssesmentFormId">
    <div class="accordian__number">
     <span class="accordian__number--digit">2</span>
     <i class="fas fa-check none accordian__number--check"></i>
@@ -251,23 +251,23 @@
     <div class="brief-assesment__container accordian__main-data">
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Name</span>
-      <input type="text" class="brief-assesment__form-control--input" formControlName="name" [value]="briefAssesmentValues.full_name"/>
+      <input type="text" class="brief-assesment__form-control--input" formControlName="name" [value]="briefAssesmentValues?.full_name"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Address</span>
-      <input type="text" class="brief-assesment__form-control--input" formControlName="address" [value]="briefAssesmentValues.address"/>
+      <input type="text" class="brief-assesment__form-control--input" formControlName="address" [value]="briefAssesmentValues?.address"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Email</span>
-      <input type="text" class="brief-assesment__form-control--input" formControlName="email" [value]="briefAssesmentValues.email_id"/>
+      <input type="text" class="brief-assesment__form-control--input" formControlName="email" [value]="briefAssesmentValues?.email_id"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Telephone Number</span>
-      <input type="text" class="brief-assesment__form-control--input" formControlName="telephoneNo" [value]="briefAssesmentValues.telephone_number"/>
+      <input type="text" class="brief-assesment__form-control--input" formControlName="telephoneNo" [value]="briefAssesmentValues?.telephone_number"/>
      </div>
      <div class="brief-assesment__form-control">
       <span class="lead-dark">Website (Optional)</span>
-      <input type="checkbox" formControlName="website"  [checked]="(briefAssesmentValues.website_url==='Y') ? true : false " />
+      <input type="checkbox" formControlName="website"  [checked]="(briefAssesmentValues?.website_url==='Y') ? true : false " />
      </div>
      <!-- ====== -->
      <div class="brief-assesment__fileupload-section">
@@ -281,6 +281,9 @@
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
+      <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
+        {{file}}
+      </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
         >Detailed Information about the organization conducting the project
@@ -290,12 +293,18 @@
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
+      <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
+        {{file}}
+      </div>
       <div class="brief-assesment__fileupload-container" multiple>
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
         <input type="file" class="" formControlName="estimatedBudget" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -305,6 +314,9 @@
         <input type="file" class="" formControlName="periodOfTime" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -316,8 +328,11 @@
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
+      <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
+        {{file}}
+      </div>
      </div>
-     <button class="btn btn-primary brief-assesment__submit-btn text-center">
+     <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center">
       Submit
      </button>
     </div>
@@ -326,8 +341,8 @@
 </form>
   <!-- ************************************************************* -->
   <!-- Detailed Presentation -->
-  <form [formGroup]="detailedPresentaionForm" (ngSubmit)="detailedPresentaionFormInsert()" id="detailedPresentationFormId">
-  <div class="accordian__section detailed-presentation">
+  <form [formGroup]="detailedPresentaionForm" (ngSubmit)="detailedPresentaionFormInsert()">
+  <div class="accordian__section detailed-presentation" id="detailedPresentationFormId">
    <div class="accordian__number">
     <span class="accordian__number-digit">3</span>
     <i class="fas fa-check none accordian__check"></i>
@@ -356,34 +371,46 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject1"/>
+        <input type="file" class="" formControlName="purposeOfProject1" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
         >Detailed Information about the organization conducting the project
        </span>
        <div>
-        <input type="file" class="" formControlName="detailedInformation"/>
+        <input type="file" class="" formControlName="detailedInformation" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
-        <input type="file" class="" formControlName="estimatedBudget"/>
+        <input type="file" class="" formControlName="estimatedBudget" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
         >Period of time for which founds are requested
        </span>
        <div>
-        <input type="file" class="" formControlName="periodOfTime"/>
+        <input type="file" class="" formControlName="periodOfTime" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
+      </div>
+      <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
+        {{file}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -391,14 +418,15 @@
         address
        </span>
        <div>
-        <input type="file" class="" formControlName="purposeOfProject2"/>
+        <input type="file" class="" formControlName="purposeOfProject2" multiple/>
         <button class="btn btn-primary">Upload</button>
        </div>
       </div>
+      <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
+        {{file}}
+      </div>
      </div>
-     <button
-      class="btn btn-primary detailed-presentation__submit-btn text-center"
-     >
+     <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center">
       Submit
      </button>
     </div>
@@ -412,6 +440,7 @@
     <span class="accordian__number-digit">4</span>
     <i class="fas fa-check none accordian__check"></i>
    </div>
+  <form [formGroup]="finalApprovalForm" (ngSubmit)="finalApprovalFormInsert()">
    <div class="accordian__data">
     <h6>Final Approval</h6>
     <div class="final-approval__container">
@@ -422,10 +451,11 @@
      <div class="final-approval__btn-container">
       <button class="btn btn-edit" (click)="editForm()">Edit</button>
       <button class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>
-      <button class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-primary" >Submit</button>
      </div>
     </div>
    </div>
+  </form>
   </div>
  </div>
 </div>

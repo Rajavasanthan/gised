@@ -33,7 +33,7 @@ export class UserComponent implements OnInit {
   currentStatus : string;
   firstContactFormClose : string;
   briefAssesmentFormClose : string;
-  detailedPrentationFormClose : string;
+  detailedPresentationFormClose : string;
   firstContactFormSelector : any;
   briefAssesmentFormSelector : any;
   detailedPresentationFormSelector : any;
@@ -101,6 +101,13 @@ export class UserComponent implements OnInit {
     status : new FormControl(2)
   });
 
+  //Final approval form and variables declared
+  finalApprovalForm = new FormGroup({
+    submitButton : new FormControl(''),
+    emailId : new FormControl(''),
+    status : new FormControl(2)
+  });
+
   //Constructor for this component
   constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef) { 
     
@@ -109,7 +116,7 @@ export class UserComponent implements OnInit {
       this.loggedProfile = { title : '' };
       this.firstContactFormClose = "OPEN";
       this.briefAssesmentFormClose = "OPEN";
-      this.detailedPrentationFormClose = "OPEN";
+      this.detailedPresentationFormClose = "OPEN";
       this.firstContactValues = { brief_idea : '', explained_idea : '', about_group : '', first_name : '', last_name : '', email_id : '', organization_name : '', org_details : '', sign_up_for_emails : 'N', r_source_id : { pressads : false } };
 
       //Prepare this request for get logged user informations
@@ -122,7 +129,7 @@ export class UserComponent implements OnInit {
       this.server.sendToServer(this.serverRequest).
       subscribe((response) => {
         this.serverResponse = JSON.parse(this.server.decryption(response['response']));
-        // console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+        console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
         console.log('RESPONSE : ', this.serverResponse);
         if(this.serverResponse.responseData == 'ERROR') {
           this.errorMsg = 'Sorry! Something went wrong';
@@ -149,8 +156,8 @@ export class UserComponent implements OnInit {
           if(this.briefAssesmentFormClose == "CLOSE") {
             this.briefAssesmentFormSelector.classList.add('completed');           
           }
-          this.detailedPrentationFormClose = this.serverResponse.responseData.close.detailedPrentationFormClose;
-          if(this.detailedPrentationFormClose == "CLOSE") {
+          this.detailedPresentationFormClose = this.serverResponse.responseData.close.detailedPresentationFormClose;
+          if(this.detailedPresentationFormClose == "CLOSE") {
             this.detailedPresentationFormSelector.classList.add('completed');           
           }
           
@@ -161,7 +168,7 @@ export class UserComponent implements OnInit {
             this.briefAssesmentForm.enable();
           } else if(this.action == 'detailedpresentationforminsertion') {
             this.detailedPresentaionForm.enable();
-          }
+          } 
 
         }
       }, (error) => {
@@ -198,6 +205,7 @@ export class UserComponent implements OnInit {
     this.firstContactForm.disable();
     this.briefAssesmentForm.disable();
     this.detailedPresentaionForm.disable();
+    this.finalApprovalForm.disable();
 
   }
 
@@ -253,11 +261,11 @@ export class UserComponent implements OnInit {
         this.briefAssesmentFormSelector.classList.remove('completed');
       }
     } else if($formNo == 3) {
-      if(this.detailedPrentationFormClose == "OPEN") {
-        this.detailedPrentationFormClose = "CLOSE";
+      if(this.detailedPresentationFormClose == "OPEN") {
+        this.detailedPresentationFormClose = "CLOSE";
         this.detailedPresentationFormSelector.classList.add('completed');
-      } else if(this.detailedPrentationFormClose == "CLOSE") {
-        this.detailedPrentationFormClose = "OPEN";
+      } else if(this.detailedPresentationFormClose == "CLOSE") {
+        this.detailedPresentationFormClose = "OPEN";
         this.detailedPresentationFormSelector.classList.remove('completed');
       }
     } 
@@ -285,16 +293,16 @@ export class UserComponent implements OnInit {
         this.errorMsg = 'Sorry! Something went wrong';
         alert(this.errorMsg);
       } else {
+        this.presentFormNo = this.serverResponse.responseData.presentFormNo;        
+        this.action = this.serverResponse.responseData.action;
+        this.userMsg = this.serverResponse.responseData.userMsg;
+        this.currentStatus = this.serverResponse.responseData.status;
         this.formsDisable();
         if(this.action == 'briefassesmentforminsertion') {
           this.briefAssesmentForm.enable();
         } else if(this.action == 'detailedpresentationforminsertion') {
           this.detailedPresentaionForm.enable();
         }
-        this.presentFormNo = this.serverResponse.responseData.presentFormNo;        
-        this.action = this.serverResponse.responseData.action;
-        this.userMsg = this.serverResponse.responseData.userMsg;
-        this.currentStatus = this.serverResponse.responseData.status;
         alert(this.userMsg);
       }
     }, (error) => {
@@ -342,6 +350,19 @@ export class UserComponent implements OnInit {
 
     this.detailedPresentaionForm.controls.status.setValue(2);
     this.formSubmit(this.detailedPresentaionForm.value);
+
+  }
+
+  //Detailed presentation form insertion
+  finalApprovalFormInsert() {
+
+    if(this.presentFormNo == 0) {
+      alert("Till get approve, You cant proceed with another form");
+      return false;
+    }
+
+    this.finalApprovalForm.controls.status.setValue(2);
+    this.formSubmit(this.finalApprovalForm.value);
 
   }
 

@@ -21,9 +21,9 @@ class dmformdetailedpresentation {
     function insertdmformdetailedpresentation() {
         $sql = "insert into dm_form_detailed_presentation values(
                                             $this->form_detailed_presentation_id,
-                                            '$this->uploads',
-                                            '$this->created_date_time',
-                                            '$this->updated_date_time'
+                                            compress('$this->uploads'),
+                                            now(),
+                                            now()
                                             )";
 
         return $sql;
@@ -32,7 +32,8 @@ class dmformdetailedpresentation {
     //Select query for the table
     function selectdmformdetailedpresentation() {
         $sql = "select
-                        *
+                        *,
+                        uncompress(uploads) as uploads 
                 from 
                 dm_form_detailed_presentation 
                 where 1 ";
@@ -42,7 +43,7 @@ class dmformdetailedpresentation {
         }
 
         if($this->uploads != '') {
-            $sql = $sql . " and uploads = " . $this->uploads;
+            $sql = $sql . " and uploads = '" . $this->uploads ."'";
         }
 
         return $sql;
@@ -55,7 +56,7 @@ class dmformdetailedpresentation {
                 set"; 
         $camaa = " ";
         if($this->uploads != '') {
-            $sql = $sql . $camaa." uploads = " . $this->uploads;
+            $sql = $sql . $camaa." uploads = compress('" . $this->uploads ."')";
             $camaa = ", ";
         }
         

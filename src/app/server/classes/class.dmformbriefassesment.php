@@ -36,7 +36,7 @@ class dmformbriefassesment {
                                             '$this->email_id',
                                             '$this->telephone_number',
                                             '$this->website_url',
-                                            '$this->uploads',
+                                            compress('$this->uploads'),
                                             now(),
                                             now()
                                             )";
@@ -47,7 +47,8 @@ class dmformbriefassesment {
     //Select query for the table
     function selectdmformbriefassesment() {
         $sql = "select
-                        *
+                        *,
+                        uncompress(uploads) as uploads 
                 from 
                 dm_form_brief_assesment 
                 where 1 ";
@@ -117,7 +118,7 @@ class dmformbriefassesment {
         }
 
         if($this->uploads != '') {
-            $sql = $sql . $camaa." uploads = '" . $this->uploads ."'";
+            $sql = $sql . $camaa." uploads = compress('" . $this->uploads ."')";
             $camaa = ', ';
         }        
         
