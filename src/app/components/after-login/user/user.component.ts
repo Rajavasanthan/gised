@@ -120,7 +120,8 @@ export class UserComponent implements OnInit {
     periodOfTime : new FormControl('',[Validators.required]),
     purposeOfProject2 : new FormControl('',[Validators.required]),
     emailId : new FormControl(''),
-    status : new FormControl(2)
+    status : new FormControl(2),
+    uploadedFiles : new FormControl()
   });
 
   //Detailed presentation form and variables declared
@@ -131,7 +132,8 @@ export class UserComponent implements OnInit {
     periodOfTime : new FormControl('',[Validators.required]),
     purposeOfProject2 : new FormControl('',[Validators.required]),
     emailId : new FormControl(''),
-    status : new FormControl(2)
+    status : new FormControl(2),
+    uploadedFiles : new FormControl()
   });
 
   //Final approval form and variables declared
@@ -359,34 +361,7 @@ export class UserComponent implements OnInit {
 
   }
 
-
-  //Brief assesment form insertion
-  /*briefAssesmentFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-
-    this.briefAssesmentForm.controls.status.setValue(2);
-    this.formSubmit(this.briefAssesmentForm.value);
-
-  }*/
-
-  //Detailed presentation form insertion
-  /*detailedPresentaionFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-
-    this.detailedPresentaionForm.controls.status.setValue(2);
-    this.formSubmit(this.detailedPresentaionForm.value);
-
-  }*/
-
-  //Detailed presentation form insertion
+  //Final approval presentation form insertion
   finalApprovalFormInsert() {
 
     if(this.presentFormNo == 0) {
@@ -534,10 +509,7 @@ export class UserComponent implements OnInit {
       alert("Till get approve, You cant proceed with another form");
       return false;
     }
-
-    this.briefAssesmentForm.controls.status.setValue(2);
-    //this.formSubmit(this.briefAssesmentForm.value);
-
+    
     const formData = new FormData();
       
     for (var i = 0; i < this.uploadFiles_2_0.length; i++) { 
@@ -560,10 +532,12 @@ export class UserComponent implements OnInit {
       formData.append("purpose1[]", this.uploadFiles_2_4[i]);
     }
 
-    //formData.append("imgname","Balamurugan")
-      
+    this.fileUpload(formData, 2);
 
-    var briefAssesmentFileNames = this.fileUpload(formData);
+    // this.briefAssesmentForm.controls.uploadedFiles.setValue(briefAssesmentFileNames);
+
+    // this.briefAssesmentForm.controls.status.setValue(2);
+    // this.formSubmit(this.briefAssesmentForm.value);
 
   }
 
@@ -640,9 +614,6 @@ export class UserComponent implements OnInit {
       return false;
     }
 
-    this.detailedPresentaionForm.controls.status.setValue(2);
-    this.formSubmit(this.detailedPresentaionForm.value);
-
     const formData = new FormData();
       
     for (var i = 0; i < this.uploadFiles_3_0.length; i++) { 
@@ -665,20 +636,32 @@ export class UserComponent implements OnInit {
       formData.append("purpose1[]", this.uploadFiles_3_4[i]);
     }
 
-    //formData.append("imgname","Balamurugan")
-    
-    var briefAssesmentFileNames = this.fileUpload(formData);
-   
+    this.fileUpload(formData, 3);
+
+    // this.detailedPresentaionForm.controls.uploadedFiles.setValue(detailesPresentationFileNames);
+    // this.detailedPresentaionForm.controls.status.setValue(2);
+    // this.formSubmit(this.detailedPresentaionForm.value);
+  
   }
 
-  fileUpload(formData){
+  fileUpload(formData, formNo){
     this.server.sendToServer1(formData).
     subscribe((response) => {
       //this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       //this.serverResponse = JSON.parse(response);
       console.log('RESPONSE : ', JSON.stringify(response));
-      alert('success');
-      return JSON.stringify(response);
+      //alert('success');
+      //return JSON.stringify(response);
+      if(formNo == 2) {
+        this.briefAssesmentForm.controls.uploadedFiles.setValue(response);
+        this.briefAssesmentForm.controls.status.setValue(2);
+        this.formSubmit(this.briefAssesmentForm.value);
+      } else if(formNo == 3) {
+        this.detailedPresentaionForm.controls.uploadedFiles.setValue(response);
+        this.detailedPresentaionForm.controls.status.setValue(2);
+        this.formSubmit(this.detailedPresentaionForm.value);
+      }
+
     }, (error) => {
       this.errorMsg = 'Sorry! Something went wrong';
       //console.log('Error : ', JSON.stringify(error));

@@ -171,9 +171,21 @@
 
             foreach($result AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $this->output['briefAssesmentForm'][$innerKey] = ($innerKey == 'uploads') ? json_decode($innerValue) : $innerValue;
+                    $this->output['briefAssesmentForm'][$innerKey] = ($innerKey == 'uploads') ? $this->getFileNameOnly(json_decode($innerValue,1)) : $innerValue;
                 }
             }
+
+        }
+
+        function getFileNameOnly($files) {
+
+            foreach($files AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $files[$key][$innerKey] = explode("___",$innerValue)[1];
+                }
+            }
+
+            return $files;
 
         }
 
@@ -187,7 +199,7 @@
 
             foreach($result AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $this->output['detailedPresentationForm'][$innerKey] = ($innerKey == 'uploads') ? json_decode($innerValue) : $innerValue;
+                    $this->output['detailedPresentationForm'][$innerKey] = ($innerKey == 'uploads') ? $this->getFileNameOnly(json_decode($innerValue,1)) : $innerValue;
                 }
             }
 

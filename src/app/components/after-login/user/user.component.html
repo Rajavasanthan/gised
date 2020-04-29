@@ -110,8 +110,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button class="text-primary" (click)="seeDetails(1)">See details</button>
-      <button class="text-primary" (click)="shareDetails(1)">Share the details</button>
+      <button type="button" class="text-primary" (click)="seeDetails(1)">See details</button>&nbsp;
+      <button type="button" class="text-primary" (click)="shareDetails(1)">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -241,8 +241,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <a href="#" class="text-primary" (click)="seeDetails(2)">See details</a>
-      <a href="#" class="text-primary">Share the details</a>
+      <button type="button" class="text-primary" (click)="seeDetails(2)">See details</button>&nbsp;
+      <button type="button" class="text-primary" (click)="shareDetails(2)">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -278,7 +278,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="purposeOfProject1" [accept]="fileTypes" multiple (change)="onFileChangePurpose($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_2_0Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
@@ -290,7 +290,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_2_1Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
@@ -300,7 +300,7 @@
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
         <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_2_2Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
@@ -312,7 +312,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_2_3Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
@@ -325,7 +325,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="purposeOfProject2" [accept]="fileTypes"  multiple (change)="onFileChangePurpose1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_2_4Len}} Files Selected
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
@@ -355,8 +355,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <a href="#" class="text-primary">See details</a>
-      <a href="#" class="text-primary">Share the details</a>
+      <button type="button" class="text-primary" (click)="seeDetails(3)">See details</button>&nbsp;
+      <button type="button" class="text-primary" (click)="shareDetails(3)">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -372,7 +372,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="purposeOfProject1"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose_1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_3_0Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
@@ -384,7 +384,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed_1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_3_1Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
@@ -394,7 +394,7 @@
        <span class="lead-dark">Estimated overall Budget </span>
        <div>
         <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated_1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_3_2Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
@@ -406,7 +406,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod_1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_3_3Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
@@ -419,7 +419,7 @@
        </span>
        <div>
         <input type="file" class="" formControlName="purposeOfProject2"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose1_1($event)"/>
-        <button class="btn btn-primary">Upload</button>
+        <button type="button" class="btn btn-primary">Upload</button>
        </div>{{uploadFiles_3_4Len}} Files Selected
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
@@ -449,9 +449,9 @@
       complete.
      </p>
      <div class="final-approval__btn-container">
-      <button class="btn btn-edit" (click)="editForm()">Edit</button>
-      <button class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>
-      <button type="submit" class="btn btn-primary" >Submit</button>
+      <button type="button" class="btn btn-edit" (click)="editForm()">Edit</button>&nbsp;
+      <button type="button" class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>&nbsp;
+      <button type="submit" class="btn btn-primary">Submit</button>
      </div>
     </div>
    </div>
