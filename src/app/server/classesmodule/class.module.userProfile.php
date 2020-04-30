@@ -8,11 +8,13 @@
         var $input;
         var $output;
         var $commonObj;
+        var $userType;
 
         function __construct($angularRequest) {
             $this->commonObj = new commonFunction();
             $this->action = "";
             $this->output = array();
+            $this->userType = 0;
         }
 
         function executeModule() {
@@ -20,9 +22,22 @@
                 case 'showprofile':
                     $this->showProfileAction();
                     break;
+                case 'showuserform':
+                    $this->showUserFormAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
+        }
+
+        function showUserFormAction() {
+
+            $this->showProfileAction();
+
+            $this->output['close']['firstContactFormClose'] = 'OPEN';
+            $this->output['close']['briefAssesmentFormClose'] = 'OPEN';
+            $this->output['close']['detailedPresentationFormClose'] = 'OPEN';
+
         }
 
         function showProfileAction() {
@@ -34,6 +49,13 @@
             $userResult = dbConnection::selectQuery($sql);
             $userId = $userResult[0]['user_id'];
 
+            require_once "classes/class.factuser.php";
+            $factUserObj = new factuser();
+            $factUserObj->r_user_id = $userId;
+            $sql = $factUserObj->selectfactuser();
+            $result = dbConnection::selectQuery($sql);
+            $this->userType = $result[0]['r_user_type_id'];
+            
             require_once "classes/class.corecountrydetails.php";
             $countryObj = new corecountrydetails();
             $countryObj->country_id = $userResult[0]['r_country_id'];
@@ -134,6 +156,10 @@
             } else {
                 $this->output['status'] = "Nil";
             }
+
+            if($this->userType == 1) {
+                $this->adminData();
+            }
         
         }
 
@@ -207,6 +233,24 @@
 
         function getFinalApprovalForm() {
             //finalApprovalForm
+        }
+
+        function adminData() {
+
+            require_once "classes/class.generalsql.php";
+            $generalSqlObj = new generalsql();
+            $sql = $generalSqlObj->userRequestList();
+            $result = dbConnection::selectQuery($sql);
+
+            if($result != "EMPTY") {
+                foreach($result AS $key => $value) {
+                    $this->output['userRequestList'][$key] = $value;
+                }    
+                $this->output['userRequestListCount'] = count($result);
+            } else {
+                $this->output['userRequestListCount'] = 0;
+            }
+
         }
 
         function defaultAction() {

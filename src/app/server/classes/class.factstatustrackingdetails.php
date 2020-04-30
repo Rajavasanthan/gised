@@ -5,6 +5,7 @@ class factstatustrackingdetails {
 
     //Variable declarations
     var $status_tracking_details_id;
+    var $r_gised_id;
     var $r_user_id;
     var $r_application_details_id;
     var $r_form_details_id;
@@ -16,6 +17,7 @@ class factstatustrackingdetails {
     //Initial values for the variables
     function __construct() {
         $this->status_tracking_details_id = 0;
+        $this->r_gised_id = 0;
         $this->r_user_id = 0;
         $this->r_application_details_id = 0;
         $this->r_form_details_id = 0;
@@ -29,13 +31,16 @@ class factstatustrackingdetails {
     function insertfactstatustrackingdetails() {
         $sql = "insert into fact_status_tracking_details values(
                                             $this->status_tracking_details_id,
+                                            $this->r_gised_id,
                                             $this->r_user_id,
                                             $this->r_application_details_id,
                                             $this->r_form_details_id,
                                             $this->r_form_id,
                                             $this->r_status_id,
                                             $this->approval_by,
-                                            '$this->status'
+                                            '$this->status',
+                                            now(),
+                                            now()
                                             )";
 
         return $sql;
@@ -51,6 +56,10 @@ class factstatustrackingdetails {
 
         if($this->status_tracking_details_id != 0) {
             $sql = $sql . " and status_tracking_details_id = " . $this->status_tracking_details_id;
+        }
+
+        if($this->r_gised_id != 0) {
+            $sql = $sql . " and r_gised_id = " . $this->r_gised_id;
         }
 
         if($this->r_user_id != 0) {
@@ -97,6 +106,10 @@ class factstatustrackingdetails {
             $camaa = ', ';
         }
 
+        if($this->r_gised_id != 0) {
+            $sql = $sql . $camaa." r_gised_id = " . $this->r_gised_id;
+            $camaa = ', ';
+        }
 
         if($this->r_user_id != 0) {
             $sql = $sql . $camaa." r_user_id = " . $this->r_user_id;

@@ -54,6 +54,15 @@
             $this->output['result'] = $result;
             $user_id = $result[0]['user_id'];
 
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->r_user_id = $user_id;
+            $gisedObj->r_status_id = 0;
+            $gisedObj->status = 'Y';
+            $sql = $gisedObj->insertdmgisedform();
+            $result = dbConnection::insertQuery($sql);
+            $gisedId = dbConnection::$dbObj->insert_id;
+
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
             $dmfirstcontactObj->first_name = $this->input['firstName'];
@@ -72,6 +81,7 @@
 
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
+            $trackObj->r_gised_id = $gisedId;
             $trackObj->r_user_id = $user_id;
             $trackObj->r_application_details_id = 1;
             $trackObj->r_form_details_id = 1;
@@ -162,8 +172,17 @@
             $result = dbConnection::insertQuery($sql);
             $briefAssesId = dbConnection::$dbObj->insert_id;
 
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->r_user_id = $user_id;
+            $gisedObj->status = 'Y';
+            $sql = $gisedObj->selectdmgisedform();
+            $result = dbConnection::selectQuery($sql);
+            $gisedId = $result[0]['gised_form_id'];
+
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
+            $trackObj->r_gised_id = $gisedId;
             $trackObj->r_user_id = $user_id;
             $trackObj->r_application_details_id = 1;
             $trackObj->r_form_details_id = 2;
@@ -217,7 +236,6 @@
                 $trackObj->r_status_id = $this->input['status'];
                 $sql = $trackObj->updatefactstatustrackingdetails();
                 $result = dbConnection::updateQuery($sql);
-                $this->output['samplecheck'] = $sql;
             }
 
             if($this->input['status'] == 3) {
@@ -245,8 +263,17 @@
             $result = dbConnection::insertQuery($sql);
             $detPressId = dbConnection::$dbObj->insert_id;
 
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->r_user_id = $user_id;
+            $gisedObj->status = 'Y';
+            $sql = $gisedObj->selectdmgisedform();
+            $result = dbConnection::selectQuery($sql);
+            $gisedId = $result[0]['gised_form_id'];
+
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
+            $trackObj->r_gised_id = $gisedId;
             $trackObj->r_user_id = $user_id;
             $trackObj->r_application_details_id = 1;
             $trackObj->r_form_details_id = 3;
@@ -280,8 +307,17 @@
             $result = dbConnection::selectQuery($sql);
             $user_id = $result[0]['user_id'];
 
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->r_user_id = $user_id;
+            $gisedObj->status = 'Y';
+            $sql = $gisedObj->selectdmgisedform();
+            $result = dbConnection::selectQuery($sql);
+            $gisedId = $result[0]['gised_form_id'];
+
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
+            $trackObj->r_gised_id = $gisedId;
             $trackObj->r_user_id = $user_id;
             $trackObj->r_application_details_id = 1;
             $trackObj->r_form_details_id = 4;
@@ -301,7 +337,7 @@
             $this->output['presentFormNo'] = $formNo;
             $this->output['action'] = $action;
             $this->output['userMsg'] = $userMsg;
-            
+
             require_once "classes/class.dmstatus.php";
             $dmStatusObj = new dmStatus();
             $dmStatusObj->status_id = $statusId;
