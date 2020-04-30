@@ -78,6 +78,7 @@
             
             require_once "classes/class.factstatustrackingdetails.php";
             $factTrackObj = new factstatustrackingdetails();
+            $factTrackObj->r_gised_id =  (isset($this->input['gisedId'])) ? $this->input['gisedId'] : 0 ;
             $factTrackObj->r_user_id = $userId;
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);

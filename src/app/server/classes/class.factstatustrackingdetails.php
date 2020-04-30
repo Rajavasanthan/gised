@@ -200,8 +200,13 @@ class factstatustrackingdetails {
                 where 
                         1 
                         and status = 'Y' 
-                        and r_user_id = " . $this->r_user_id 
-                        . " ORDER BY status_tracking_details_id DESC";
+                        and r_user_id = " . $this->r_user_id;
+
+        if($this->r_gised_id != 0) {
+           $sql = $sql . " and r_gised_id = " . $this->r_gised_id;
+        }
+
+        $sql = $sql . " ORDER BY status_tracking_details_id DESC";
 
         return $sql;
     }
