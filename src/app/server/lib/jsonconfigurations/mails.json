@@ -13,5 +13,20 @@
         "action" : "feedback",
         "mail_subject" : "Gised : Sugesstion and Feedback",
         "mail_message" : "The gised accound user TITLE. USER_NAME(EMAIL_ID) sent below sugeestion to you.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
+    },
+    {
+        "action" : "approved",
+        "mail_subject" : "Gised : Form Approved Successfully",
+        "mail_message" : "The GISED admin approved your form successfully. You can proceed to another document for approve."
+    },
+    {
+        "action" : "drafted",
+        "mail_subject" : "Gised : Form in Draft by Approver",
+        "mail_message" : "The GISED admin save in draft your form. The admin will send the reason for that. You can rectify and send them back to approval."
+    },
+    {
+        "action" : "rejected",
+        "mail_subject" : "Gised : Form Rejected",
+        "mail_message" : "The GISED admin rejected your form. Hope we will meet later."
     }
 ]

@@ -73,8 +73,8 @@ class dmgisedform {
             $camaa = ', ';
         }
 
-        if($this->status != 0) {
-            $sql = $sql . $camaa." status = " . $this->status;
+        if($this->status != '') {
+            $sql = $sql . $camaa." status = '" . $this->status ."'";
             $camaa = ', ';
         }
         

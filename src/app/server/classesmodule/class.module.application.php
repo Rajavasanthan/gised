@@ -38,9 +38,60 @@
                 case 'finalapprovalforminsertion':
                     $this->finalApprovalFormInsertionAction();
                     break;
+                case 'approverprocess':
+                    $this->approverProcessAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
+        }
+
+        function approverProcessAction() {
+
+            if($this->input['process'] == "APPROVE") {
+                $this->updateApproverAction($this->input['statusTrackingDetailsId'], 1, $this->input['approvalBy']);
+            } else if($this->input['process'] == "REJECT") {
+                $this->updateApproverAction($this->input['statusTrackingDetailsId'], 6, $this->input['approvalBy']);
+            } else if($this->input['process'] == "DRAFT") {
+                $this->updateApproverAction($this->input['statusTrackingDetailsId'], 3, $this->input['approvalBy']);
+            }
+            $this->mailForApproerAction();
+            $this->output['userMsg'] = $this->input['userMsg'];
+            
+        }
+
+        function updateApproverAction($factStatusTrackingId, $status, $approvalBy) {
+
+            require_once "classes/class.factstatustrackingdetails.php";
+            $trackObj = new factstatustrackingdetails();
+            $trackObj->r_gised_id = ($this->input['process'] == 'REJECT') ? $this->input['gisedId'] : 0 ;
+            $trackObj->status_tracking_details_id = ($this->input['process'] == 'REJECT') ? 0 : $factStatusTrackingId ;
+            $trackObj->status = ($this->input['process'] == 'REJECT') ? 'N' : 'Y' ;
+            $trackObj->r_status_id = ($this->input['presentFormNo'] == 4) ? 5 : $status ;
+            $trackObj->approval_by = $approvalBy;
+            $sql = $trackObj->updatefactstatustrackingdetails();
+            $result = dbConnection::updateQuery($sql);
+
+            if($this->input['process'] == 'REJECT') {
+                require_once "classes/class.dmgisedform.php";
+                $gisedObj = new dmgisedform();
+                $gisedObj->gised_form_id = $this->input['gisedId'];
+                $gisedObj->r_user_id = $this->input['userId'];
+                $gisedObj->r_status_id = 6;
+                $gisedObj->status = 'N';
+                $sql = $gisedObj->updatedmgisedform();
+                $result = dbConnection::updateQuery($sql);
+            } else if($this->input['process'] == 'APPROVE' && $this->input['presentFormNo'] == 4) {
+                require_once "classes/class.dmgisedform.php";
+                $gisedObj = new dmgisedform();
+                $gisedObj->gised_form_id = $this->input['gisedId'];
+                $gisedObj->r_user_id = $this->input['userId'];
+                $gisedObj->r_status_id = 5;
+                $gisedObj->status = 'C';
+                $sql = $gisedObj->updatedmgisedform();
+                $result = dbConnection::updateQuery($sql);
+            }
+
         }
 
         function firstContactInsertionAction() {
@@ -139,7 +190,6 @@
                 $trackObj->r_status_id = $this->input['status'];
                 $sql = $trackObj->updatefactstatustrackingdetails();
                 $result = dbConnection::updateQuery($sql);
-                $this->output['samplecheck'] = $sql;
             }
 
             if($this->input['status'] == 3) {
@@ -348,6 +398,47 @@
             } else {
                 $this->output['status'] = "Nil";
             }
+
+        }
+
+        function mailForApproerAction() {
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user = $result[0];    
+
+            if(isset($user['email_id'])) {
+
+                $mailValues = $this->commonObj->readJsonConfigurations('mails', $this->input['mailerAction'], 'action');
+    
+                $sendMailObj = new sendMail();
+                $sendMailObj->receiverTitle = $user['title'];
+                $sendMailObj->receiverName = $user['first_name'].' '.$user['last_name'];
+                $sendMailObj->receiverMailId = $user['email_id'];
+                $sendMailObj->subject = $mailValues['mail_subject'];
+                $sendMailObj->message = $this->mailStringReplace($mailValues['mail_message'], $user);
+                $sendMailObj->link = PRODUCT_LINK;
+    
+                $sendMailObj->mail();
+    
+                $this->output['userMsg'] = 'Suggesstion mail sent to admin successfully';
+            } else {
+                $this->output['userMsg'] = 'Sorry! Something went wrong';
+            }
+
+        }
+
+        function mailStringReplace($mailMsg, $replaceStr) {
+
+            $mailMsg = str_replace("TITLE", $replaceStr['title'], $mailMsg);
+            $mailMsg = str_replace("USER_NAME", $replaceStr['first_name'], $mailMsg);
+            $mailMsg = str_replace("EMAIL_ID", $replaceStr['email_id'], $mailMsg);
+            $mailMsg = str_replace("FEEDBACK_SUGESSTION", $this->input['feedback'], $mailMsg);
+
+            return $mailMsg;
 
         }
 

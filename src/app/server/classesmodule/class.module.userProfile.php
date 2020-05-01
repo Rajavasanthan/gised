@@ -9,12 +9,14 @@
         var $output;
         var $commonObj;
         var $userType;
+        var $factStatusTrackingDetails;
 
         function __construct($angularRequest) {
             $this->commonObj = new commonFunction();
             $this->action = "";
             $this->output = array();
             $this->userType = 0;
+            $this->factStatusTrackingDetails = array();
         }
 
         function executeModule() {
@@ -34,9 +36,33 @@
 
             $this->showProfileAction();
 
+            if(isset($this->factStatusTrackingDetails[0]['r_gised_id'])) {
+                if($this->factStatusTrackingDetails[0]['r_status_id'] == 2) {
+                    $this->output['presentFormNo'] = $this->factStatusTrackingDetails[0]['r_form_details_id'];
+                    $this->output['statusTrackingDetailsId'] = $this->factStatusTrackingDetails[0]['status_tracking_details_id'];
+                    $this->output['processUserId'] = $this->factStatusTrackingDetails[0]['r_user_id'];
+                    $this->output['gisedId'] = $this->factStatusTrackingDetails[0]['r_gised_id'];
+                    $this->output['processEmailId'] = $this->input['emailId'];
+                } else {
+                    $this->output['statusTrackingDetailsId'] = 0;
+                    $this->output['presentFormNo'] = 0;
+                    $this->output['statusTrackingDetailsId'] = 0;
+                    $this->output['processUserId'] = 0;
+                    $this->output['gisedId'] = 0;
+                    $this->output['processEmailId'] = $this->input['emailId'];
+                }
+            }
+
             $this->output['close']['firstContactFormClose'] = 'OPEN';
             $this->output['close']['briefAssesmentFormClose'] = 'OPEN';
             $this->output['close']['detailedPresentationFormClose'] = 'OPEN';
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['loggedEmailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['approvalBy'] = (isset($result[0]['user_id'])) ? $result[0]['user_id'] : 0 ;
 
         }
 
@@ -82,6 +108,7 @@
             $factTrackObj->r_user_id = $userId;
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
+            $this->factStatusTrackingDetails = $result;
 
             $this->output['close']['firstContactFormClose'] = 'OPEN';
             $this->output['close']['briefAssesmentFormClose'] = 'OPEN';
