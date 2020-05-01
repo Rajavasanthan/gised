@@ -8,14 +8,14 @@
     //Require Files
     require_once "../config/productConfig.php";
 
+    $arrayVals = array();
+
     // Count # of uploaded files in array
     $total = count($_FILES['purpose']['name']);
     $total1 = count($_FILES['detailed']['name']);
     $total2 = count($_FILES['estimated']['name']);
     $total3 = count($_FILES['period']['name']);
     $total4 = count($_FILES['purpose1']['name']);
-
-    $jsonImg = '{"purposeOfProject1":[';
 
     // Loop through each file
 	for( $i=0 ; $i < $total ; $i++ ) {
@@ -30,18 +30,16 @@
             $newFilePath = USER_UPLOAD_PATH . $file_url;
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                //echo "success :".$name;
-                $jsonImg = $jsonImg.'"'.$file_url.'",';
+                //$arrayVals.push($file_url);
+                $arrayVals['purposeOfProject1'][$i] = $file_url;
             }else{
                 echo "not success";
             }
         }
     }
-    $jsonImg = substr($jsonImg, 0, -1);
-    $jsonImg = $jsonImg.'],';
-
+   
     // Loop through each file
-    $jsonImg = $jsonImg.'"detailedInformation":[';
+   
 	for( $i=0 ; $i < $total1 ; $i++ ) {
         //Get the temp file path
         $tmpFilePath = $_FILES['detailed']['tmp_name'][$i];
@@ -54,19 +52,15 @@
             $newFilePath = USER_UPLOAD_PATH . $file_url;
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                //echo "success :".$name;
-                $jsonImg = $jsonImg.'"'.$file_url.'",';
+                $arrayVals['detailedInformation'][$i] = $file_url;
             }else{
                 echo "not success";
             }
         }
     }
-    $jsonImg = substr($jsonImg, 0, -1);
-    $jsonImg = $jsonImg.'],';
-
+   
     // Loop through each file
-    $jsonImg = $jsonImg.'"estimatedBudget":[';
-	for( $i=0 ; $i < $total2 ; $i++ ) {
+    for( $i=0 ; $i < $total2 ; $i++ ) {
         //Get the temp file path
         $tmpFilePath = $_FILES['estimated']['tmp_name'][$i];
         //Make sure we have a file path
@@ -78,19 +72,15 @@
             $newFilePath = USER_UPLOAD_PATH . $file_url;
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                //echo "success :".$name;
-                $jsonImg = $jsonImg.'"'.$file_url.'",';
+                $arrayVals['estimatedBudget'][$i] = $file_url;
             }else{
                 echo "not success";
             }
         }
     }
-    $jsonImg = substr($jsonImg, 0, -1);
-    $jsonImg = $jsonImg.'],';
-
+   
     // Loop through each file
-    $jsonImg = $jsonImg.'"periodOfTime":[';
-	for( $i=0 ; $i < $total3 ; $i++ ) {
+    for( $i=0 ; $i < $total3 ; $i++ ) {
         //Get the temp file path
         $tmpFilePath = $_FILES['period']['tmp_name'][$i];
         //Make sure we have a file path
@@ -102,16 +92,13 @@
             $newFilePath = USER_UPLOAD_PATH . $file_url;
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                //echo "success :".$name;
-                $jsonImg = $jsonImg.'"'.$file_url.'",';
+                $arrayVals['periodOfTime'][$i] = $file_url;
             }else{
                 echo "not success";
             }
         }
     }
-    $jsonImg = substr($jsonImg, 0, -1);
-    $jsonImg = $jsonImg.'],';
-
+   
     // Loop through each file
     $jsonImg = $jsonImg.'"purposeOfProject2":[';
 	for( $i=0 ; $i < $total4 ; $i++ ) {
@@ -126,20 +113,15 @@
             $newFilePath = USER_UPLOAD_PATH . $file_url;
             //Upload the file into the temp dir
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-                //echo "success :".$name;
-                $jsonImg = $jsonImg.'"'.$file_url.'",';
+                $arrayVals['purposeOfProject2'][$i] = $file_url;
             }else{
                 echo "not success";
             }
         }
     }
-    $jsonImg = substr($jsonImg, 0, -1);
-    $jsonImg = $jsonImg.']}';
-    
+       
     //echo "json Val :".$jsonImg;
     header("Access-Control-Allow-Origin: *");
 	header("Content-Type: application/json");
-	echo json_encode($jsonImg);
-
-
+	echo json_encode($arrayVals);
 ?>
