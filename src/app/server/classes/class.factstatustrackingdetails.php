@@ -216,6 +216,25 @@ class factstatustrackingdetails {
         return $sql;
     }
 
+    //Select query for the table
+    function getFormStatusAdmin() {
+        $sql = "select
+                        *
+                from 
+                        fact_status_tracking_details 
+                where 
+                        1 
+                        and r_user_id = " . $this->r_user_id;
+
+        if($this->r_gised_id != 0) {
+           $sql = $sql . " and r_gised_id = " . $this->r_gised_id;
+        }
+
+        $sql = $sql . " ORDER BY status_tracking_details_id DESC";
+
+        return $sql;
+    }
+
 
 }
 

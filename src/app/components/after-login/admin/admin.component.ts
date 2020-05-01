@@ -216,14 +216,12 @@ export class AdminComponent implements OnInit {
   
     //this.selectedApplication = 1;
     //this.applicationForm.controls.applicationValue.setValue(1);
-    this.applicationForm.get('applicationValue').setValue(1);
+    //this.applicationForm.get('applicationValue').setValue(1);
 
     //Select the element to load class
     this.firstContactFormSelector = this.el.nativeElement.querySelector("#firstContactFormId");
     this.briefAssesmentFormSelector = this.el.nativeElement.querySelector("#briefAssesmentFormId");
     this.detailedPresentationFormSelector = this.el.nativeElement.querySelector("#detailedPresentationFormId");
-    //this.progressBar = this.el.nativeElement.querySelector(".modal");
-    //this.progressMessage = this.el.nativeElement.querySelector("#progressMessage");
     
     //Form disable
     this.formsDisable();
@@ -304,6 +302,8 @@ export class AdminComponent implements OnInit {
   }
 
   viewUserForm(gisetFormNo, emailId) {
+
+    //this.product.productLoader("SHOW", "This is simple loader");
     //this.progressBar.classList.add("show-modal");
     this.adminTableView = "CLOSE";
     this.adminFormView = "OPEN";
@@ -311,7 +311,8 @@ export class AdminComponent implements OnInit {
     let data = {
       emailId : emailId,
       gisedId : gisetFormNo,
-      loggedEmailId : this.emailId
+      loggedEmailId : this.emailId,
+      admin : true
     };
 
     this.action = "showuserform";

@@ -106,9 +106,15 @@
             $factTrackObj = new factstatustrackingdetails();
             $factTrackObj->r_gised_id =  (isset($this->input['gisedId'])) ? $this->input['gisedId'] : 0 ;
             $factTrackObj->r_user_id = $userId;
-            $sql = $factTrackObj->getFormStatus();
+            $sql = (isset($this->input['admin'])) ? $factTrackObj->getFormStatusAdmin() : $factTrackObj->getFormStatus() ;
             $result = dbConnection::selectQuery($sql);
             $this->factStatusTrackingDetails = $result;
+
+            if(isset($this->input['admin']) && $result[0]['r_status_id']==6) {
+                foreach($result AS $key => $value) {
+                    $result[$key]['r_status_id'] = 3;
+                }
+            }
 
             $this->output['close']['firstContactFormClose'] = 'OPEN';
             $this->output['close']['briefAssesmentFormClose'] = 'OPEN';

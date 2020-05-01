@@ -9,6 +9,14 @@
     require_once "../config/productConfig.php";
 
     $arrayVals = array();
+    $arrayVals['purposeOfProject1'][0] = "No Files";
+    $arrayVals['detailedInformation'][0] = "No Files";
+    $arrayVals['estimatedBudget'][0] = "No Files";
+    $arrayVals['periodOfTime'][0] = "No Files";
+    $arrayVals['purposeOfProject2'][0] = "No Files";
+    $arrayVals['errors'] = array();
+
+    $errorIndex = -1;
 
     // Count # of uploaded files in array
     $total = count($_FILES['purpose']['name']);
@@ -33,7 +41,7 @@
                 //$arrayVals.push($file_url);
                 $arrayVals['purposeOfProject1'][$i] = $file_url;
             }else{
-                echo "not success";
+                $arrayVals['errors'][$errorIndex+1] = $file_url;
             }
         }
     }
@@ -54,7 +62,7 @@
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $arrayVals['detailedInformation'][$i] = $file_url;
             }else{
-                echo "not success";
+                $arrayVals['errors'][$errorIndex+1] = $file_url;
             }
         }
     }
@@ -74,7 +82,7 @@
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $arrayVals['estimatedBudget'][$i] = $file_url;
             }else{
-                echo "not success";
+                $arrayVals['errors'][$errorIndex+1] = $file_url;
             }
         }
     }
@@ -94,13 +102,12 @@
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $arrayVals['periodOfTime'][$i] = $file_url;
             }else{
-                echo "not success";
+                $arrayVals['errors'][$errorIndex+1] = $file_url;
             }
         }
     }
    
     // Loop through each file
-    $jsonImg = $jsonImg.'"purposeOfProject2":[';
 	for( $i=0 ; $i < $total4 ; $i++ ) {
         //Get the temp file path
         $tmpFilePath = $_FILES['purpose1']['tmp_name'][$i];
@@ -115,12 +122,11 @@
             if(move_uploaded_file($tmpFilePath, $newFilePath)) {
                 $arrayVals['purposeOfProject2'][$i] = $file_url;
             }else{
-                echo "not success";
+                $arrayVals['errors'][$errorIndex+1] = $file_url;
             }
         }
     }
        
-    //echo "json Val :".$jsonImg;
     header("Access-Control-Allow-Origin: *");
 	header("Content-Type: application/json");
 	echo json_encode($arrayVals);

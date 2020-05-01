@@ -72,25 +72,20 @@
             $sql = $trackObj->updatefactstatustrackingdetails();
             $result = dbConnection::updateQuery($sql);
 
-            if($this->input['process'] == 'REJECT') {
-                require_once "classes/class.dmgisedform.php";
-                $gisedObj = new dmgisedform();
-                $gisedObj->gised_form_id = $this->input['gisedId'];
-                $gisedObj->r_user_id = $this->input['userId'];
-                $gisedObj->r_status_id = 6;
-                $gisedObj->status = 'N';
-                $sql = $gisedObj->updatedmgisedform();
-                $result = dbConnection::updateQuery($sql);
-            } else if($this->input['process'] == 'APPROVE' && $this->input['presentFormNo'] == 4) {
-                require_once "classes/class.dmgisedform.php";
-                $gisedObj = new dmgisedform();
-                $gisedObj->gised_form_id = $this->input['gisedId'];
-                $gisedObj->r_user_id = $this->input['userId'];
-                $gisedObj->r_status_id = 5;
-                $gisedObj->status = 'C';
-                $sql = $gisedObj->updatedmgisedform();
-                $result = dbConnection::updateQuery($sql);
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $this->input['gisedId'];
+            $gisedObj->r_user_id = $this->input['userId'];
+            $gisedObj->r_status_id = ($this->input['presentFormNo'] == 4) ? 5 : $status ;
+            if($status == 6) {
+                $gisedObj->status = 'N'; 
+            } else if($status == 1 && $this->input['presentFormNo'] == 4) {
+                $gisedObj->status = 'C'; 
+            } else {
+                $gisedObj->status = 'Y';    
             }
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
 
         }
 
@@ -108,7 +103,7 @@
             require_once "classes/class.dmgisedform.php";
             $gisedObj = new dmgisedform();
             $gisedObj->r_user_id = $user_id;
-            $gisedObj->r_status_id = 0;
+            $gisedObj->r_status_id = $this->input['status'];
             $gisedObj->status = 'Y';
             $sql = $gisedObj->insertdmgisedform();
             $result = dbConnection::insertQuery($sql);
@@ -116,19 +111,20 @@
 
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
-            $dmfirstcontactObj->first_name = $this->input['firstName'];
-            $dmfirstcontactObj->last_name = $this->input['lastName'];
-            $dmfirstcontactObj->email_id = $this->input['email'];
-            $dmfirstcontactObj->organization_name = $this->input['organizationName'];
-            $dmfirstcontactObj->org_details = $this->input['orgDetails'];
+            $dmfirstcontactObj->first_name = $this->commonObj->escapeMysqlSpecialString($this->input['firstName']);
+            $dmfirstcontactObj->last_name = $this->commonObj->escapeMysqlSpecialString($this->input['lastName']);
+            $dmfirstcontactObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
+            $dmfirstcontactObj->organization_name = $this->commonObj->escapeMysqlSpecialString($this->input['organizationName']);
+            $dmfirstcontactObj->org_details = $this->commonObj->escapeMysqlSpecialString($this->input['orgDetails']);
             $dmfirstcontactObj->sign_up_for_emails = ($this->input['signUpEmail']) ? 'Y' : 'N' ;
             $dmfirstcontactObj->r_source_id = json_encode($this->input['sourceValue']);
-            $dmfirstcontactObj->brief_idea = $this->input['describeIdea1'];
-            $dmfirstcontactObj->explained_idea = $this->input['describeIdea2'];
-            $dmfirstcontactObj->about_group = $this->input['describeIdea3'];
+            $dmfirstcontactObj->brief_idea = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea1']);
+            $dmfirstcontactObj->explained_idea = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea2']);
+            $dmfirstcontactObj->about_group = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea3']);
             $sql = $dmfirstcontactObj->insertdmformfirstcontact();
             $result = dbConnection::insertQuery($sql);
             $dmfirstcontactId = dbConnection::$dbObj->insert_id;
+            $this->output['sssss'] = $sql;
 
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
@@ -166,21 +162,29 @@
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
             $statusTrackingId = $result[0]['status_tracking_details_id'];
+            $gisedId = $result[0]['gised_form_id'];
 
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
-            $dmfirstcontactObj->first_name = $this->input['firstName'];
-            $dmfirstcontactObj->last_name = $this->input['lastName'];
-            $dmfirstcontactObj->email_id = $this->input['email'];
-            $dmfirstcontactObj->organization_name = $this->input['organizationName'];
-            $dmfirstcontactObj->org_details = $this->input['orgDetails'];
+            $dmfirstcontactObj->first_name = $this->commonObj->escapeMysqlSpecialString($this->input['firstName']);
+            $dmfirstcontactObj->last_name = $this->commonObj->escapeMysqlSpecialString($this->input['lastName']);
+            $dmfirstcontactObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
+            $dmfirstcontactObj->organization_name = $this->commonObj->escapeMysqlSpecialString($this->input['organizationName']);
+            $dmfirstcontactObj->org_details = $this->commonObj->escapeMysqlSpecialString($this->input['orgDetails']);
             $dmfirstcontactObj->sign_up_for_emails = ($this->input['signUpEmail']) ? 'Y' : 'N' ;
             $dmfirstcontactObj->r_source_id = json_encode($this->input['sourceValue']);
-            $dmfirstcontactObj->brief_idea = $this->input['describeIdea1'];
-            $dmfirstcontactObj->explained_idea = $this->input['describeIdea2'];
-            $dmfirstcontactObj->about_group = $this->input['describeIdea3'];
+            $dmfirstcontactObj->brief_idea = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea1']);
+            $dmfirstcontactObj->explained_idea = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea2']);
+            $dmfirstcontactObj->about_group = $this->commonObj->escapeMysqlSpecialString($this->input['describeIdea3']);
             $dmfirstcontactObj->form_first_contact_id = $result[0]['r_form_id'];
             $sql = $dmfirstcontactObj->updatedmformfirstcontact();
+            $result = dbConnection::updateQuery($sql);
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
             $result = dbConnection::updateQuery($sql);
 
             if($this->input['status'] == 2) {
@@ -211,16 +215,16 @@
 
             require_once "classes/class.dmformbriefassesment.php";
             $briefAssesObj = new dmformbriefassesment();
-            $briefAssesObj->full_name = $this->input['name'];
-            $briefAssesObj->address = $this->input['address'];
-            $briefAssesObj->email_id = $this->input['email'];
+            $briefAssesObj->full_name = $this->commonObj->escapeMysqlSpecialString($this->input['name']);
+            $briefAssesObj->address = $this->commonObj->escapeMysqlSpecialString($this->input['address']);
+            $briefAssesObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
-            $briefAssesObj->uploads = '{"purposeOfProject1":["filename1.txt","filename2.txt"],"detailedInformation":["filename1.txt","filename2.txt"],"estimatedBudget":["filename1.txt","filename2.txt","filename3.txt","filename4.txt"],"periodOfTime":["filename1.txt"],"purposeOfProject2":["filename1.txt","filename2.txt"]}';
-            // $briefAssesObj->uploads = $this->input['uploadedFiles'];
+            $briefAssesObj->uploads = json_encode($this->input['uploadedFiles']);
             $sql = $briefAssesObj->insertdmformbriefassesment();
             $result = dbConnection::insertQuery($sql);
             $briefAssesId = dbConnection::$dbObj->insert_id;
+            $this->output['fileup'] = $briefAssesObj->uploads;
 
             require_once "classes/class.dmgisedform.php";
             $gisedObj = new dmgisedform();
@@ -242,6 +246,13 @@
             $trackObj->status = 'Y';
             $sql = $trackObj->insertfactstatustrackingdetails();
             $result = dbConnection::insertQuery($sql);
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
 
             if($this->input['status'] == 3) {
                 $this->setFormNoActionMsg(2, 'briefassesmentformupdation', 'Brief assesment form saved successfully', $this->input['status']);
@@ -266,17 +277,26 @@
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
             $statusTrackingId = $result[0]['status_tracking_details_id'];
+            $gisedId = $result[0]['gised_form_id'];
 
             require_once "classes/class.dmformbriefassesment.php";
             $briefAssesObj = new dmformbriefassesment();
-            $briefAssesObj->full_name = $this->input['name'];
-            $briefAssesObj->address = $this->input['address'];
-            $briefAssesObj->email_id = $this->input['email'];
+            $briefAssesObj->full_name = $this->commonObj->escapeMysqlSpecialString($this->input['name']);
+            $briefAssesObj->address = $this->commonObj->escapeMysqlSpecialString($this->input['address']);
+            $briefAssesObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
-            $briefAssesObj->uploads = $this->input['uploadedFiles'];
-            $briefAssesObj->form_brief_assesment_id = $result[0]['r_form_id'];;
+            $briefAssesObj->uploads = $this->uploadFileCheck($this->input['uploadedFiles'], 2, $result[0]['r_form_id']);
+            $briefAssesObj->form_brief_assesment_id = $result[0]['r_form_id'];
             $sql = $briefAssesObj->updatedmformbriefassesment();
+            $result = dbConnection::updateQuery($sql);
+            $this->output['fileup'] = $briefAssesObj->uploads;
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
             $result = dbConnection::updateQuery($sql);
 
             if($this->input['status'] == 2) {
@@ -307,8 +327,7 @@
 
             require_once "classes/class.dmformdetailedpresentation.php";
             $detPressObj = new dmformdetailedpresentation();
-            // $detPressObj->uploads = '{"purposeOfProject1":["filename1.txt","filename2.txt"],"detailedInformation":["filename1.txt","filename2.txt"],"estimatedBudget":["filename1.txt","filename2.txt","filename3.txt","filename4.txt"],"periodOfTime":["filename1.txt"],"purposeOfProject2":["filename1.txt","filename2.txt"]}';
-            $detPressObj->uploads = $this->input['uploadedFiles'];
+            $detPressObj->uploads = json_encode($this->input['uploadedFiles']);
             $sql = $detPressObj->insertdmformdetailedpresentation();
             $result = dbConnection::insertQuery($sql);
             $detPressId = dbConnection::$dbObj->insert_id;
@@ -334,6 +353,13 @@
             $sql = $trackObj->insertfactstatustrackingdetails();
             $result = dbConnection::insertQuery($sql);
 
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
+
             if($this->input['status'] == 3) {
                 $this->setFormNoActionMsg(2, 'detailedpresentationformupdation', 'Detailed presentation form saved successfully', $this->input['status']);
             } else if($this->input['status'] == 2) {
@@ -344,7 +370,50 @@
 
         function detailedPresentationFormUpdationAction() {
 
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user_id = $result[0]['user_id'];
 
+            require_once "classes/class.factstatustrackingdetails.php";
+            $factTrackObj = new factstatustrackingdetails();
+            $factTrackObj->r_user_id = $user_id;
+            $sql = $factTrackObj->getFormStatus();
+            $result = dbConnection::selectQuery($sql);
+            $statusTrackingId = $result[0]['status_tracking_details_id'];
+            $gisedId = $result[0]['gised_form_id'];
+
+            require_once "classes/class.dmformdetailedpresentation.php";
+            $detPressObj = new dmformdetailedpresentation();
+            $detPressObj->uploads = $this->uploadFileCheck($this->input['uploadedFiles'], 3, $result[0]['r_form_id']);
+            $detPressObj->form_detailed_presentation_id = $result[0]['r_form_id'];
+            $sql = $detPressObj->updatedmformdetailedpresentation();
+            $result = dbConnection::updateQuery($sql);
+            $this->output['fileup'] = $detPressObj->uploads;
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
+
+            if($this->input['status'] == 2) {
+                require_once "classes/class.factstatustrackingdetails.php";
+                $trackObj = new factstatustrackingdetails();
+                $trackObj->status_tracking_details_id = $statusTrackingId;
+                $trackObj->r_status_id = $this->input['status'];
+                $sql = $trackObj->updatefactstatustrackingdetails();
+                $result = dbConnection::updateQuery($sql);
+            }
+
+            if($this->input['status'] == 3) {
+                $this->setFormNoActionMsg(2, 'detailedpresentationformupdation', 'Detailed presentation form saved successfully', $this->input['status']);
+            } else if($this->input['status'] == 2) {
+                $this->setFormNoActionMsg(0, '', 'Detailed presentation form submited to approver successfully', $this->input['status']);
+            }   
 
         }
 
@@ -377,6 +446,13 @@
             $trackObj->status = 'Y';
             $sql = $trackObj->insertfactstatustrackingdetails();
             $result = dbConnection::insertQuery($sql);
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $gisedId;
+            $gisedObj->r_status_id = $this->input['status'];
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
 
             $this->setFormNoActionMsg(0, '', 'Final approval form submited to approver successfully', $this->input['status']);
 
@@ -439,6 +515,36 @@
             $mailMsg = str_replace("FEEDBACK_SUGESSTION", $this->input['feedback'], $mailMsg);
 
             return $mailMsg;
+
+        }
+
+        function uploadFileCheck($uploadedFiles, $formNo, $formId) {
+
+            if($formNo == 2) {
+                require_once "classes/class.dmformbriefassesment.php";
+                $briefAssesObj = new dmformbriefassesment();
+                $briefAssesObj->form_brief_assesment_id = $formId;
+                $sql = $briefAssesObj->selectdmformbriefassesment();
+                $result = dbConnection::selectQuery($sql);
+            } else if($formNo == 3) {
+                require_once "classes/class.dmformdetailedpresentation.php";
+                $detPressObj = new dmformdetailedpresentation();
+                $detPressObj->form_detailed_presentation_id = $formId;
+                $sql = $detPressObj->selectdmformdetailedpresentation();
+                $result = dbConnection::selectQuery($sql);
+            }
+            $stroedArray = json_decode($result[0]['uploads'],1);
+            $this->output['sathees'] = $sql;
+
+            foreach($uploadedFiles AS $key => $value) {
+                // if($value[0] != "No Files") {
+                    foreach($value AS $innerKey => $innerValue) {
+                        array_push($stroedArray[$key], $innerValue);
+                    }
+                // }
+            }
+
+            return json_encode($stroedArray);
 
         }
 

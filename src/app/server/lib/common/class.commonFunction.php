@@ -27,6 +27,10 @@ class commonFunction {
 		return file_get_contents($filePath);
 	}
 
+	function escapeMysqlSpecialString($data) {
+		return mysql_escape_string($data);
+	}
+
 }
 
 ?>

@@ -383,10 +383,10 @@ export class UserComponent implements OnInit {
       this.formSubmit(this.firstContactForm.value);
     } else if(this.presentFormNo == 2) {
       this.briefAssesmentForm.controls.status.setValue(3);
-      this.formSubmit(this.briefAssesmentForm.value);
+      this.briefFileAppend();
     } else if(this.presentFormNo == 3) {
       this.detailedPresentaionForm.controls.status.setValue(3);
-      this.formSubmit(this.detailedPresentaionForm.value);
+      this.detailedFileAppend();
     } else {
       alert("Till get approve, You cant proceed with another form");
     }
@@ -509,7 +509,14 @@ export class UserComponent implements OnInit {
       alert("Till get approve, You cant proceed with another form");
       return false;
     }
-    
+
+    this.briefAssesmentForm.controls.status.setValue(2);
+    this.briefFileAppend();  
+
+  }
+
+  briefFileAppend() { 
+
     const formData = new FormData();
       
     for (var i = 0; i < this.uploadFiles_2_0.length; i++) { 
@@ -534,19 +541,7 @@ export class UserComponent implements OnInit {
 
     this.fileUpload(formData, 2);
 
-    // this.briefAssesmentForm.controls.uploadedFiles.setValue(briefAssesmentFileNames);
-
-    // this.briefAssesmentForm.controls.status.setValue(2);
-    // this.formSubmit(this.briefAssesmentForm.value);
-
   }
-
-
-  // briefAssesmentSubmit(){    
-   
-  // }
-
-
 
 
   /***************************************Detailed Presentation******************************************/
@@ -614,6 +609,13 @@ export class UserComponent implements OnInit {
       return false;
     }
 
+    this.detailedPresentaionForm.controls.status.setValue(2);
+    this.detailedFileAppend();  
+
+  }
+
+  detailedFileAppend() {
+
     const formData = new FormData();
       
     for (var i = 0; i < this.uploadFiles_3_0.length; i++) { 
@@ -638,10 +640,6 @@ export class UserComponent implements OnInit {
 
     this.fileUpload(formData, 3);
 
-    // this.detailedPresentaionForm.controls.uploadedFiles.setValue(detailesPresentationFileNames);
-    // this.detailedPresentaionForm.controls.status.setValue(2);
-    // this.formSubmit(this.detailedPresentaionForm.value);
-  
   }
 
   fileUpload(formData, formNo){
@@ -654,11 +652,9 @@ export class UserComponent implements OnInit {
       //return JSON.stringify(response);
       if(formNo == 2) {
         this.briefAssesmentForm.controls.uploadedFiles.setValue(response);
-        this.briefAssesmentForm.controls.status.setValue(2);
         this.formSubmit(this.briefAssesmentForm.value);
       } else if(formNo == 3) {
         this.detailedPresentaionForm.controls.uploadedFiles.setValue(response);
-        this.detailedPresentaionForm.controls.status.setValue(2);
         this.formSubmit(this.detailedPresentaionForm.value);
       }
 

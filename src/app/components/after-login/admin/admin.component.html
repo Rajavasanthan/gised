@@ -12,7 +12,7 @@
    <span class="lead-dark">My Profile</span>
    <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
-  <img src="./assets/images/profile.jpeg" alt="" class="profile__image" />
+  <img src="./assets/images/female.png" alt="" class="profile__image" />
   <div class="profile__name">{{loggedProfile.title}}.{{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
   <hr class="profile__line" />
   <!-- Profile Info -->
@@ -85,6 +85,7 @@
             <th>User Name</th>
             <th>Email ID</th>
             <th>Mobile No</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -97,6 +98,7 @@
               <td>{{record.user_name}}</td>
               <td>{{record.email_id}}</td>
               <td>{{record.mobile_no}}</td>
+              <td>{{record.status_value}}</td>
               <td><button type="button" class="btn btn-primary" (click)="viewUserForm(record.gised_id,record.email_id)">View Form</button></td>
             </tr>            
         </tbody>
