@@ -42,6 +42,14 @@ export class AdminComponent implements OnInit {
   adminFormView : string;
   userRequestList : any;
   userRequestListCount : number;
+  statusTrackingDetailsId : number;
+  processUserId : number;
+  processEmailId : string;
+  progressBar : string;
+  progressMessage : String;
+  emailId : string;
+  approvalBy : number;
+  gisedId : number;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -159,6 +167,12 @@ export class AdminComponent implements OnInit {
       this.adminTableView = "OPEN";
       this.adminFormView = "CLOSE";
       this.userRequestListCount = 0;
+      this.statusTrackingDetailsId = 0;
+      this.processUserId = 0;
+      this.processEmailId = '';
+      this.emailId = '';
+      this.approvalBy = 0;
+      this.gisedId = 0;
       this.firstContactValues = { brief_idea : '', explained_idea : '', about_group : '', first_name : '', last_name : '', email_id : '', organization_name : '', org_details : '', sign_up_for_emails : 'N', r_source_id : { pressads : false } };
 
       //Prepare this request for get logged user informations
@@ -179,6 +193,7 @@ export class AdminComponent implements OnInit {
 
           //Load basic data informations from server
           this.loggedProfile =  this.serverResponse.responseData.loggedProfile;
+          this.emailId = this.serverResponse.responseData.loggedProfile.email_id;
 
           //Admin process assigned
           this.userRequestList = this.serverResponse.responseData.userRequestList;
@@ -207,6 +222,8 @@ export class AdminComponent implements OnInit {
     this.firstContactFormSelector = this.el.nativeElement.querySelector("#firstContactFormId");
     this.briefAssesmentFormSelector = this.el.nativeElement.querySelector("#briefAssesmentFormId");
     this.detailedPresentationFormSelector = this.el.nativeElement.querySelector("#detailedPresentationFormId");
+    //this.progressBar = this.el.nativeElement.querySelector(".modal");
+    //this.progressMessage = this.el.nativeElement.querySelector("#progressMessage");
     
     //Form disable
     this.formsDisable();
@@ -240,6 +257,13 @@ export class AdminComponent implements OnInit {
         this.briefAssesmentValues = this.serverResponse.responseData.briefAssesmentForm;
         this.detailedPresentationValues = this.serverResponse.responseData.detailedPresentationForm;
         this.finalApproval = this.serverResponse.responseData.finalApprovalForm;
+
+        //For approval process
+        this.processUserId = this.serverResponse.responseData.processUserId;
+        this.processEmailId = this.serverResponse.responseData.processEmailId;
+        this.statusTrackingDetailsId = this.serverResponse.responseData.statusTrackingDetailsId;
+        this.approvalBy = this.serverResponse.responseData.approvalBy;
+        this.gisedId = this.serverResponse.responseData.gisedId;
 
         //Form open and close according to the user access
         this.firstContactFormClose = this.serverResponse.responseData.close.firstContactFormClose;
@@ -280,13 +304,14 @@ export class AdminComponent implements OnInit {
   }
 
   viewUserForm(gisetFormNo, emailId) {
-
+    //this.progressBar.classList.add("show-modal");
     this.adminTableView = "CLOSE";
     this.adminFormView = "OPEN";
 
     let data = {
-      'emailId' : emailId,
-      'gisedId' : gisetFormNo
+      emailId : emailId,
+      gisedId : gisetFormNo,
+      loggedEmailId : this.emailId
     };
 
     this.action = "showuserform";
@@ -299,6 +324,93 @@ export class AdminComponent implements OnInit {
     console.log("userlistshow");
     this.adminFormView = "CLOSE";
     this.adminTableView = "OPEN";
+
+  }
+
+  formApprove(formNo) {
+
+    let data = {
+      presentFormNo : this.presentFormNo,
+      userId : this.processUserId,
+      emailId : this.processEmailId,
+      gisedId : this.gisedId,                    
+      statusTrackingDetailsId : this.statusTrackingDetailsId,
+      approvalBy : this.approvalBy,
+      process : 'APPROVE',
+      mailerAction : 'approved',
+      userMsg : 'Form approved mail send to user successfully'
+    };
+
+    this.approverAction(data);  
+
+  }
+
+  formHold(formNo) {
+
+    let data = {
+      presentFormNo : this.presentFormNo,
+      userId : this.processUserId,
+      emailId : this.processEmailId,
+      gisedId : this.gisedId,                    
+      statusTrackingDetailsId : this.statusTrackingDetailsId,
+      approvalBy : this.approvalBy,
+      process : 'DRAFT',
+      mailerAction : 'drafted',
+      userMsg : 'Form save in draft mail send to user successfully'
+    };
+
+    this.approverAction(data); 
+
+  }
+
+  formReject(formNo) {
+
+    let data = {
+      presentFormNo : this.presentFormNo,
+      userId : this.processUserId,
+      emailId : this.processEmailId,
+      gisedId : this.gisedId,                    
+      statusTrackingDetailsId : this.statusTrackingDetailsId,
+      approvalBy : this.approvalBy,
+      process : 'REJECT',
+      mailerAction : 'rejected',
+      userMsg : 'Form rejected mail send to user successfully'
+    };
+
+    this.approverAction(data); 
+
+  }
+
+  approverAction(data) {
+
+    this.serverRequest = {
+      'module' : 'application',
+      'action' : 'approverprocess',
+      'requestData' :  data 
+    }
+
+    this.server.sendToServer(this.serverRequest).
+    subscribe((response) => {
+      this.serverResponse = JSON.parse(this.server.decryption(response['response']));
+      console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      if(this.serverResponse.responseData == 'ERROR') {
+        this.errorMsg = 'Sorry! Something went wrong';
+        alert(this.errorMsg);
+      } else {
+        this.presentFormNo = this.serverResponse.responseData.presentFormNo;        
+        this.action = this.serverResponse.responseData.action;
+        this.userMsg = this.serverResponse.responseData.userMsg;
+        this.currentStatus = this.serverResponse.responseData.status;
+        this.userMsg = this.serverResponse.responseData.userMsg;
+        this.formsDisable();
+        alert(this.userMsg);
+      }
+    }, (error) => {
+      this.errorMsg = 'Sorry! Something went wrong';
+      alert(this.errorMsg);
+    }, () => {
+      console.log('Completed');
+    });
 
   }
 
@@ -385,6 +497,12 @@ export class AdminComponent implements OnInit {
         this.action = this.serverResponse.responseData.action;
         this.userMsg = this.serverResponse.responseData.userMsg;
         this.currentStatus = this.serverResponse.responseData.status;
+
+        this.processUserId = this.serverResponse.responseData.processUserId;
+        this.processEmailId = this.serverResponse.responseData.processEmailId;
+        this.statusTrackingDetailsId = this.serverResponse.responseData.statusTrackingDetailsId;
+        this.approvalBy = this.serverResponse.responseData.approvalBy;
+
         this.formsDisable();
         if(this.action == 'briefassesmentforminsertion') {
           this.briefAssesmentForm.enable();

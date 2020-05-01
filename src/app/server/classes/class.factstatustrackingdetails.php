@@ -87,7 +87,7 @@ class factstatustrackingdetails {
         }
 
         if($this->status != '') {
-            $sql = $sql . " and status = " . $this->status;
+            $sql = $sql . " and status = '". $this->status ."'";
         }
 
         return $sql;
@@ -134,19 +134,24 @@ class factstatustrackingdetails {
         if($this->approval_by != 0) {
             $sql = $sql . $camaa." approval_by = " . $this->approval_by;
             $camaa = ', ';
-        } 
+        }
+        
+        if($this->status != '') {
+            $sql = $sql . $camaa." status = '" . $this->status ."'";
+            $camaa = ', ';
+        }
         
         $sql = $sql . " where ";
 
-        $camaa = " ";   
+        $and = " ";
         if($this->status_tracking_details_id != 0) {
-            $sql = $sql . " status_tracking_details_id = " . $this->status_tracking_details_id;
-            $camaa = ', ';
+            $sql = $sql .$and. " status_tracking_details_id = " . $this->status_tracking_details_id;
+            $and = " and ";
         }
 
-        if($this->status != '') {
-            $sql = $sql . " status = '" . $this->status."'";
-            $camaa = ', ';
+        if($this->r_gised_id != 0) {
+            $sql = $sql .$and. " r_gised_id = " . $this->r_gised_id;
+            $and = " and ";
         }
 
         return $sql;

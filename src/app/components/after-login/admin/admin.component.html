@@ -234,9 +234,17 @@
                    </div>
       </div>
     </form>
-      <button type="submit" class="btn btn-primary first-contact__submit-btn" >
-       Submit
+    <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 1">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(1)">
+       Approve
       </button>
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(1)">
+        Hold
+       </button>
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(1)">
+       Reject
+      </button>
+     </div>
      </div>
     </div>
    </div>
@@ -349,9 +357,17 @@
         {{file}}
       </div>
      </div>
-     <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center">
-      Submit
-     </button>
+     <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 2">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(2)">
+       Approve
+      </button>
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(2)">
+        Hold
+       </button>
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(2)">
+       Reject
+      </button>
+     </div>
     </div>
    </div>
   </div>
@@ -443,9 +459,17 @@
         {{file}}
       </div>
      </div>
-     <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center">
-      Submit
-     </button>
+     <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 3">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(3)">
+       Approve
+      </button>
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(3)">
+        Hold
+       </button>
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(3)">
+       Reject
+      </button>
+     </div>
     </div>
    </div>
   </div>
@@ -465,10 +489,16 @@
       I hereby acknowledge that the information provided is true, correct and
       complete.
      </p>
-     <div class="final-approval__btn-container">
-      <button type="button" class="btn btn-edit" (click)="editForm()">Edit</button>&nbsp;
-      <button type="button" class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>&nbsp;
-      <button type="submit" class="btn btn-primary">Submit</button>
+     <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 4">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(4)">
+       Approve
+      </button>
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(4)">
+        Hold
+       </button>
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(4)">
+       Reject
+      </button>
      </div>
     </div>
    </div>
