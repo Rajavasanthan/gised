@@ -57,21 +57,23 @@ export class ForgotPasswordComponent implements OnInit {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', this.serverResponse);
       this.spinner.hide();
-      this.loader = "Mail id checking and password reset link sending to your mail...";
+      this.loader = "";
       if(this.serverResponse.responseData == 'EMPTY') {
         this.errorMsg = 'Sorry! Mail id not exist';
-        Swal.fire(this.errorMsg)
+        Swal.fire(this.errorMsg);
       } else if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
-        alert(this.errorMsg);
+        Swal.fire(this.errorMsg);
       } else {
-        this.errorMsg = 'New password link sent to email successfully';
-        alert(this.errorMsg);
+        this.errorMsg = 'Reset password link sent to your mail';
+        Swal.fire(this.errorMsg);
       }
       this.router.navigate(['/']);
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
       this.router.navigate(['/']);
     }, () => {
       console.log('Completed');

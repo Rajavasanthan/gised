@@ -20,6 +20,9 @@
                 case 'feedback':
                     $this->feedbackAction();
                     break;
+                case 'feedbackadmin':
+                    $this->feedbackAdminAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
@@ -58,6 +61,43 @@
                 $this->output['userMsg'] = 'Suggesstion mail sent to admin successfully';
             } else {
                 $this->output['userMsg'] = 'Sorry! Something went wrong';
+            }
+
+        }
+
+        function feedbackAdminAction() {
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = GISED_ADMIN_MAIL_ID;
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $admin = $result[0];
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['userEmailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user = $result[0];
+
+            if(isset($user['email_id'])) {
+
+                $mailValues = $this->commonObj->readJsonConfigurations('mails', $this->action, 'action');
+
+                $sendMailObj = new sendMail();
+                $sendMailObj->receiverTitle = $user['title'];
+                $sendMailObj->receiverName = $user['first_name'].' '.$user['last_name'];
+                $sendMailObj->receiverMailId = $user['email_id'];
+                $sendMailObj->subject = $mailValues['mail_subject'];
+                $sendMailObj->message = $this->mailStringReplace($mailValues['mail_message'], $admin);
+                $sendMailObj->link = PRODUCT_LINK;
+
+                $sendMailObj->mail();
+
+                $this->output['userMsg'] = 'Suggesstion mail sent to admin successfully';
+            } else {
+                $this->output['userMsg'] = 'Might be entered user wrong';
             }
 
         }

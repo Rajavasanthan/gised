@@ -43,6 +43,7 @@ class serverController {
 		$this->angularResponse['responseData'] = $moduleObj->getModuleOutput();
 
 		$this->output();
+		
 	}
 
 	function getModule($moduleName) {

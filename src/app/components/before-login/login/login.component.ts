@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import Swal from "sweetalert2";
 
 import { ValidationService } from '../../../services/validation.service';
 import { ServerCallService } from '../../../services/server-call.service';
@@ -15,13 +17,14 @@ export class LoginComponent implements OnInit {
   serverRequest : any;
   serverResponse : any;
   errorMsg : string;
+  loader : string; 
 
   loginForm = new FormGroup({
     emailId : new FormControl('', [Validators.required, Validators.email]),
     password : new FormControl('',[Validators.required, Validators.minLength(8)])
   });
 
-  constructor(private server: ServerCallService, private router:Router) { 
+  constructor(private server: ServerCallService, private router:Router, private spinner: NgxSpinnerService) { 
     
   }
 
@@ -36,20 +39,25 @@ export class LoginComponent implements OnInit {
       'requestData' : this.loginForm.value,
     }
 
+    this.loader = "Checking credentials";
+    this.spinner.show();
+
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'EMPTY') {
         this.errorMsg = 'Sorry! Mail id not exist';
-        alert(this.errorMsg);        
+        Swal.fire(this.errorMsg);
       } else if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
-        alert(this.errorMsg);
+        Swal.fire(this.errorMsg);
       } else {
         if(this.serverResponse.responseData == 'NOTSUCCESS') {
           this.errorMsg = 'Sorry! Invalid credentials';
-          alert(this.errorMsg);
+          Swal.fire(this.errorMsg);
         } else {
           localStorage.setItem('logged', this.loginForm.controls.emailId.value);
           localStorage.setItem('emailId', this.loginForm.controls.emailId.value);
@@ -64,8 +72,10 @@ export class LoginComponent implements OnInit {
         }
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });

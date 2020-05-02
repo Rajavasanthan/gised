@@ -11,8 +11,13 @@
     },
     {
         "action" : "feedback",
-        "mail_subject" : "Gised : Sugesstion and Feedback",
+        "mail_subject" : "Gised : Sugesstion from User",
         "mail_message" : "The gised accound user TITLE. USER_NAME(EMAIL_ID) sent below sugeestion to you.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
+    },
+    {
+        "action" : "feedbackadmin",
+        "mail_subject" : "Gised : Sugesstion from Admin",
+        "mail_message" : "The gised accound admin TITLE. USER_NAME(EMAIL_ID) sent below sugeestion to you.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
     },
     {
         "action" : "approved",

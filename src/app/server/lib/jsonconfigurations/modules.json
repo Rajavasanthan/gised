@@ -18,5 +18,10 @@
         "module_name" : "mailer",
         "file_path" : "classesmodule/class.module.mailer.php",
         "class_name" : "mailer"
+    },
+    {
+        "module_name" : "download",
+        "file_path" : "classesmodule/class.module.download.php",
+        "class_name" : "download"
     }
 ]

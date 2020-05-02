@@ -5,6 +5,9 @@ import { ServerCallService } from '../../../services/server-call.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Configurations } from '../../../config/configurations';
+
+import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import Swal from "sweetalert2";
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas'; 
 
@@ -43,6 +46,7 @@ export class UserComponent implements OnInit {
   firstContactCompleted : number;
   briefAssesmentCompleted : number;
   detailedPresentationCompleted : number;
+  loader : string; 
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -149,8 +153,11 @@ export class UserComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef) { 
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef, private spinner: NgxSpinnerService) { 
     
+      this.loader = "Loading GISED user page";
+      this.spinner.show();
+
       //Define intial values to the variables
       this.currentStatus = 'Nil';
       this.loggedProfile = { title : '' };
@@ -242,6 +249,9 @@ export class UserComponent implements OnInit {
     //Form disable
     this.formsDisable();
 
+    this.spinner.hide();
+    this.loader = "";    
+
   }
 
   ////Form disable
@@ -267,20 +277,28 @@ export class UserComponent implements OnInit {
       'requestData' :  this.feedBackForm.value 
     }
 
+    this.loader = "Sending suggestion to GISET admin";
+    this.spinner.show();
+
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
+        Swal.fire(this.errorMsg);
       } else {
         this.errorMsg = this.serverResponse.responseData.userMsg;
-        alert(this.errorMsg);
-
+        Swal.fire(this.errorMsg);
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -329,14 +347,20 @@ export class UserComponent implements OnInit {
       'action' : this.action,
       'requestData' :  data  
     } 
+
+    this.loader = "Inserting the form data";
+    this.spinner.show();
+
     //Hit to the server for insert first contact form informations
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
-        alert(this.errorMsg);
+        Swal.fire(this.errorMsg);
       } else {
         this.presentFormNo = this.serverResponse.responseData.presentFormNo;        
         this.action = this.serverResponse.responseData.action;
@@ -348,11 +372,13 @@ export class UserComponent implements OnInit {
         } else if(this.action == 'detailedpresentationforminsertion') {
           this.detailedPresentaionForm.enable();
         }
-        alert(this.userMsg);
+        Swal.fire(this.userMsg);
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -422,6 +448,9 @@ export class UserComponent implements OnInit {
   //Share the form according to the action
   shareDetails(formNo, formName) {
 
+    this.loader = "Creating form data to PDF";
+    this.spinner.show();
+
     let data;
     if(formNo == 1) {
       data = document.getElementById('firstContactFormId');  
@@ -445,6 +474,10 @@ export class UserComponent implements OnInit {
       pdf.save(formName); // Generated PDF   
     });
 
+    Swal.fire(formName+" downloaded successfully");
+
+    this.spinner.hide();
+    this.loader = "";
   }
 
   getSelectedFileList(event) {
@@ -538,6 +571,9 @@ export class UserComponent implements OnInit {
   }
 
   briefFileAppend() { 
+
+    this.loader = "Uploading files";
+    this.spinner.show();
 
     const formData = new FormData();
       
@@ -638,6 +674,9 @@ export class UserComponent implements OnInit {
 
   detailedFileAppend() {
 
+    this.loader = "Uploading files";
+    this.spinner.show();
+
     const formData = new FormData();
       
     for (var i = 0; i < this.uploadFiles_3_0.length; i++) { 
@@ -667,6 +706,8 @@ export class UserComponent implements OnInit {
   fileUpload(formData, formNo){
     this.server.sendToServer1(formData).
     subscribe((response) => {
+      this.spinner.hide();
+      this.loader = "";
       //this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       //this.serverResponse = JSON.parse(response);
       console.log('RESPONSE : ', JSON.stringify(response));
@@ -679,11 +720,12 @@ export class UserComponent implements OnInit {
         this.detailedPresentaionForm.controls.uploadedFiles.setValue(response);
         this.formSubmit(this.detailedPresentaionForm.value);
       }
-
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
       //console.log('Error : ', JSON.stringify(error));
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
       this.router.navigate(['/']);
     }, () => {
       console.log('Completed');

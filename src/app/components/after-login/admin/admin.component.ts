@@ -5,6 +5,8 @@ import { ServerCallService } from '../../../services/server-call.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Configurations } from '../../../config/configurations';
+import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import Swal from "sweetalert2";
 
 //Specifid the this component schema
 @Component({
@@ -50,6 +52,7 @@ export class AdminComponent implements OnInit {
   emailId : string;
   approvalBy : number;
   gisedId : number;
+  loader : string; 
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -90,7 +93,8 @@ export class AdminComponent implements OnInit {
 
   //Feed back form and variables declared
   feedBackForm = new FormGroup({
-    feedback : new FormControl('',[Validators.required])
+    feedback : new FormControl('',[Validators.required]),
+    userEmailId : new FormControl('',[Validators.required]),
   });
 
   //First contact form and variables declared
@@ -156,7 +160,10 @@ export class AdminComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef) { 
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef, private spinner: NgxSpinnerService) { 
+  
+    this.loader = "Loading GISED admin page";
+    this.spinner.show();
     
       //Define intial values to the variables
       this.currentStatus = 'Nil';
@@ -226,6 +233,9 @@ export class AdminComponent implements OnInit {
     //Form disable
     this.formsDisable();
 
+    this.spinner.hide();
+    this.loader = "";
+
   }
 
   showSelectedUserFormData(data) {
@@ -237,12 +247,17 @@ export class AdminComponent implements OnInit {
       'requestData' : data 
     }
 
+    this.loader = "Loading form data for selected user";
+    this.spinner.show();
+
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       console.log('RESPONSE : ', this.serverResponse);
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
       } else {
@@ -279,7 +294,10 @@ export class AdminComponent implements OnInit {
         
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -390,10 +408,15 @@ export class AdminComponent implements OnInit {
       'requestData' :  data 
     }
 
+    this.loader = "Changing the form status";
+    this.spinner.show();
+
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
         alert(this.errorMsg);
@@ -404,11 +427,13 @@ export class AdminComponent implements OnInit {
         this.currentStatus = this.serverResponse.responseData.status;
         this.userMsg = this.serverResponse.responseData.userMsg;
         this.formsDisable();
-        alert(this.userMsg);
+        Swal.fire(this.userMsg);
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -419,24 +444,33 @@ export class AdminComponent implements OnInit {
 
     this.serverRequest = {
       'module' : 'mailer',
-      'action' : 'feedback',
+      'action' : 'feedbackadmin',
       'requestData' :  this.feedBackForm.value 
     }
+
+    this.loader = "Suggesstion mail sending to GISET user";
+    this.spinner.show();
 
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
+        Swal.fire(this.errorMsg);
       } else {
         this.errorMsg = this.serverResponse.responseData.userMsg;
-        alert(this.errorMsg);
-
+        Swal.fire(this.errorMsg);
+        this.feedBackForm.reset();
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -473,375 +507,32 @@ export class AdminComponent implements OnInit {
 
   }
 
-  //Form submission
-  formSubmit(data) {
+  fileDownload(file) {
 
-    //Get logged user details
-    //data.emailId = localStorage.getItem('logged');
-
-    //Prepare this request for insert first contact form informations
     this.serverRequest = {
-      'module' : 'userProfile',
-      'action' : this.action,
-      'requestData' :  data  
-    } 
-    //Hit to the server for insert first contact form informations
+      'module' : 'download',
+      'action' : 'download',
+      'requestData' :  { filename : file } 
+    }
+
+    this.loader = "Downloading file";
+    this.spinner.show();
+
+    //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
-      this.serverResponse = JSON.parse(this.server.decryption(response['response']));
-      console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
-      if(this.serverResponse.responseData == 'ERROR') {
-        this.errorMsg = 'Sorry! Something went wrong';
-        alert(this.errorMsg);
-      } else {
-        this.presentFormNo = this.serverResponse.responseData.presentFormNo;        
-        this.action = this.serverResponse.responseData.action;
-        this.userMsg = this.serverResponse.responseData.userMsg;
-        this.currentStatus = this.serverResponse.responseData.status;
-
-        this.processUserId = this.serverResponse.responseData.processUserId;
-        this.processEmailId = this.serverResponse.responseData.processEmailId;
-        this.statusTrackingDetailsId = this.serverResponse.responseData.statusTrackingDetailsId;
-        this.approvalBy = this.serverResponse.responseData.approvalBy;
-
-        this.formsDisable();
-        if(this.action == 'briefassesmentforminsertion') {
-          this.briefAssesmentForm.enable();
-        } else if(this.action == 'detailedpresentationforminsertion') {
-          this.detailedPresentaionForm.enable();
-        }
-        alert(this.userMsg);
-      }
+      this.spinner.hide();
+      this.loader = "";
+      Swal.fire(this.serverResponse.responseData.userMsg);
     }, (error) => {
-      this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      this.spinner.hide();
+      this.loader = "";
+      this.errorMsg = 'File downloaded';
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
 
-  }
-
-  firstContactFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-
-    this.firstContactForm.controls.status.setValue(2);
-    this.formSubmit(this.firstContactForm.value);
-
-  }
-
-  //Final approval presentation form insertion
-  finalApprovalFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-
-    this.finalApprovalForm.controls.status.setValue(2);
-    this.formSubmit(this.finalApprovalForm.value);
-
-  }
-
-  //Save present form values
-  saveAsDraft() {
-
-    //Check the conditions for which form present
-    if(this.presentFormNo == 1) {
-      this.firstContactForm.controls.status.setValue(3);
-      this.formSubmit(this.firstContactForm.value);
-    } else if(this.presentFormNo == 2) {
-      this.briefAssesmentForm.controls.status.setValue(3);
-      this.formSubmit(this.briefAssesmentForm.value);
-    } else if(this.presentFormNo == 3) {
-      this.detailedPresentaionForm.controls.status.setValue(3);
-      this.formSubmit(this.detailedPresentaionForm.value);
-    } else {
-      alert("Till get approve, You cant proceed with another form");
-    }
-
-  }
-
-  //Edit present form
-  editForm() {
-
-    //Check the conditions for which form present
-    if(this.presentFormNo == 1) {
-      this.firstContactForm.enable();
-    } else if(this.presentFormNo == 2) {
-      this.briefAssesmentForm.enable();
-    } else if(this.presentFormNo == 3) {
-      this.detailedPresentaionForm.enable();
-    } else {
-      alert("Till get approve, You cant proceed with another form");
-    }   
-
-  }
-
-  //Share the form according to the action
-  shareDetails($formNo) {
-
-    if($formNo == 1) {
-      let divContents = document.getElementById("firstContactFormId").innerHTML; 
-      let a = window.open('', '', 'height=500, width=500'); 
-      a.document.write('<html>'); 
-      a.document.write('<body>'); 
-      a.document.write(divContents); 
-      a.document.write('</body></html>'); 
-      a.document.close();
-      a.print(); 
-    }
-
-  }
-
-  getSelectedFileList(event) {
-
-    if (event.target.files && event.target.files[0]) {
-      let filesCount = event.target.files.length;
-      console.log(event.target);
-      console.log(event.target.files);
-      for (let i = 0; i < filesCount; i++) {
-        console.log(event.target.result);
-              // var reader = new FileReader();
-              // reader.onload = (event:any) => {
-              //   console.log(event.target.result);
-              //    this.urls.push(event.target.result); 
-              // }
-              // reader.readAsDataURL(event.target.files[i]);
-      }
-    }
-
-  }
-
-
-  /****************************Brief Assesment Form works *******************************/
-    
-  onFileChangePurpose(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-          this.uploadFiles_2_0.push(event.target.files[i]);
-          this.uploadFiles_2_0Len = this.uploadFiles_2_0Len + 1;
-      }
-    }
-  }
-
-  onFileChangeDetailed(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-          this.uploadFiles_2_1.push(event.target.files[i]);
-          this.uploadFiles_2_1Len = this.uploadFiles_2_1Len + 1;
-      }
-    }
-  }
-
-  onFileChangeEstimated(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-          this.uploadFiles_2_2.push(event.target.files[i]);
-          this.uploadFiles_2_2Len = this.uploadFiles_2_2Len + 1;
-      }
-    }
-  }
-
-  onFileChangePeriod(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-          this.uploadFiles_2_3.push(event.target.files[i]);
-          this.uploadFiles_2_3Len = this.uploadFiles_2_3Len + 1;
-      }
-    }
-  }
-
-  onFileChangePurpose1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-          this.uploadFiles_2_4.push(event.target.files[i]);
-          this.uploadFiles_2_4Len = this.uploadFiles_2_4Len + 1;
-      }
-    }
-  }
-
-  //Brief assesment form insertion
-  briefAssesmentFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-    
-    const formData = new FormData();
-      
-    for (var i = 0; i < this.uploadFiles_2_0.length; i++) { 
-      formData.append("purpose[]", this.uploadFiles_2_0[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_2_1.length; i++) { 
-      formData.append("detailed[]", this.uploadFiles_2_1[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_2_2.length; i++) { 
-      formData.append("estimated[]", this.uploadFiles_2_2[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_2_3.length; i++) { 
-      formData.append("period[]", this.uploadFiles_2_3[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_2_4.length; i++) { 
-      formData.append("purpose1[]", this.uploadFiles_2_4[i]);
-    }
-
-    this.fileUpload(formData, 2);
-
-    // this.briefAssesmentForm.controls.uploadedFiles.setValue(briefAssesmentFileNames);
-
-    // this.briefAssesmentForm.controls.status.setValue(2);
-    // this.formSubmit(this.briefAssesmentForm.value);
-
-  }
-
-
-  // briefAssesmentSubmit(){    
-   
-  // }
-
-
-
-
-  /***************************************Detailed Presentation******************************************/
-  onFileChangePurpose_1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-        this.uploadFiles_3_0.push(event.target.files[i]);
-        this.uploadFiles_3_0Len = this.uploadFiles_3_0Len + 1;
-      }
-          
-    }
-  }
-
-  onFileChangeDetailed_1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-        this.uploadFiles_3_1.push(event.target.files[i]);
-        this.uploadFiles_3_1Len = this.uploadFiles_3_1Len + 1;
-      }
-    }
-  }
-
-  onFileChangeEstimated_1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-        this.uploadFiles_3_2.push(event.target.files[i]);
-        this.uploadFiles_3_2Len = this.uploadFiles_3_2Len + 1;
-      }
-    }
-  }
-
-  onFileChangePeriod_1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-        this.uploadFiles_3_3.push(event.target.files[i]);
-        this.uploadFiles_3_3Len = this.uploadFiles_3_3Len + 1;
-      }
-    }
-  }
-
-  onFileChangePurpose1_1(event) {
-    for (var i = 0; i < event.target.files.length; i++) { 
-      if (event.target.files[i].size > this.maxAllowedSize) {
-      	alert("File is too big! Max Allowed 15MB");
-      }else{
-        this.uploadFiles_3_4.push(event.target.files[i]);
-        this.uploadFiles_3_4Len = this.uploadFiles_3_4Len + 1;
-      }
-    }
-  }
-
-  //Detailed presentation form insertion
-  detailedPresentaionFormInsert() {
-
-    if(this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
-      return false;
-    }
-
-    const formData = new FormData();
-      
-    for (var i = 0; i < this.uploadFiles_3_0.length; i++) { 
-      formData.append("purpose[]", this.uploadFiles_3_0[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_3_1.length; i++) { 
-      formData.append("detailed[]", this.uploadFiles_3_1[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_3_2.length; i++) { 
-      formData.append("estimated[]", this.uploadFiles_3_2[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_3_3.length; i++) { 
-      formData.append("period[]", this.uploadFiles_3_3[i]);
-    }
-
-    for (var i = 0; i < this.uploadFiles_3_4.length; i++) { 
-      formData.append("purpose1[]", this.uploadFiles_3_4[i]);
-    }
-
-    this.fileUpload(formData, 3);
-
-    // this.detailedPresentaionForm.controls.uploadedFiles.setValue(detailesPresentationFileNames);
-    // this.detailedPresentaionForm.controls.status.setValue(2);
-    // this.formSubmit(this.detailedPresentaionForm.value);
-  
-  }
-
-  fileUpload(formData, formNo){
-    this.server.sendToServer1(formData).
-    subscribe((response) => {
-      //this.serverResponse = JSON.parse(this.server.decryption(response['response']));
-      //this.serverResponse = JSON.parse(response);
-      console.log('RESPONSE : ', JSON.stringify(response));
-      //alert('success');
-      //return JSON.stringify(response);
-      if(formNo == 2) {
-        this.briefAssesmentForm.controls.uploadedFiles.setValue(response);
-        this.briefAssesmentForm.controls.status.setValue(2);
-        this.formSubmit(this.briefAssesmentForm.value);
-      } else if(formNo == 3) {
-        this.detailedPresentaionForm.controls.uploadedFiles.setValue(response);
-        this.detailedPresentaionForm.controls.status.setValue(2);
-        this.formSubmit(this.detailedPresentaionForm.value);
-      }
-
-    }, (error) => {
-      this.errorMsg = 'Sorry! Something went wrong';
-      //console.log('Error : ', JSON.stringify(error));
-      alert(this.errorMsg);
-      this.router.navigate(['/']);
-    }, () => {
-      console.log('Completed');
-    });
   }
 
 }

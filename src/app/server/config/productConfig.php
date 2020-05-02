@@ -31,4 +31,7 @@ define('GISED_ADMIN_MAIL_ID', 'nsatheeskumar.www@gmail.com');
 //User uploads file path
 define('USER_UPLOAD_PATH', '../uploads/useruploads/');
 
+//User downloads file path
+define('USER_DOWNLOAD_PATH', 'uploads/useruploads/');
+
 ?>

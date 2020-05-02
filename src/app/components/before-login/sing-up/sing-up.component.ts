@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import Swal from "sweetalert2";
 
 import { ValidationService } from '../../../services/validation.service';
 import { ServerCallService } from '../../../services/server-call.service';
@@ -17,7 +19,7 @@ export class SingUpComponent implements OnInit {
   emailErrorMsg : string;
   errorMsg : string;
   countries : any;
- 
+  loader : string; 
 
   signUpForm = new FormGroup({
     fullName : new FormControl('', [Validators.required]),
@@ -28,7 +30,7 @@ export class SingUpComponent implements OnInit {
     country : new FormControl('', [Validators.required])
   });
 
-  constructor(private server: ServerCallService, private router: Router) { 
+  constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService) { 
 
     this.serverRequest = {
       'module' : 'login',
@@ -36,17 +38,26 @@ export class SingUpComponent implements OnInit {
       'requestData' : ''
     } 
 
+    this.loader = "Preparing signup page";
+    this.spinner.show();
+
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
+        Swal.fire(this.errorMsg);
       } else {
         this.countries = this.serverResponse.responseData;
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
     }, () => {
       console.log('Completed');
     });
@@ -96,22 +107,29 @@ export class SingUpComponent implements OnInit {
       'requestData' : this.signUpForm.value,
     } 
 
+    this.loader = "Creating your profile on GISET";
+    this.spinner.show();
+
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', this.serverResponse);
+      this.spinner.hide();
+      this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
-        alert(this.errorMsg);
+        Swal.fire(this.errorMsg);
         this.router.navigate(['/']);
       } else {
         this.errorMsg = 'Account created successfully. Complete account creation check your mail to set password.';
-        alert(this.errorMsg);
+        Swal.fire(this.errorMsg);
         this.router.navigate(['/']);
       }
     }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
-      alert(this.errorMsg);
+      Swal.fire(this.errorMsg);
       this.router.navigate(['/']);
     }, () => {
       console.log('Completed');

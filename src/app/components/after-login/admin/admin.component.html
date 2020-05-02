@@ -69,6 +69,7 @@
  <div class="application__suggestion clearfix">
   <h6>Suggestions or Comments</h6>
   <textarea class="block" formControlName="feedback"></textarea>
+  <input type="text" class="first-contact__input" formControlName="userEmailId"/>
   <button type="submit" class="btn btn-primary" [disabled]="!feedBackForm.valid">
    Submit
   </button>
@@ -305,7 +306,7 @@
        </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file}}
+        {{file}}&nbsp;<button type="button" (click)="fileDownload(file)" style="margin:5px;">Download</button>
       </div><br>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -468,3 +469,4 @@
   </div>
  </div>
 </div>
+<ngx-spinner [fullScreen]="false" type="cog" size="medium"><p class="loader-message">{{loader}}</p></ngx-spinner>
