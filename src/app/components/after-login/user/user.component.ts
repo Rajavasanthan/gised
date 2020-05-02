@@ -5,6 +5,8 @@ import { ServerCallService } from '../../../services/server-call.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Configurations } from '../../../config/configurations';
+import * as jspdf from 'jspdf';  
+import html2canvas from 'html2canvas'; 
 
 //Specifid the this component schema
 @Component({
@@ -38,6 +40,9 @@ export class UserComponent implements OnInit {
   firstContactFormSelector : any;
   briefAssesmentFormSelector : any;
   detailedPresentationFormSelector : any;
+  firstContactCompleted : number;
+  briefAssesmentCompleted : number;
+  detailedPresentationCompleted : number;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -152,7 +157,9 @@ export class UserComponent implements OnInit {
       this.firstContactFormClose = "OPEN";
       this.briefAssesmentFormClose = "OPEN";
       this.detailedPresentationFormClose = "OPEN";
-      this.firstContactValues = { brief_idea : '', explained_idea : '', about_group : '', first_name : '', last_name : '', email_id : '', organization_name : '', org_details : '', sign_up_for_emails : 'N', r_source_id : { pressads : false } };
+      this.firstContactCompleted = 0;
+      this.briefAssesmentCompleted = 0;
+      this.detailedPresentationCompleted = 0;
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
@@ -186,14 +193,17 @@ export class UserComponent implements OnInit {
           this.firstContactFormClose = this.serverResponse.responseData.close.firstContactFormClose;
           if(this.firstContactFormClose == "CLOSE") {
             this.firstContactFormSelector.classList.add('completed');           
+            this.firstContactCompleted = 1;
           }
           this.briefAssesmentFormClose = this.serverResponse.responseData.close.briefAssesmentFormClose;
           if(this.briefAssesmentFormClose == "CLOSE") {
             this.briefAssesmentFormSelector.classList.add('completed');           
+            this.briefAssesmentCompleted = 2;
           }
           this.detailedPresentationFormClose = this.serverResponse.responseData.close.detailedPresentationFormClose;
           if(this.detailedPresentationFormClose == "CLOSE") {
             this.detailedPresentationFormSelector.classList.add('completed');           
+            this.detailedPresentationCompleted = 3;
           }
           
           //Open form for initial action
@@ -277,9 +287,9 @@ export class UserComponent implements OnInit {
 
   }
 
-  seeDetails($formNo) {
+  seeDetails(formNo) {
 
-    if($formNo == 1) {
+    if(formNo == 1) {
       if(this.firstContactFormClose == "OPEN") {
         this.firstContactFormClose = "CLOSE";
         this.firstContactFormSelector.classList.add('completed');
@@ -287,7 +297,7 @@ export class UserComponent implements OnInit {
         this.firstContactFormClose = "OPEN";
         this.firstContactFormSelector.classList.remove('completed');
       }
-    } else if($formNo == 2) {
+    } else if(formNo == 2) {
       if(this.briefAssesmentFormClose == "OPEN") {
         this.briefAssesmentFormClose = "CLOSE";
         this.briefAssesmentFormSelector.classList.add('completed');
@@ -295,7 +305,7 @@ export class UserComponent implements OnInit {
         this.briefAssesmentFormClose = "OPEN";
         this.briefAssesmentFormSelector.classList.remove('completed');
       }
-    } else if($formNo == 3) {
+    } else if(formNo == 3) {
       if(this.detailedPresentationFormClose == "OPEN") {
         this.detailedPresentationFormClose = "CLOSE";
         this.detailedPresentationFormSelector.classList.add('completed');
@@ -410,18 +420,30 @@ export class UserComponent implements OnInit {
   }
 
   //Share the form according to the action
-  shareDetails($formNo) {
+  shareDetails(formNo, formName) {
 
-    if($formNo == 1) {
-      let divContents = document.getElementById("firstContactFormId").innerHTML; 
-      let a = window.open('', '', 'height=500, width=500'); 
-      a.document.write('<html>'); 
-      a.document.write('<body>'); 
-      a.document.write(divContents); 
-      a.document.write('</body></html>'); 
-      a.document.close();
-      a.print(); 
+    let data;
+    if(formNo == 1) {
+      data = document.getElementById('firstContactFormId');  
+    } else if(formNo == 2) {
+      data = document.getElementById('briefAssesmentFormId');  
+    } else if(formNo == 3) {
+      data = document.getElementById('detailedPresentationFormId');  
     }
+    
+    html2canvas(data).then(canvas => {  
+      // Few necessary setting options  
+      var imgWidth = 208;   
+      var pageHeight = 295;    
+      var imgHeight = canvas.height * imgWidth / canvas.width;  
+      var heightLeft = imgHeight;  
+  
+      const contentDataURL = canvas.toDataURL('image/png')  
+      let pdf = new jspdf('p', 'mm', 'a4'); // A4 size page of PDF  
+      var position = 0;  
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight)  
+      pdf.save(formName); // Generated PDF   
+    });
 
   }
 

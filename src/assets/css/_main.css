@@ -893,3 +893,10 @@ body {
 .show {
   display: block;
 }
+.swal2-popup {
+  font-size : 0.6rem !important;
+}
+.btn-href  {
+  margin: 15px;
+  padding: 5px;
+}
