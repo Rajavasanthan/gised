@@ -306,7 +306,7 @@
        </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file}}&nbsp;<button type="button" (click)="fileDownload(file)" style="margin:5px;">Download</button>
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -314,13 +314,13 @@
        </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -328,7 +328,7 @@
        </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -337,7 +337,7 @@
        </span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
      </div>
      <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 2">
@@ -388,7 +388,7 @@
        </span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -396,13 +396,13 @@
        </span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -410,7 +410,7 @@
        </span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -419,7 +419,7 @@
        </span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}&nbsp;<button type="button" (click)="fileDownload(file.displayFileName,file.downloadFileName)" style="margin:5px;">Download</button>
       </div><br>
      </div>
      <div class="first-contact__admin-btn-container" *ngIf="presentFormNo == 3">

@@ -47,6 +47,7 @@ export class UserComponent implements OnInit {
   briefAssesmentCompleted : number;
   detailedPresentationCompleted : number;
   loader : string; 
+  emailId : string;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -167,12 +168,13 @@ export class UserComponent implements OnInit {
       this.firstContactCompleted = 0;
       this.briefAssesmentCompleted = 0;
       this.detailedPresentationCompleted = 0;
+      this.emailId = localStorage.getItem('logged');
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
         'module' : 'userProfile',
         'action' : 'showprofile',
-        'requestData' : { 'emailId' : localStorage.getItem('logged') }
+        'requestData' : { 'emailId' : this.emailId }
       } 
       //Hit to the server for get logged user informations
       this.server.sendToServer(this.serverRequest).
@@ -339,7 +341,7 @@ export class UserComponent implements OnInit {
   formSubmit(data) {
 
     //Get logged user details
-    data.emailId = localStorage.getItem('logged');
+    data.emailId = this.emailId;
 
     //Prepare this request for insert first contact form informations
     this.serverRequest = {

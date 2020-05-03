@@ -5,6 +5,7 @@ import { ServerCallService } from '../../../services/server-call.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Configurations } from '../../../config/configurations';
+import { saveAs as importedSaveAs } from 'file-saver';
 import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
 import Swal from "sweetalert2";
 
@@ -180,13 +181,13 @@ export class AdminComponent implements OnInit {
       this.emailId = '';
       this.approvalBy = 0;
       this.gisedId = 0;
-      this.firstContactValues = { brief_idea : '', explained_idea : '', about_group : '', first_name : '', last_name : '', email_id : '', organization_name : '', org_details : '', sign_up_for_emails : 'N', r_source_id : { pressads : false } };
+      this.emailId = localStorage.getItem('logged');
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
         'module' : 'userProfile',
         'action' : 'showprofile',
-        'requestData' : { 'emailId' : localStorage.getItem('logged') }
+        'requestData' : { 'emailId' : this.emailId }
       } 
       //Hit to the server for get logged user informations
       this.server.sendToServer(this.serverRequest).
@@ -235,6 +236,44 @@ export class AdminComponent implements OnInit {
 
     this.spinner.hide();
     this.loader = "";
+
+  }
+
+  showTableList() {
+
+    //Prepare this request for get logged user informations
+    this.serverRequest = {
+      'module' : 'userProfile',
+      'action' : 'adminlist',
+      'requestData' : { admint : true } 
+    }  
+
+    this.loader = "Loading list for admin";
+    this.spinner.show();
+
+    //Hit to the server for get logged user informations
+    this.server.sendToServer(this.serverRequest).
+    subscribe((response) => {
+      this.serverResponse = JSON.parse(this.server.decryption(response['response']));
+      console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      console.log('RESPONSE : ', this.serverResponse);
+      this.spinner.hide();
+      this.loader = "";
+      if(this.serverResponse.responseData == 'ERROR') {
+        this.errorMsg = 'Sorry! Something went wrong';
+      } else {
+        //Admin process assigned
+        this.userRequestList = this.serverResponse.responseData.userRequestList;
+        this.userRequestListCount = this.serverResponse.responseData.userRequestListCount;
+      }
+    }, (error) => {
+      this.spinner.hide();
+      this.loader = "";
+      this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
+    }, () => {
+      console.log('Completed');
+    });
 
   }
 
@@ -339,6 +378,8 @@ export class AdminComponent implements OnInit {
   }
 
   viewUserList() {
+
+    this.showTableList();
 
     console.log("userlistshow");
     this.adminFormView = "CLOSE";
@@ -507,30 +548,20 @@ export class AdminComponent implements OnInit {
 
   }
 
-  fileDownload(file) {
+  fileDownload(displayFile,downloadfile) {
 
     this.serverRequest = {
       'module' : 'download',
       'action' : 'download',
-      'requestData' :  { filename : file } 
+      'requestData' :  { filename : downloadfile } 
     }
 
     this.loader = "Downloading file";
     this.spinner.show();
 
     //Hit to the server for get logged user informations
-    this.server.sendToServer(this.serverRequest).
-    subscribe((response) => {
-      this.spinner.hide();
-      this.loader = "";
-      Swal.fire(this.serverResponse.responseData.userMsg);
-    }, (error) => {
-      this.spinner.hide();
-      this.loader = "";
-      this.errorMsg = 'File downloaded';
-      Swal.fire(this.errorMsg);
-    }, () => {
-      console.log('Completed');
+    this.server.downloadFile(downloadfile).subscribe(blob => {
+      importedSaveAs(blob, displayFile);
     });
 
   }

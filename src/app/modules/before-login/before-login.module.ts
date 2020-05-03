@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { NgxSpinnerModule } from "../../../../node_modules/ngx-spinner";
 
 import { ValidationService } from '../../services/validation.service';
@@ -35,7 +36,8 @@ import { SetPasswordComponent } from '../../components/before-login/set-password
     BeforeLoginRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    HttpModule
   ],
   providers: [ValidationService,ServerCallService,AuthService],
   bootstrap: [IndexComponent,FooterComponent]

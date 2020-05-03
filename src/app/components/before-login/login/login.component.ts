@@ -60,8 +60,6 @@ export class LoginComponent implements OnInit {
           Swal.fire(this.errorMsg);
         } else {
           localStorage.setItem('logged', this.loginForm.controls.emailId.value);
-          localStorage.setItem('emailId', this.loginForm.controls.emailId.value);
-          localStorage.setItem('userDetails', this.serverResponse.responseData.userDetails);
           console.log('Logged Sucessfully '+this.serverResponse.responseData.userTypeId);
           
           if(this.serverResponse.responseData.userTypeId == 1) {

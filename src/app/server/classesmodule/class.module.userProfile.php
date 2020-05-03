@@ -27,9 +27,18 @@
                 case 'showuserform':
                     $this->showUserFormAction();
                     break;
+                case 'adminlist':
+                    $this->adminListAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
+        }
+
+        function adminListAction() {
+
+            $this->adminData();
+
         }
 
         function showUserFormAction() {
@@ -239,13 +248,17 @@
 
         function getFileNameOnly($files) {
 
+            $preparedFiles = array();
             foreach($files AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $files[$key][$innerKey] = explode("___",$innerValue)[1];
+                    if($innerValue != "" && $innerValue != "No Files") {
+                        $preparedFiles[$key][$innerKey]['displayFileName'] = explode("___",$innerValue)[1];
+                        $preparedFiles[$key][$innerKey]['downloadFileName'] = $innerValue;
+                    }
                 }
             }
 
-            return $files;
+            return $preparedFiles;
 
         }
 
