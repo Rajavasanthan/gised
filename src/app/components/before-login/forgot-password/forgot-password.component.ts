@@ -20,10 +20,10 @@ export class ForgotPasswordComponent implements OnInit {
   loader : string;
 
   forgotPasswordForm = new FormGroup({
-    emailId : new FormControl('', [Validators.required, Validators.email])
+    emailId : new FormControl('', [Validators.required, Validators.pattern(this.validation.emailIdPattern)])
   });
 
-  constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService) {
+  constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService,private validation:ValidationService) {
 
     this.loader = '';
 

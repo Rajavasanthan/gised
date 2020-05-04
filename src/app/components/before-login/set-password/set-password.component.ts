@@ -22,12 +22,12 @@ export class SetPasswordComponent implements OnInit {
   loader : string;
 
   setPasswordForm = new FormGroup({
-    password : new FormControl('', [Validators.required]),
+    password : new FormControl('', [Validators.required,Validators.pattern(this.validation.passwordPattern)]),
     confirmPassword : new FormControl('', [Validators.required]),
   });
 
 
-  constructor(private route: ActivatedRoute, private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService) { 
+  constructor(private route: ActivatedRoute, private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService,private validation:ValidationService) { 
     this.route.params.subscribe( (params) => {
       
       console.log(JSON.stringify(params));
@@ -118,6 +118,15 @@ export class SetPasswordComponent implements OnInit {
       console.log('Completed');
     });
 
+  }
+
+  /*************************** Validation works ******************************/
+  passwordErr : String;
+  confirmPasswordErr : String;
+
+
+  passwordCheckVal(val:any){
+    this.passwordErr = this.validation.passwordValidation(val);
   }
 
 }
