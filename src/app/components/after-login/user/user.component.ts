@@ -10,6 +10,7 @@ import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
 import Swal from "sweetalert2";
 import * as jspdf from 'jspdf';  
 import html2canvas from 'html2canvas'; 
+import { ValidationService } from 'src/app/services/validation.service';
 
 //Specifid the this component schema
 @Component({
@@ -93,12 +94,12 @@ export class UserComponent implements OnInit {
 
   //First contact form and variables declared
   firstContactForm = new FormGroup({
-    describeIdea1 : new FormControl('', [Validators.required]),
-    describeIdea2 : new FormControl('', [Validators.required]),
-    describeIdea3 : new FormControl('', [Validators.required]),
-    firstName : new FormControl('', [Validators.required]),
-    lastName : new FormControl('', [Validators.required]),
-    email : new FormControl('', [Validators.required, Validators.email]),
+    describeIdea1 : new FormControl('', [Validators.required,Validators.pattern(this.validation.descriptionPattern)]),
+    describeIdea2 : new FormControl('', [Validators.required,Validators.pattern(this.validation.descriptionPattern)]),
+    describeIdea3 : new FormControl('', [Validators.required,Validators.pattern(this.validation.descriptionPattern)]),
+    firstName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+    lastName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+    email : new FormControl('', [Validators.required,Validators.pattern(this.validation.emailIdPattern)]),
     organizationName : new FormControl('', [Validators.required]),
     orgDetails : new FormControl('', [Validators.required]),
     signUpEmail : new FormControl('', [Validators.required]),
@@ -119,9 +120,9 @@ export class UserComponent implements OnInit {
 
   //Brief assesment form and variables declared
   briefAssesmentForm = new FormGroup({
-    name : new FormControl('',[Validators.required]),
+    name : new FormControl('',[Validators.required,Validators.pattern(this.validation.namePattern)]),
     address : new FormControl('',[Validators.required]),
-    email : new FormControl('',[Validators.required]),
+    email : new FormControl('',[Validators.required,Validators.pattern(this.validation.emailIdPattern)]),
     telephoneNo : new FormControl(0,[Validators.required]),
     website : new FormControl('',[Validators.required]),    
     purposeOfProject1 : new FormControl('',[Validators.required]),
@@ -133,7 +134,6 @@ export class UserComponent implements OnInit {
     status : new FormControl(2),
     uploadedFiles : new FormControl()
   });
-
   //Detailed presentation form and variables declared
   detailedPresentaionForm = new FormGroup({
     purposeOfProject1 : new FormControl('',[Validators.required]),
@@ -154,7 +154,7 @@ export class UserComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef, private spinner: NgxSpinnerService) { 
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef, private spinner: NgxSpinnerService,private validation:ValidationService) { 
     
       this.loader = "Loading GISED user page";
       this.spinner.show();
