@@ -360,11 +360,6 @@ export class AdminComponent implements OnInit {
 
   viewUserForm(gisetFormNo, emailId) {
 
-    //this.product.productLoader("SHOW", "This is simple loader");
-    //this.progressBar.classList.add("show-modal");
-    this.adminTableView = "CLOSE";
-    this.adminFormView = "OPEN";
-
     let data = {
       emailId : emailId,
       gisedId : gisetFormNo,
@@ -372,12 +367,19 @@ export class AdminComponent implements OnInit {
       admin : true
     };
 
+    this.feedBackForm.controls.userEmailId.setValue(emailId);
+
     this.action = "showuserform";
     this.showSelectedUserFormData(data);
+
+    this.adminTableView = "CLOSE";
+    this.adminFormView = "OPEN";
 
   }
 
   viewUserList() {
+
+    this.feedBackForm.controls.userEmailId.setValue('');
 
     this.showTableList();
 

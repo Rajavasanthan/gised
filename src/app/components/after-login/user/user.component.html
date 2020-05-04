@@ -110,7 +110,7 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="btn-href text-primary" (click)="seeDetails(1)">See details</button>
+      <button type="button" class="btn btn-primary" (click)="seeDetails(1)">See details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -219,8 +219,8 @@
       <button type="submit" class="btn btn-primary first-contact__submit-btn" *ngIf="firstContactCompleted == 0">
        Submit
       </button>
-      <button type="button" class="btn-href text-primary" (click)="seeDetails(1)" *ngIf="firstContactCompleted != 0">Close details</button>
-      <button type="button" class="btn-href text-primary" (click)="shareDetails(1, 'First_Contact.pdf')" *ngIf="firstContactCompleted != 0">Share the details</button>
+      <button type="button" class="btn btn-primary" (click)="seeDetails(1)" *ngIf="firstContactCompleted != 0">Close details</button>&nbsp;&nbsp;
+      <button type="button" class="btn btn-primary" (click)="shareDetails(1, 'First_Contact.pdf')" *ngIf="firstContactCompleted != 0">Share the details</button>
      </div>
     </div>
    </div>
@@ -242,7 +242,7 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="btn-href text-primary" (click)="seeDetails(2)">See details</button>
+      <button type="button" class="btn btn-primary" (click)="seeDetails(2)">See details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -282,7 +282,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_0Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -294,7 +294,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_1Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
@@ -304,7 +304,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_2Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -316,7 +316,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_3Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="brief-assesment__fileupload-container">
        <span class="lead-dark"
@@ -329,14 +329,14 @@
        </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_4Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
      </div>
      <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center" *ngIf="briefAssesmentCompleted == 0">
       Submit
      </button>
-     <button type="button" class="btn-href text-primary" (click)="seeDetails(2)" *ngIf="briefAssesmentCompleted != 0">Close details</button>
-     <button type="button" class="btn-href text-primary" (click)="shareDetails(2, 'Brief_Assement.pdf')" *ngIf="briefAssesmentCompleted != 0">Share the details</button>
+     <button type="button" class="btn btn-primary" (click)="seeDetails(2)" *ngIf="briefAssesmentCompleted != 0">Close details</button>&nbsp;&nbsp;
+     <button type="button" class="btn btn-primary" (click)="shareDetails(2, 'Brief_Assement.pdf')" *ngIf="briefAssesmentCompleted != 0">Share the details</button>
     </div>
    </div>
   </div>
@@ -357,7 +357,7 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="btn-href text-primary" (click)="seeDetails(3)">See details</button>
+      <button type="button" class="btn btn-primary" (click)="seeDetails(3)">See details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -377,7 +377,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_0Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -389,7 +389,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_1Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark">Estimated overall Budget </span>
@@ -399,7 +399,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_2Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -411,7 +411,7 @@
        </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_3Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
       <div class="detailed-presentation__fileupload-container">
        <span class="lead-dark"
@@ -424,14 +424,14 @@
        </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_4Len}} Files Selected</span>
       </div>
       <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-        {{file}}
+        {{file.displayFileName}}
       </div>
      </div>
      <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center" *ngIf="detailedPresentationCompleted == 0">
       Submit
      </button>
-     <button type="button" class="btn-href text-primary" (click)="seeDetails(3)" *ngIf="detailedPresentationCompleted != 0">Close details</button>
-     <button type="button" class="btn-href text-primary" (click)="shareDetails(3, 'Detailed_Presentation.pdf')" *ngIf="detailedPresentationCompleted != 0">Share the details</button>
+     <button type="button" class="btn btn-primary" (click)="seeDetails(3)" *ngIf="detailedPresentationCompleted != 0">Close details</button>&nbsp;&nbsp;
+     <button type="button" class="btn btn-primary" (click)="shareDetails(3, 'Detailed_Presentation.pdf')" *ngIf="detailedPresentationCompleted != 0">Share the details</button>
     </div>
    </div>
   </div>
