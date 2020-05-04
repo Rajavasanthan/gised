@@ -22,15 +22,15 @@ export class SingUpComponent implements OnInit {
   loader : string; 
 
   signUpForm = new FormGroup({
-    fullName : new FormControl('', [Validators.required]),
-    emailId : new FormControl('', [Validators.required, Validators.email]),
-    mobileNo : new FormControl('', [Validators.required]),
+    fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+    emailId : new FormControl('', [Validators.required, Validators.pattern(this.validation.emailIdPattern)]),
+    mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
     gender : new FormControl('', [Validators.required]),
-    age : new FormControl('', [Validators.required]),
+    age : new FormControl('', [Validators.required,Validators.pattern(this.validation.agePattern)]),
     country : new FormControl('', [Validators.required])
   });
 
-  constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService) { 
+  constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService,private validation:ValidationService) { 
 
     this.serverRequest = {
       'module' : 'login',

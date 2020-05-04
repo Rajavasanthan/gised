@@ -5,12 +5,23 @@ import { Injectable } from '@angular/core';
 })
 export class ValidationService {
   validationStatus : boolean;
+  emailIdPattern : any;  
+  passwordPattern : any;
+  namePattern : any;
+  mobilePattern : any;
+  agePattern : any;
+  descriptionPattern : any;
   
 
   constructor() { 
     
     this.validationStatus = true;
-  
+    this.emailIdPattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    this.passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    this.namePattern = /^[a-zA-Z ]{1,50}$/;
+    this.mobilePattern = /^[0][1-9]\d{9}$|^[1-9]\d{9}$/;
+    this.agePattern = /(?:\b|-)([1-9]{1,2}[0]?|100)\b/
+    this.descriptionPattern = /^.{25,}$/
   }
 
   /*minAndMaxError(min,max){

@@ -4,31 +4,37 @@
   <h2 class="registration__heading">Login</h2>
   <!-- Username -->
   <div class="registration__form-control registration__form-control--username">
-   <div class="registration__label">Username</div>
-   <div class="registration__input-container">
-    <i class="fas fa-user registration__icon"></i>
-    <input
-     type="text"
-     class="registration__input"
-     placeholder="Type your username" 
-     formControlName="emailId"
-    />
+    <div class="registration__label">Username</div>
+    <div class="registration__input-container">
+     <i class="fas fa-user registration__icon"></i>
+     <input
+      type="text"
+      class="registration__input"
+      placeholder="Type your username" 
+      formControlName="emailId"
+     />
+    </div>
+    <div *ngIf="loginForm.controls.emailId.errors && loginForm.controls.emailId.touched" class="errors">
+     Invalid email id
+    </div>
    </div>
-  </div>
-
-  <!-- Password -->
-  <div class="registration__form-control">
-   <div class="registration__label">Password</div>
-   <div class="registration__input-container">
-    <i class="fas fa-lock registration__icon"></i>
-    <input
-     type="password"
-     class="registration__input"
-     placeholder="Type your password" 
-     formControlName="password"
-    />
+ 
+   <!-- Password -->
+   <div class="registration__form-control">
+    <div class="registration__label">Password</div>
+    <div class="registration__input-container">
+     <i class="fas fa-lock registration__icon"></i>
+     <input
+      type="password"
+      class="registration__input"
+      placeholder="Type your password" 
+      formControlName="password"
+     />
+    </div>
+    <div *ngIf="loginForm.controls.password.errors && loginForm.controls.password.touched" class="errors">
+     Invalid Password
+    </div>
    </div>
-  </div>
   <!-- Forgot Password -->
   <a href="#" routerLink='forgotpassword' class="registration__forgot-password lead">Forgot Password</a>
   <!-- Login-Button -->
