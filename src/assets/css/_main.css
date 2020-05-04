@@ -903,3 +903,7 @@ body {
 .loader-message {
   color:#FFFFFF;
 }
+
+.errors{
+  color:red;
+}

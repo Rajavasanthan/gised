@@ -240,7 +240,7 @@
                      </div>
         </div>
       </form>
-        <button type="submit" class="btn btn-primary first-contact__submit-btn" *ngIf="firstContactCompleted == 0">
+        <button type="submit" class="btn btn-primary first-contact__submit-btn" *ngIf="firstContactCompleted == 0" [disabled]="!firstContactForm.valid">
          Submit
         </button>
         <button type="button" class="btn btn-primary" (click)="seeDetails(1)" *ngIf="firstContactCompleted != 0">Close details</button>&nbsp;&nbsp;
@@ -368,7 +368,7 @@
           {{file.displayFileName}}
         </div>
        </div>
-       <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center" *ngIf="briefAssesmentCompleted == 0">
+       <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center" *ngIf="briefAssesmentCompleted == 0" [disabled]="!briefAssesmentForm.valid">
         Submit
        </button>
        <button type="button" class="btn btn-primary" (click)="seeDetails(2)" *ngIf="briefAssesmentCompleted != 0">Close details</button>&nbsp;&nbsp;
