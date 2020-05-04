@@ -50,21 +50,4 @@ class jwtToken {
 	}
 
 }
-
-$jwtObj = new jwtToken();
-$jwtObj->prepareJwtToken("nsathees.y2k@gmail.com");
-$encodeJwt = $jwtObj->encodeJwtToken();
-$encodeJwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbElkIjoibnNhdGhlZXMueTJrQGdtYWlsLmNvbSIsImV4cCI6MTU4ODUxNjY4MH0.PxmYy0CbVd5hZRUk1MinBCh7oJPuw_z9wJBw5N23gps
-";
-$token = $jwtObj->decodeJwtToken($encodeJwt);
-echo "Encode JWT : ".$encodeJwt."<br/><br/><br/>";
-if($encodeJwt->decodeStatus) {
-echo "Decode JWT : ".json_encode($token)."<br/><br/><br/>";
-} else {
-echo "Decode JWT : ".json_encode($token)."<br/><br/><br/>";
-}
-
- 
-//$jwt='eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdXRob3IiOiJTaWdpdCBQcmFzZXR5byBOIiwiYXV0aG9ydXJpIjoiaHR0cHM6XC9cL3NlZWdhdGVzaXRlLmNvbSIsImV4cCI6MTU4NzU2MjcyOX0.WrjuzgPQXgntIH_hgti0rjonP8MpXUyFP8vHPjk-7iA';
-
 ?>

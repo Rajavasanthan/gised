@@ -18,25 +18,14 @@ export class ProductService {
   constructor(rendererFactory: RendererFactory2, private router: Router, private server:ServerCallService) { 
 
     this.renderer = rendererFactory.createRenderer(null, null);
-    // this.modal = this.el.nativeElement.querySelector(".modal");
-    // this.progressBar = this.el.nativeElement.querySelector("#progressBar");
-    // this.progressMessage = this.el.nativeElement.querySelector("#progressMessage");
-    //var trigger = this.el.nativeElement.querySelector(".trigger");
-    //var closeButton = this.el.nativeElement.querySelector(".close-button");
 
   }
 
   productLoader(action, message) {
     
     if(action == "SHOW") {
-      //this.progressMessage.innerHTML = message;
       this.modal.classList.add('show-modal');
-      //document.getElementById('popup').classList.add("show-modal");
-      //this.renderer.addClass(document.getElementById('popup'), 'show-modal');
-    } else {
-      //this.progressMessage.innerHTML = '';
-      //this.modal.classList.remove('show-modal');
-    }
+    } 
 
   }
 
@@ -57,6 +46,7 @@ export class ProductService {
     this.renderer.addClass(document.body, 'registration__body');
 
     localStorage.removeItem('logged');
+    localStorage.removeItem('gised_user');
 
     this.router.navigate(['/']);
   
