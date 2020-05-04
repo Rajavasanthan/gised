@@ -10,11 +10,10 @@ header('Access-Control-Allow-Credentials: true');
 require_once "config/productConfig.php";
 require_once "database/class.dbConnection.php";
 require_once "lib/common/class.commonFunction.php";
+require_once "lib/common/class.jwt.php";
 
 class serverController {
 
-	var $objDataBase;
-	var $dbConnection;
 	var $angularRequest;
 	var $modulePath;
 	var $module;
@@ -24,6 +23,7 @@ class serverController {
 	function __construct($angularRequest) 
 	{
 		$this->commonObj = new commonFunction();
+		$this->jwtObj = new jwtToken();
 		dbConnection::connectDB();
 		$this->angularRequest = json_decode($this->commonObj->decryption($angularRequest),1);
 		$this->angularResponse = $this->angularRequest;
