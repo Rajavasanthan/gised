@@ -115,7 +115,7 @@
   <h6 class="lead-dark">Application Progress</h6>
   <!-- ************************************************************ -->
   <!-- First Contact -->
-  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormInsert()">
+  <form [formGroup]="firstContactForm">
   <div class="accordian__section first-contact" id="firstContactFormId">
    <div class="accordian__number">
     <span class="accordian__number-digit">1</span>
@@ -129,8 +129,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="text-primary" (click)="seeDetails(1)">See details</button>&nbsp;
-      <button type="button" class="text-primary" (click)="shareDetails(1)">Share the details</button>
+      <button type="button" class="text-primary">See details</button>&nbsp;
+      <button type="button" class="text-primary">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -254,7 +254,7 @@
   </form>
   <!-- ************************************************************* -->
   <!-- Brief Assesment -->
-  <form [formGroup]="briefAssesmentForm" (ngSubmit)="briefAssesmentFormInsert()">
+  <form [formGroup]="briefAssesmentForm">
   <div class="accordian__section brief-assesment" id="briefAssesmentFormId">
    <div class="accordian__number">
     <span class="accordian__number--digit">2</span>
@@ -268,8 +268,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="text-primary" (click)="seeDetails(2)">See details</button>&nbsp;
-      <button type="button" class="text-primary" (click)="shareDetails(2)">Share the details</button>
+      <button type="button" class="text-primary">See details</button>&nbsp;
+      <button type="button" class="text-primary">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -356,7 +356,7 @@
 </form>
   <!-- ************************************************************* -->
   <!-- Detailed Presentation -->
-  <form [formGroup]="detailedPresentaionForm" (ngSubmit)="detailedPresentaionFormInsert()">
+  <form [formGroup]="detailedPresentaionForm">
   <div class="accordian__section detailed-presentation" id="detailedPresentationFormId">
    <div class="accordian__number">
     <span class="accordian__number-digit">3</span>
@@ -370,8 +370,8 @@
       <div class="lead-dark accordian__completed--approved-msg">
        Contact details received and approved. All request have been accepted
       </div>
-      <button type="button" class="text-primary" (click)="seeDetails(3)">See details</button>&nbsp;
-      <button type="button" class="text-primary" (click)="shareDetails(3)">Share the details</button>
+      <button type="button" class="text-primary">See details</button>&nbsp;
+      <button type="button" class="text-primary">Share the details</button>
      </div>
      <div class="accordian__completed--text">
       This section of your application is complete
@@ -443,7 +443,7 @@
     <span class="accordian__number-digit">4</span>
     <i class="fas fa-check none accordian__check"></i>
    </div>
-  <form [formGroup]="finalApprovalForm" (ngSubmit)="finalApprovalFormInsert()">
+  <form [formGroup]="finalApprovalForm">
    <div class="accordian__data">
     <h6>Final Approval</h6>
     <div class="final-approval__container">
