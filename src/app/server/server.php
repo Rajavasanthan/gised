@@ -19,6 +19,7 @@ class serverController {
 	var $module;
 	var $angularResponse;
 	var $commonObj;
+	var $jwtDecodeStatus;
 
 	function __construct($angularRequest) 
 	{
@@ -29,6 +30,7 @@ class serverController {
 		$this->angularResponse = $this->angularRequest;
 		$this->modulePath = MODULES_PATH;
 		$this->module = array();
+		$this->jwtDecodeStatus = false;
 	}
 
 	function controller() {
@@ -38,17 +40,19 @@ class serverController {
 
 		$this->checkJwtValidation();
 
-		if($this->jwtObj->decodeStatus === true) {
+		if($this->jwtDecodeStatus === true) {
 		
 			require_once $this->module['file_path'];
 			$moduleObj = new $this->module['class_name'];
 			$moduleObj->input = $this->angularRequest['requestData'];
 			$moduleObj->action = $this->angularRequest['action'];
 			$moduleObj->executeModule();
+			
+			$this->jwtObj->prepareJwtToken($moduleObj->output['emailId']);
+			$moduleObj->output['tokendata'] = $this->angularRequest['responseData']['emailId'];
+			$moduleObj->output['token'] = $this->jwtObj->encodeJwtToken();
+
 			$this->angularResponse['responseData'] = $moduleObj->getModuleOutput();
-			$this->jwtObj->prepareJwtToken("data");
-			$this->angularResponse['responseData']['tokendata'] = $this->jwtObj->data;
-			$this->angularResponse['responseData']['token'] = $this->jwtObj->encodeJwtToken();
 
 		} else {
 
@@ -62,13 +66,20 @@ class serverController {
 
 	function checkJwtValidation() {
 
-		if(($this->module['module_name'] != 'login') && ($this->module['module_name'] != 'userProfile' && $this->module['action'] != 'showprofile')) {
+		//if(($this->module['module_name'] != 'login') && ($this->module['module_name'] != 'userProfile' && $this->module['action'] != 'showprofile')) {
+		if(isset($this->angularRequest['token'])) {			
 
-			$this->jwtObj->decodeJwtToken($this->angularRequest['token']);
+			$jwtData = $this->jwtObj->decodeJwtToken($this->angularRequest['token']);
+			if(isset($jwtData['emailId'])) {
+				$this->angularRequest['requestData']['emailId'] = $jwtData['emailId'];	
+				$this->jwtDecodeStatus = true;
+			} else {
+				$this->jwtDecodeStatus = false;
+			}
 
 		} else {
 
-			$this->jwtObj->decodeStatus = true;
+			$this->jwtDecodeStatus = ($this->module['module_name'] == 'login') ? true : false ;
 
 		}
 

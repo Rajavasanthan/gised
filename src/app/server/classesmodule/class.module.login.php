@@ -50,7 +50,6 @@
             $dmUserObj->email_id = $this->input['emailId'];
             $sql = $dmUserObj->selectdmuser();
             $result = dbConnection::selectQuery($sql);
-            
 
             if(isset($result[0]['email_id'])) {
                 require_once "classes/class.factuser.php";
@@ -70,11 +69,13 @@
             if(isset($result[0]['login_password'])) {
                 if($result[0]['login_password'] == $this->input['password']) {
                     $this->output['userTypeId'] = $userTypeId;
+                    $this->output['emailId'] = $this->input['emailId'];
+                    $this->output['status'] = "SUCCESS";
                 } else {
-                    $this->output = "NOTSUCCESS";
+                    $this->output['status'] = "NOTSUCCESS";
                 }
             } else {
-                $this->output = "NOTSUCCESS";
+                $this->output['status'] = "NOTSUCCESS";
             }
 
         }

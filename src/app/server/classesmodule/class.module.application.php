@@ -57,7 +57,8 @@
             }
             $this->mailForApproerAction();
             $this->output['userMsg'] = $this->input['userMsg'];
-            
+            $this->output['emailId'] = $this->input['loggedEmailId'];
+                        
         }
 
         function updateApproverAction($factStatusTrackingId, $status, $approvalBy) {
@@ -90,6 +91,8 @@
         }
 
         function firstContactInsertionAction() {
+
+            $this->output['emailId'] = $this->input['emailId'];
 
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
@@ -149,6 +152,8 @@
 
         function firstContactUpdationAction() {
 
+            $this->output['emailId'] = $this->input['emailId'];
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -205,6 +210,8 @@
         }
 
         function briefAssesmentFormInsertionAction() {
+
+            $this->output['emailId'] = $this->input['emailId'];
 
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
@@ -264,6 +271,8 @@
 
         function briefAssesmentFormUpdationAction() {
 
+            $this->output['emailId'] = $this->input['emailId'];
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -318,6 +327,8 @@
 
         function detailedPresentationFormInsertionAction() {
 
+            $this->output['emailId'] = $this->input['emailId'];
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -370,6 +381,8 @@
 
         function detailedPresentationFormUpdationAction() {
 
+            $this->output['emailId'] = $this->input['emailId'];
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -418,6 +431,8 @@
         }
 
         function finalApprovalFormInsertionAction() {
+
+            $this->output['emailId'] = $this->input['emailId'];
 
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
@@ -481,7 +496,7 @@
 
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
-            $dmUserObj->email_id = $this->input['emailId'];
+            $dmUserObj->email_id = $this->input['userEmailId'];
             $sql = $dmUserObj->selectdmuser();
             $result = dbConnection::selectQuery($sql);
             $user = $result[0];    

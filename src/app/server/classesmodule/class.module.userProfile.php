@@ -38,10 +38,13 @@
         function adminListAction() {
 
             $this->adminData();
+            $this->output['emailId'] = $this->input['loggedEmailId'];
 
         }
 
         function showUserFormAction() {
+
+            $this->input['emailId'] = ($this->input['userEmailId']) ? $this->input['userEmailId'] : $this->input['emailId'] ; 
 
             $this->showProfileAction();
 
@@ -72,6 +75,7 @@
             $sql = $dmUserObj->selectdmuser();
             $result = dbConnection::selectQuery($sql);
             $this->output['approvalBy'] = (isset($result[0]['user_id'])) ? $result[0]['user_id'] : 0 ;
+            $this->output['emailId'] = $this->input['loggedEmailId'];
 
         }
 
@@ -83,6 +87,7 @@
             $sql = $dmUserObj->selectdmuser();
             $userResult = dbConnection::selectQuery($sql);
             $userId = $userResult[0]['user_id'];
+            $this->output['emailId'] = $this->input['emailId'];
 
             require_once "classes/class.factuser.php";
             $factUserObj = new factuser();

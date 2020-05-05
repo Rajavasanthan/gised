@@ -168,10 +168,11 @@ export class UserComponent implements OnInit {
       this.firstContactCompleted = 0;
       this.briefAssesmentCompleted = 0;
       this.detailedPresentationCompleted = 0;
-      this.emailId = localStorage.getItem('token');
+      this.emailId = '';
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
+        'token' : localStorage.getItem('token'),
         'module' : 'userProfile',
         'action' : 'showprofile',
         'requestData' : { 'emailId' : this.emailId }
@@ -196,6 +197,10 @@ export class UserComponent implements OnInit {
           this.currentStatus = this.serverResponse.responseData.status;
           this.presentFormNo = this.serverResponse.responseData.presentFormNo;
           this.action = this.serverResponse.responseData.action;
+          this.emailId = this.loggedProfile.email_id;
+
+          //Set for wordpress user name show
+          localStorage.setItem('gised_user',this.loggedProfile.first_name+' '+this.loggedProfile.last_name);
 
           //Load form inforamtion from the server          
           this.firstContactValues = this.serverResponse.responseData.firstContactForm;

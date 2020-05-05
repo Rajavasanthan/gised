@@ -181,10 +181,11 @@ export class AdminComponent implements OnInit {
       this.emailId = '';
       this.approvalBy = 0;
       this.gisedId = 0;
-      this.emailId = localStorage.getItem('token');
+      this.emailId = '';
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
+        'token' : localStorage.getItem('token'),
         'module' : 'userProfile',
         'action' : 'showprofile',
         'requestData' : { 'emailId' : this.emailId }
@@ -249,7 +250,7 @@ export class AdminComponent implements OnInit {
       'token' : localStorage.getItem('token'),
       'module' : 'userProfile',
       'action' : 'adminlist',
-      'requestData' : { admint : true } 
+      'requestData' : { admint : true, loggedEmailId : this.emailId, } 
     }  
 
     this.loader = "Loading list for admin";
@@ -316,6 +317,7 @@ export class AdminComponent implements OnInit {
         this.briefAssesmentValues = this.serverResponse.responseData.briefAssesmentForm;
         this.detailedPresentationValues = this.serverResponse.responseData.detailedPresentationForm;
         this.finalApproval = this.serverResponse.responseData.finalApprovalForm;
+        this.emailId = this.loggedProfile.email_id;
 
         //For approval process
         this.processUserId = this.serverResponse.responseData.processUserId;
@@ -365,16 +367,16 @@ export class AdminComponent implements OnInit {
     this.product.logout();
   }
 
-  viewUserForm(gisetFormNo, emailId) {
+  viewUserForm(gisetFormNo, userEmailId) {
 
     let data = {
-      emailId : emailId,
+      userEmailId : userEmailId,
       gisedId : gisetFormNo,
       loggedEmailId : this.emailId,
       admin : true
     };
 
-    this.feedBackForm.controls.userEmailId.setValue(emailId);
+    this.feedBackForm.controls.userEmailId.setValue(userEmailId);
 
     this.action = "showuserform";
     this.showSelectedUserFormData(data);
@@ -401,13 +403,14 @@ export class AdminComponent implements OnInit {
     let data = {
       presentFormNo : this.presentFormNo,
       userId : this.processUserId,
-      emailId : this.processEmailId,
+      userEmailId : this.processEmailId,
       gisedId : this.gisedId,                    
       statusTrackingDetailsId : this.statusTrackingDetailsId,
       approvalBy : this.approvalBy,
       process : 'APPROVE',
       mailerAction : 'approved',
-      userMsg : 'Form approved mail send to user successfully'
+      userMsg : 'Form approved mail send to user successfully',
+      loggedEmailId : this.emailId
     };
 
     this.approverAction(data);  
@@ -419,13 +422,14 @@ export class AdminComponent implements OnInit {
     let data = {
       presentFormNo : this.presentFormNo,
       userId : this.processUserId,
-      emailId : this.processEmailId,
+      userEmailId : this.processEmailId,
       gisedId : this.gisedId,                    
       statusTrackingDetailsId : this.statusTrackingDetailsId,
       approvalBy : this.approvalBy,
       process : 'DRAFT',
       mailerAction : 'drafted',
-      userMsg : 'Form save in draft mail send to user successfully'
+      userMsg : 'Form save in draft mail send to user successfully',
+      loggedEmailId : this.emailId
     };
 
     this.approverAction(data); 
@@ -437,13 +441,14 @@ export class AdminComponent implements OnInit {
     let data = {
       presentFormNo : this.presentFormNo,
       userId : this.processUserId,
-      emailId : this.processEmailId,
+      userEmailId : this.processEmailId,
       gisedId : this.gisedId,                    
       statusTrackingDetailsId : this.statusTrackingDetailsId,
       approvalBy : this.approvalBy,
       process : 'REJECT',
       mailerAction : 'rejected',
-      userMsg : 'Form rejected mail send to user successfully'
+      userMsg : 'Form rejected mail send to user successfully',
+      loggedEmailId : this.emailId
     };
 
     this.approverAction(data); 

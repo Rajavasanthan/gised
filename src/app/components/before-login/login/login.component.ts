@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   constructor(private server: ServerCallService, private router:Router, private spinner: NgxSpinnerService,private validation:ValidationService) { 
     
+
   }
 
   ngOnInit() {
@@ -48,19 +49,18 @@ export class LoginComponent implements OnInit {
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       this.spinner.hide();
       this.loader = "";
-      if(this.serverResponse.responseData == 'EMPTY') {
+      if(this.serverResponse.responseData.status == 'EMPTY') {
         this.errorMsg = 'Sorry! Mail id not exist';
         Swal.fire(this.errorMsg);
-      } else if(this.serverResponse.responseData == 'ERROR') {
+      } else if(this.serverResponse.responseData.status == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
         Swal.fire(this.errorMsg);
       } else {
-        if(this.serverResponse.responseData == 'NOTSUCCESS') {
+        if(this.serverResponse.responseData.status == 'NOTSUCCESS') {
           this.errorMsg = 'Sorry! Invalid credentials';
           Swal.fire(this.errorMsg);
         } else {
-          localStorage.setItem('token', this.loginForm.controls.emailId.value);
-          localStorage.setItem('gised_user', this.loginForm.controls.emailId.value);
+          localStorage.setItem('token', this.serverResponse.responseData.token);
           console.log('Logged Sucessfully '+this.serverResponse.responseData.userTypeId);
           
           if(this.serverResponse.responseData.userTypeId == 1) {
