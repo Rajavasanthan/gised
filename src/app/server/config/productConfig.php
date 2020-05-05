@@ -19,7 +19,7 @@ define('SET_PASSWORD_LINK', 'http://localhost:4200/setpassword/');
 //Mail settings
 define('SMTP_HOST', 'smtp.gmail.com');
 define('SMTP_USERNAME', 'nsatheeskumar.www@gmail.com');
-define('SMTP_PASSWORD', '1ncludeme.');
+define('SMTP_PASSWORD', 'GISED@123');
 define('SMTP_SECURE', 'ssl');
 define('SMTP_PORT', '465');
 define('SMTP_SENDER_MAILID', 'noreply@gised.com');

@@ -10,7 +10,7 @@ export class AuthService {
   }
 
   checkLoginStatus() {
-    if(!!localStorage.getItem('logged')) {
+    if(!!localStorage.getItem('token')) {
       return true;
     } else {
       return false;

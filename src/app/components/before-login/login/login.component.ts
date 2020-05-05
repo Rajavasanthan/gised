@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
           this.errorMsg = 'Sorry! Invalid credentials';
           Swal.fire(this.errorMsg);
         } else {
-          localStorage.setItem('logged', this.loginForm.controls.emailId.value);
+          localStorage.setItem('token', this.loginForm.controls.emailId.value);
           localStorage.setItem('gised_user', this.loginForm.controls.emailId.value);
           console.log('Logged Sucessfully '+this.serverResponse.responseData.userTypeId);
           

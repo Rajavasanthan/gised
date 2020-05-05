@@ -34,16 +34,44 @@ class serverController {
 	function controller() {
 
 		$this->module = $this->commonObj->readJsonConfigurations('modules', $this->angularRequest['module'], 'module_name');
+		$this->module['action'] = $this->angularRequest['action'];
 
-		require_once $this->module['file_path'];
-		$moduleObj = new $this->module['class_name'];
-		$moduleObj->input = $this->angularRequest['requestData'];
-		$moduleObj->action = $this->angularRequest['action'];
-		$moduleObj->executeModule();
-		$this->angularResponse['responseData'] = $moduleObj->getModuleOutput();
+		$this->checkJwtValidation();
+
+		if($this->jwtObj->decodeStatus === true) {
+		
+			require_once $this->module['file_path'];
+			$moduleObj = new $this->module['class_name'];
+			$moduleObj->input = $this->angularRequest['requestData'];
+			$moduleObj->action = $this->angularRequest['action'];
+			$moduleObj->executeModule();
+			$this->angularResponse['responseData'] = $moduleObj->getModuleOutput();
+			$this->jwtObj->prepareJwtToken("data");
+			$this->angularResponse['responseData']['tokendata'] = $this->jwtObj->data;
+			$this->angularResponse['responseData']['token'] = $this->jwtObj->encodeJwtToken();
+
+		} else {
+
+			$this->angularResponse['responseData']['token'] = "EMPTY";
+
+		}
 
 		$this->output();
 		
+	}
+
+	function checkJwtValidation() {
+
+		if(($this->module['module_name'] != 'login') && ($this->module['module_name'] != 'userProfile' && $this->module['action'] != 'showprofile')) {
+
+			$this->jwtObj->decodeJwtToken($this->angularRequest['token']);
+
+		} else {
+
+			$this->jwtObj->decodeStatus = true;
+
+		}
+
 	}
 
 	function getModule($moduleName) {
