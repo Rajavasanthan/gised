@@ -1,6 +1,7 @@
 import { Injectable, Renderer2, RendererFactory2, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServerCallService } from './server-call.service';
+import Swal from "sweetalert2";
 
 @Injectable({
   providedIn: 'root'
@@ -40,12 +41,28 @@ export class ProductService {
 
   }
 
+  checkToken(token) {
+
+    if(token == "EMPTY") {
+ 
+      //Swal.fire("Session expiredd");
+      alert("Session expired");
+      this.logout();
+
+    } else {
+
+      localStorage.setItem('token', token);  
+        
+    }
+
+  }
+
   logout() {
 
     this.renderer.removeClass(document.body, 'application__body');
     this.renderer.addClass(document.body, 'registration__body');
 
-    localStorage.removeItem('logged');
+    localStorage.removeItem('token');
     localStorage.removeItem('gised_user');
 
     this.router.navigate(['/']);

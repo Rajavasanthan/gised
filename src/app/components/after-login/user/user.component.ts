@@ -168,7 +168,7 @@ export class UserComponent implements OnInit {
       this.firstContactCompleted = 0;
       this.briefAssesmentCompleted = 0;
       this.detailedPresentationCompleted = 0;
-      this.emailId = localStorage.getItem('logged');
+      this.emailId = localStorage.getItem('token');
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
@@ -182,9 +182,14 @@ export class UserComponent implements OnInit {
         this.serverResponse = JSON.parse(this.server.decryption(response['response']));
         console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
         console.log('RESPONSE : ', this.serverResponse);
+        
         if(this.serverResponse.responseData == 'ERROR') {
           this.errorMsg = 'Sorry! Something went wrong';
         } else {
+
+          //Set token
+          localStorage.setItem('token', this.serverResponse.responseData.token);
+
           //Load basic data informations from server
           this.loggedProfile =  this.serverResponse.responseData.loggedProfile;
           this.applications = this.serverResponse.responseData.applications;
@@ -274,6 +279,7 @@ export class UserComponent implements OnInit {
   feedBackFormSubmit() {
 
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'mailer',
       'action' : 'feedback',
       'requestData' :  this.feedBackForm.value 
@@ -287,6 +293,8 @@ export class UserComponent implements OnInit {
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.product.checkToken(this.serverResponse.responseData.token);
+
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
@@ -345,6 +353,7 @@ export class UserComponent implements OnInit {
 
     //Prepare this request for insert first contact form informations
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'application',
       'action' : this.action,
       'requestData' :  data  
@@ -358,6 +367,7 @@ export class UserComponent implements OnInit {
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.product.checkToken(this.serverResponse.responseData.token);
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {

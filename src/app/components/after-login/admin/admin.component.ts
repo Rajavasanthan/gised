@@ -181,7 +181,7 @@ export class AdminComponent implements OnInit {
       this.emailId = '';
       this.approvalBy = 0;
       this.gisedId = 0;
-      this.emailId = localStorage.getItem('logged');
+      this.emailId = localStorage.getItem('token');
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
@@ -198,6 +198,9 @@ export class AdminComponent implements OnInit {
         if(this.serverResponse.responseData == 'ERROR') {
           this.errorMsg = 'Sorry! Something went wrong';
         } else {
+
+          //Set token
+          localStorage.setItem('token', this.serverResponse.responseData.token);
 
           //Load basic data informations from server
           this.loggedProfile =  this.serverResponse.responseData.loggedProfile;
@@ -243,6 +246,7 @@ export class AdminComponent implements OnInit {
 
     //Prepare this request for get logged user informations
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'userProfile',
       'action' : 'adminlist',
       'requestData' : { admint : true } 
@@ -257,6 +261,7 @@ export class AdminComponent implements OnInit {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       console.log('RESPONSE : ', this.serverResponse);
+      this.product.checkToken(this.serverResponse.responseData.token);
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
@@ -281,6 +286,7 @@ export class AdminComponent implements OnInit {
 
     //Prepare this request for get logged user informations
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'userProfile',
       'action' : this.action,
       'requestData' : data 
@@ -295,6 +301,7 @@ export class AdminComponent implements OnInit {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       console.log('RESPONSE : ', this.serverResponse);
+      this.product.checkToken(this.serverResponse.responseData.token);
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
@@ -446,6 +453,7 @@ export class AdminComponent implements OnInit {
   approverAction(data) {
 
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'application',
       'action' : 'approverprocess',
       'requestData' :  data 
@@ -458,6 +466,7 @@ export class AdminComponent implements OnInit {
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.product.checkToken(this.serverResponse.responseData.token);
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
@@ -486,6 +495,7 @@ export class AdminComponent implements OnInit {
   feedBackFormSubmit() {
 
     this.serverRequest = {
+      'token' : localStorage.getItem('token'),
       'module' : 'mailer',
       'action' : 'feedbackadmin',
       'requestData' :  this.feedBackForm.value 
@@ -499,6 +509,7 @@ export class AdminComponent implements OnInit {
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      this.product.checkToken(this.serverResponse.responseData.token);
       this.spinner.hide();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
