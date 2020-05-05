@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
 import Swal from "sweetalert2";
 
@@ -23,8 +23,8 @@ export class SetPasswordComponent implements OnInit {
 
   setPasswordForm = new FormGroup({
     password : new FormControl('', [Validators.required,Validators.pattern(this.validation.passwordPattern)]),
-    confirmPassword : new FormControl('', [Validators.required]),
-  });
+    confirmPassword : new FormControl('', [Validators.required])
+  },this.checkPasswords);
 
 
   constructor(private route: ActivatedRoute, private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService,private validation:ValidationService) { 
@@ -121,12 +121,50 @@ export class SetPasswordComponent implements OnInit {
   }
 
   /*************************** Validation works ******************************/
+  passName: string; 
+
   passwordErr : String;
   confirmPasswordErr : String;
 
 
   passwordCheckVal(val:any){
     this.passwordErr = this.validation.passwordValidation(val);
+    this.passName = val;
   }
+
+  confirmPasswordCheckVal(val:any){
+    if(this.passName==val){
+     this.confirmPasswordErr = "";
+    }else{
+     this.confirmPasswordErr = "Confirm Passwords do not match.";
+    }
+  }
+ 
+  /*comparePassword(): any {
+    return (control: AbstractControl): { [key: string]: boolean } | null => {
+      
+    const password = control.get('password');
+    const repassword = control.get('confirmPassword');
+      // if no values, validated as true
+      
+        if (!password || !repassword) {
+        return null;
+      }
+      // if values match, return null, else nomatch: true
+      return password.value == repassword.value ? null : { nomatch: true };
+    };
+  }*/
+
+checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+const password = group.get('password');
+const repassword = group.get('confirmPassword');
+  // if no values, validated as true
+  
+  if (!password || !repassword) {
+    return null;
+  }
+  // if values match, return null, else nomatch: true
+  return password.value === repassword.value ? null : { nomatch: true }  
+}
 
 }
