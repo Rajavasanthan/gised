@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgxSpinnerModule } from "../../../../node_modules/ngx-spinner";
+// import { NgxSpinnerModule } from "../../../../node_modules/ngx-spinner";
 
 import { ProductService } from '../../services/product.service';
 
@@ -19,7 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AfterLoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    // NgxSpinnerModule
   ]
 })
 export class AfterLoginModule { }
