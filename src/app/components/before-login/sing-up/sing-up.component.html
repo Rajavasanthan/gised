@@ -96,6 +96,7 @@
          <i class="fas fa-globe registration__icon"></i>
          <!-- <input type="text" class="registration__input" placeholder="Country"  formControlName="country" /> -->
          <select class="registration__input" placeholder="Country"  formControlName="country">
+             <option value="0">Select your country</option>
              <option *ngFor="let country of countries" value="country.country_id">{{country.country_name}}</option>
          </select>
         </div>

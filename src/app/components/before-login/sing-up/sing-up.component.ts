@@ -27,7 +27,7 @@ export class SingUpComponent implements OnInit {
     mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
     gender : new FormControl('', [Validators.required]),
     age : new FormControl('', [Validators.required,Validators.pattern(this.validation.agePattern)]),
-    country : new FormControl('', [Validators.required])
+    country : new FormControl(0, [Validators.required,Validators.min(1)])
   });
 
   constructor(private server: ServerCallService, private router: Router, private spinner: NgxSpinnerService,private validation:ValidationService) { 
@@ -51,7 +51,7 @@ export class SingUpComponent implements OnInit {
         this.errorMsg = 'Sorry! Something went wrong';
         Swal.fire(this.errorMsg);
       } else {
-        this.countries = this.serverResponse.responseData;
+        this.countries = this.serverResponse.responseData.countries;
       }
     }, (error) => {
       this.spinner.hide();
@@ -66,7 +66,7 @@ export class SingUpComponent implements OnInit {
 
   ngOnInit() {
 
-    this.signUpForm.controls.country.setValue(0);
+    //this.signUpForm.get('country').setValue('0');
 
   }
 
