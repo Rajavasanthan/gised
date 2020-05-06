@@ -63,6 +63,8 @@
                 $this->output['userMsg'] = 'Sorry! Something went wrong';
             }
 
+            $this->output['emailId'] = $this->input['emailId'];
+
         }
 
         function feedbackAdminAction() {
@@ -100,7 +102,7 @@
                 $this->output['userMsg'] = 'Might be entered user wrong';
             }
             $this->output['emailId'] = $this->input['loggedEmailId'];
-            
+
         }
         
         function mailStringReplace($mailMsg, $replaceStr) {
