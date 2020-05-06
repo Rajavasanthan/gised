@@ -99,7 +99,8 @@
             } else {
                 $this->output['userMsg'] = 'Might be entered user wrong';
             }
-
+            $this->output['emailId'] = $this->input['loggedEmailId'];
+            
         }
         
         function mailStringReplace($mailMsg, $replaceStr) {

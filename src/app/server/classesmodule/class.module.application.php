@@ -167,7 +167,7 @@
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
             $statusTrackingId = $result[0]['status_tracking_details_id'];
-            $gisedId = $result[0]['gised_form_id'];
+            $gisedId = $result[0]['r_gised_id'];
 
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
@@ -286,7 +286,7 @@
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
             $statusTrackingId = $result[0]['status_tracking_details_id'];
-            $gisedId = $result[0]['gised_form_id'];
+            $gisedId = $result[0]['r_gised_id'];
 
             require_once "classes/class.dmformbriefassesment.php";
             $briefAssesObj = new dmformbriefassesment();
@@ -396,7 +396,7 @@
             $sql = $factTrackObj->getFormStatus();
             $result = dbConnection::selectQuery($sql);
             $statusTrackingId = $result[0]['status_tracking_details_id'];
-            $gisedId = $result[0]['gised_form_id'];
+            $gisedId = $result[0]['r_gised_id'];
 
             require_once "classes/class.dmformdetailedpresentation.php";
             $detPressObj = new dmformdetailedpresentation();
