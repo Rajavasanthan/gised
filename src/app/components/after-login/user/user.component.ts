@@ -41,12 +41,14 @@ export class UserComponent implements OnInit {
   firstContactFormClose : string;
   briefAssesmentFormClose : string;
   detailedPresentationFormClose : string;
+  finalApprovalFormClose : string;
   firstContactFormSelector : any;
   briefAssesmentFormSelector : any;
   detailedPresentationFormSelector : any;
   firstContactCompleted : number;
   briefAssesmentCompleted : number;
   detailedPresentationCompleted : number;
+  finalApprovalCompleted : number;
   loader : string; 
   emailId : string;
 
@@ -165,9 +167,11 @@ export class UserComponent implements OnInit {
       this.firstContactFormClose = "OPEN";
       this.briefAssesmentFormClose = "OPEN";
       this.detailedPresentationFormClose = "OPEN";
+      this.finalApprovalFormClose == "OPEN";
       this.firstContactCompleted = 0;
       this.briefAssesmentCompleted = 0;
       this.detailedPresentationCompleted = 0;
+      this.finalApprovalCompleted = 0;
       this.emailId = '';
 
       //Prepare this request for get logged user informations
@@ -224,7 +228,11 @@ export class UserComponent implements OnInit {
             this.detailedPresentationFormSelector.classList.add('completed');           
             this.detailedPresentationCompleted = 3;
           }
-          
+          this.finalApprovalFormClose = this.serverResponse.responseData.close.finalApprovalFormClose;
+          if(this.finalApprovalFormClose == "CLOSE") {
+            this.finalApprovalCompleted = 4;
+          }
+                    
           //Open form for initial action
           if(this.action == 'firstcontactforminsertion') {
             this.firstContactForm.enable();

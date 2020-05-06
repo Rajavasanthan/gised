@@ -578,8 +578,8 @@ export class AdminComponent implements OnInit {
       'requestData' :  { filename : downloadfile } 
     }
 
-    this.loader = "Downloading file";
-    this.spinner.show();
+    //this.loader = "Downloading file";
+    //this.spinner.show();
 
     //Hit to the server for get logged user informations
     this.server.downloadFile(downloadfile).subscribe(blob => {

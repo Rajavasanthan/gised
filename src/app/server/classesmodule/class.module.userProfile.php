@@ -190,6 +190,7 @@
                 $this->output['close']['firstContactFormClose'] = 'CLOSE';
                 $this->output['close']['briefAssesmentFormClose'] = 'CLOSE';
                 $this->output['close']['detailedPresentationFormClose'] = 'CLOSE';
+                $this->output['close']['finalApprovalFormClose'] = 'CLOSE';
             } else {
                 $this->setFormNoAndAction(1, 'firstcontactforminsertion');
             }
