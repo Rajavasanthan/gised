@@ -463,7 +463,7 @@
         {{file.displayFileName}}
       </div>
      </div>
-     <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center" [disabled]="briefAssesmentCompleted == 0">
+     <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center" [disabled]="briefAssesmentCompleted == 0" *ngIf="detailedPresentationCompleted == 0">
       Submit
      </button>
      <button type="button" class="btn btn-primary" (click)="seeDetails(3)" *ngIf="detailedPresentationCompleted != 0">Close details</button>&nbsp;&nbsp;
@@ -490,7 +490,7 @@
      <div class="final-approval__btn-container">
       <button type="button" *ngIf="detailedPresentationCompleted == 0" class="btn btn-edit" (click)="editForm()">Edit</button>&nbsp;
       <button type="button"  *ngIf="detailedPresentationCompleted == 0" class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>&nbsp;
-      <button type="submit" class="btn btn-primary"  [disabled]="detailedPresentationCompleted == 0" >Submit</button>
+      <button type="submit" class="btn btn-primary"  [disabled]="detailedPresentationCompleted == 0" *ngIf="finalApprovalCompleted == 0">Submit</button>
      </div>
     </div>
    </div>

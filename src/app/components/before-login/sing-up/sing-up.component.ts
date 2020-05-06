@@ -21,24 +21,12 @@ export class SingUpComponent implements OnInit {
   loader: string;
 
   signUpForm = new FormGroup({
-    fullName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.namePattern),
-    ]),
-    emailId: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.emailIdPattern),
-    ]),
-    mobileNo: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.mobilePattern),
-    ]),
-    gender: new FormControl("", [Validators.required]),
-    age: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.agePattern),
-    ]),
-    country: new FormControl("", [Validators.required]),
+    fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+    emailId : new FormControl('', [Validators.required, Validators.pattern(this.validation.emailIdPattern)]),
+    mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
+    gender : new FormControl('', [Validators.required]),
+    age : new FormControl('', [Validators.required,Validators.pattern(this.validation.agePattern)]),
+    country : new FormControl(0, [Validators.required,Validators.min(1)])
   });
 
   constructor(
@@ -68,7 +56,7 @@ export class SingUpComponent implements OnInit {
           this.errorMsg = "Sorry! Something went wrong";
           Swal.fire(this.errorMsg);
         } else {
-          this.countries = this.serverResponse.responseData;
+          this.countries = this.serverResponse.responseData.countries;
         }
       },
       (error) => {
@@ -84,7 +72,9 @@ export class SingUpComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signUpForm.controls.country.setValue(0);
+
+    //this.signUpForm.get('country').setValue('0');
+
   }
 
   checkEmailId() {

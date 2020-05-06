@@ -22,64 +22,66 @@ import { ValidationService } from "src/app/services/validation.service";
 //Class implmentation for this component
 export class UserComponent implements OnInit {
   //Variable decrlation with its type
-  loggedProfile: any;
-  applications: any;
-  source: any;
-  serverRequest: any;
-  serverResponse: any;
-  errorMsg: string;
-  action: string;
-  userMsg: string;
-  presentFormNo: number;
-  firstContactValues: any;
-  briefAssesmentValues: any;
-  detailedPresentationValues: any;
-  finalApproval: any;
-  selectedApplication: number;
-  currentStatus: string;
-  firstContactFormClose: string;
-  briefAssesmentFormClose: string;
-  detailedPresentationFormClose: string;
-  firstContactFormSelector: any;
-  briefAssesmentFormSelector: any;
-  detailedPresentationFormSelector: any;
-  firstContactCompleted: number;
-  briefAssesmentCompleted: number;
-  detailedPresentationCompleted: number;
-  loader: string;
-  emailId: string;
+  loggedProfile : any;
+  applications : any;
+  source : any;
+  serverRequest : any;
+  serverResponse : any;
+  errorMsg : string;
+  action : string;
+  userMsg : string;
+  presentFormNo : number;
+  firstContactValues : any;
+  briefAssesmentValues : any;
+  detailedPresentationValues : any;
+  finalApproval : any;
+  selectedApplication : number;
+  currentStatus : string;
+  firstContactFormClose : string;
+  briefAssesmentFormClose : string;
+  detailedPresentationFormClose : string;
+  finalApprovalFormClose : string;
+  firstContactFormSelector : any;
+  briefAssesmentFormSelector : any;
+  detailedPresentationFormSelector : any;
+  firstContactCompleted : number;
+  briefAssesmentCompleted : number;
+  detailedPresentationCompleted : number;
+  finalApprovalCompleted : number;
+  loader : string; 
+  emailId : string;
 
-  //Files Size Allowed
-  maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
+   //Files Size Allowed
+   maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
 
-  //Files Accepet Types
-  fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
+   //Files Accepet Types
+   fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
 
-  //Breaf assesment files
-  uploadFiles_2_0: string[] = [];
-  uploadFiles_2_1: string[] = [];
-  uploadFiles_2_2: string[] = [];
-  uploadFiles_2_3: string[] = [];
-  uploadFiles_2_4: string[] = [];
-
-  uploadFiles_2_0Len = 0;
-  uploadFiles_2_1Len = 0;
-  uploadFiles_2_2Len = 0;
-  uploadFiles_2_3Len = 0;
-  uploadFiles_2_4Len = 0;
-
-  //Detailed Presentation Files
-  uploadFiles_3_0: string[] = [];
-  uploadFiles_3_1: string[] = [];
-  uploadFiles_3_2: string[] = [];
-  uploadFiles_3_3: string[] = [];
-  uploadFiles_3_4: string[] = [];
-
-  uploadFiles_3_0Len = 0;
-  uploadFiles_3_1Len = 0;
-  uploadFiles_3_2Len = 0;
-  uploadFiles_3_3Len = 0;
-  uploadFiles_3_4Len = 0;
+   //Breaf assesment files
+   uploadFiles_2_0:string  [] = [];
+   uploadFiles_2_1:string [] = [];
+   uploadFiles_2_2:string [] = [];
+   uploadFiles_2_3:string [] = [];
+   uploadFiles_2_4:string [] = [];
+ 
+   uploadFiles_2_0Len =0;
+   uploadFiles_2_1Len =0;
+   uploadFiles_2_2Len =0;
+   uploadFiles_2_3Len =0;
+   uploadFiles_2_4Len =0;
+ 
+   //Detailed Presentation Files
+   uploadFiles_3_0:string  [] = [];
+   uploadFiles_3_1:string [] = [];
+   uploadFiles_3_2:string [] = [];
+   uploadFiles_3_3:string [] = [];
+   uploadFiles_3_4:string [] = [];
+ 
+   uploadFiles_3_0Len =0;
+   uploadFiles_3_1Len =0;
+   uploadFiles_3_2Len =0;
+   uploadFiles_3_3Len =0;
+   uploadFiles_3_4Len =0;
 
   //Application form and variables declared
   applicationForm = new FormGroup({
@@ -137,25 +139,19 @@ export class UserComponent implements OnInit {
 
   //Brief assesment form and variables declared
   briefAssesmentForm = new FormGroup({
-    name: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.namePattern),
-    ]),
-    address: new FormControl("", [Validators.required]),
-    email: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.emailIdPattern),
-    ]),
-    telephoneNo: new FormControl(0, [Validators.required]),
-    website: new FormControl("", [Validators.required]),
-    purposeOfProject1: new FormControl(""),
-    detailedInformation: new FormControl(""),
-    estimatedBudget: new FormControl(""),
-    periodOfTime: new FormControl(""),
-    purposeOfProject2: new FormControl(""),
-    emailId: new FormControl(""),
-    status: new FormControl(2),
-    uploadedFiles: new FormControl(),
+    name : new FormControl('',[Validators.required,Validators.pattern(this.validation.namePattern)]),
+    address : new FormControl('',[Validators.required]),
+    email : new FormControl('',[Validators.required,Validators.pattern(this.validation.emailIdPattern)]),
+    telephoneNo : new FormControl('',[Validators.required,Validators.pattern(this.validation.telePhonePattern)]),
+    website : new FormControl('',[Validators.required]),    
+    purposeOfProject1 : new FormControl(''),
+    detailedInformation : new FormControl(''),
+    estimatedBudget : new FormControl(''),
+    periodOfTime : new FormControl(''),
+    purposeOfProject2 : new FormControl(''),
+    emailId : new FormControl(''),
+    status : new FormControl(2),
+    uploadedFiles : new FormControl()
   });
   //Detailed presentation form and variables declared
   detailedPresentaionForm = new FormGroup({
@@ -177,46 +173,40 @@ export class UserComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(
-    private product: ProductService,
-    private server: ServerCallService,
-    private router: Router,
-    private el: ElementRef,
-    // private spinner: NgxSpinnerService,
-    private validation: ValidationService
-  ) {
-    this.loader = "Loading GISED user page";
-    //this.spinner.show();
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation:ValidationService) { 
+    
+      this.loader = "Loading GISED user page";
+      // this.spinner.show();
 
-    //Define intial values to the variables
-    this.currentStatus = "Nil";
-    this.loggedProfile = { title: "" };
-    this.firstContactFormClose = "OPEN";
-    this.briefAssesmentFormClose = "OPEN";
-    this.detailedPresentationFormClose = "OPEN";
-    this.firstContactCompleted = 0;
-    this.briefAssesmentCompleted = 0;
-    this.detailedPresentationCompleted = 0;
-    this.emailId = "";
+      //Define intial values to the variables
+      this.currentStatus = 'Nil';
+      this.loggedProfile = { title : '' };
+      this.firstContactFormClose = "OPEN";
+      this.briefAssesmentFormClose = "OPEN";
+      this.detailedPresentationFormClose = "OPEN";
+      this.finalApprovalFormClose == "OPEN";
+      this.firstContactCompleted = 0;
+      this.briefAssesmentCompleted = 0;
+      this.detailedPresentationCompleted = 0;
+      this.finalApprovalCompleted = 0;
+      this.emailId = '';
 
-    //Prepare this request for get logged user informations
-    this.serverRequest = {
-      token: localStorage.getItem("token"),
-      module: "userProfile",
-      action: "showprofile",
-      requestData: { emailId: this.emailId },
-    };
-    //Hit to the server for get logged user informations
-    this.server.sendToServer(this.serverRequest).subscribe(
-      (response) => {
-        this.serverResponse = JSON.parse(
-          this.server.decryption(response["response"])
-        );
-        console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-        console.log("RESPONSE : ", this.serverResponse);
-
-        if (this.serverResponse.responseData == "ERROR") {
-          this.errorMsg = "Sorry! Something went wrong";
+      //Prepare this request for get logged user informations
+      this.serverRequest = {
+        'token' : localStorage.getItem('token'),
+        'module' : 'userProfile',
+        'action' : 'showprofile',
+        'requestData' : { 'emailId' : this.emailId }
+      } 
+      //Hit to the server for get logged user informations
+      this.server.sendToServer(this.serverRequest).
+      subscribe((response) => {
+        this.serverResponse = JSON.parse(this.server.decryption(response['response']));
+        console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+        console.log('RESPONSE : ', this.serverResponse);
+        
+        if(this.serverResponse.responseData == 'ERROR') {
+          this.errorMsg = 'Sorry! Something went wrong';
         } else {
           //Set token
           localStorage.setItem("token", this.serverResponse.responseData.token);
@@ -257,7 +247,11 @@ export class UserComponent implements OnInit {
             this.detailedPresentationFormSelector.classList.add("completed");
             this.detailedPresentationCompleted = 3;
           }
-
+          this.finalApprovalFormClose = this.serverResponse.responseData.close.finalApprovalFormClose;
+          if(this.finalApprovalFormClose == "CLOSE") {
+            this.finalApprovalCompleted = 4;
+          }
+                    
           //Open form for initial action
           if (this.action == "firstcontactforminsertion") {
             this.firstContactForm.enable();

@@ -95,7 +95,9 @@ export class AdminComponent implements OnInit {
   //Feed back form and variables declared
   feedBackForm = new FormGroup({
     feedback : new FormControl('',[Validators.required]),
-    userEmailId : new FormControl('',[Validators.required]),
+    userEmailId : new FormControl(''),
+    loggedEmailId : new FormControl('')
+    
   });
 
   //First contact form and variables declared
@@ -461,7 +463,7 @@ export class AdminComponent implements OnInit {
       'token' : localStorage.getItem('token'),
       'module' : 'application',
       'action' : 'approverprocess',
-      'requestData' :  data 
+      'requestData' :  data
     }
 
     this.loader = "Changing the form status";
@@ -498,6 +500,8 @@ export class AdminComponent implements OnInit {
   }
 
   feedBackFormSubmit() {
+
+    this.feedBackForm.controls.loggedEmailId.setValue(this.emailId);
 
     this.serverRequest = {
       'token' : localStorage.getItem('token'),
@@ -574,7 +578,7 @@ export class AdminComponent implements OnInit {
       'requestData' :  { filename : downloadfile } 
     }
 
-    this.loader = "Downloading file";
+    //this.loader = "Downloading file";
     //this.spinner.show();
 
     //Hit to the server for get logged user informations

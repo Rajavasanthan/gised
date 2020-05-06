@@ -217,10 +217,10 @@
             $coreCounObj = new corecountrydetails();
             $sql = $coreCounObj->selectcorecountrydetails();
             $result = dbConnection::selectQuery($sql);
-            $this->output[0]['country_id'] = "0";
-            $this->output[0]['country_name'] = "Select your country";
+            //$this->output['countries'][1]['country_id'] = "0";
+            //$this->output['countries'][1]['country_name'] = "Select your country";
             foreach($result AS $key => $value) {
-                $this->output[$key+1] = $value;
+                $this->output['countries'][$key] = $value;
             }
 
         }

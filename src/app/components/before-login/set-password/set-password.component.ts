@@ -158,32 +158,16 @@ export class SetPasswordComponent implements OnInit {
       this.confirmPasswordErr = "Confirm Passwords do not match.";
     }
   }
-
-  /*comparePassword(): any {
-    return (control: AbstractControl): { [key: string]: boolean } | null => {
-      
-    const password = control.get('password');
-    const repassword = control.get('confirmPassword');
-      // if no values, validated as true
-      
-        if (!password || !repassword) {
-        return null;
-      }
-      // if values match, return null, else nomatch: true
-      return password.value == repassword.value ? null : { nomatch: true };
-    };
-  }*/
-
-  checkPasswords(group: FormGroup) {
-    // here we have the 'passwords' group
-    const password = group.get("password");
-    const repassword = group.get("confirmPassword");
-    // if no values, validated as true
-
-    if (!password || !repassword) {
-      return null;
-    }
-    // if values match, return null, else nomatch: true
-    return password.value === repassword.value ? null : { nomatch: true };
+  
+checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+const password = group.get('password');
+const repassword = group.get('confirmPassword');
+  // if no values, validated as true
+  
+  if (!password || !repassword) {
+    return null;
   }
+  // if values match, return null, else nomatch: true
+  return password.value === repassword.value ? null : { nomatch: true }  
+}
 }
