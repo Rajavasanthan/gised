@@ -123,7 +123,7 @@ export class UserComponent implements OnInit {
     name : new FormControl('',[Validators.required,Validators.pattern(this.validation.namePattern)]),
     address : new FormControl('',[Validators.required]),
     email : new FormControl('',[Validators.required,Validators.pattern(this.validation.emailIdPattern)]),
-    telephoneNo : new FormControl(0,[Validators.required]),
+    telephoneNo : new FormControl('',[Validators.required,Validators.pattern(this.validation.telePhonePattern)]),
     website : new FormControl('',[Validators.required]),    
     purposeOfProject1 : new FormControl(''),
     detailedInformation : new FormControl(''),
