@@ -12,8 +12,13 @@
    <span class="lead-dark">My Profile</span>
    <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
-  <img src="./assets/images/female.png" alt="" class="profile__image" />
-  <button type="button" class="btn btn-primary btn-profile-photo">Edit Photo</button>
+  <form [formGroup]="profilePhotoUpoadForm">
+    <img [src]="profileImg ? profileImg : 'https://www.w3schools.com/howto/img_avatar.png'" alt="" class="profile__image" />
+    <div>
+      <input type='file' (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
+      <button type="button" class="btn btn-primary btn-profile-photo">Edit Photo</button>
+    </div>
+  </form>
   <div class="profile__name">{{loggedProfile.title}}. {{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
   <hr class="profile__line" />
   <!-- Profile Info -->

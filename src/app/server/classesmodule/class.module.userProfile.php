@@ -30,6 +30,9 @@
                 case 'adminlist':
                     $this->adminListAction();
                     break;
+                case 'profilephotoupload':
+                    $this->profilePhotoAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
@@ -305,6 +308,34 @@
             }
 
         }
+
+        function profilePhotoAction() {
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user_id = $result[0]['user_id'];
+            
+            $img = $this->input['image'];
+            $file = 'user_'.$user_id. '.jpg';
+            $this->output['emailId'] = $this->input['emailId'];
+            $this->base64_to_jpeg($img, $file );
+        }
+
+        function base64_to_jpeg($base64_string, $output_file) {
+            // open the output file for writing
+            $ifp = fopen( "uploads/profileuploads/".$output_file, 'wb' );
+            // split the string on commas
+            // $data[ 0 ] == "data:image/png;base64"
+            // $data[ 1 ] == <actual base64 string>
+            $data = explode( ',', $base64_string );
+            // we could add validation here with ensuring count( $data ) > 1
+            fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+            // clean up the file resource
+            fclose( $ifp );
+        }
+
 
         function defaultAction() {
             $this->output = "I am defaultAction. I got called successfully :)";

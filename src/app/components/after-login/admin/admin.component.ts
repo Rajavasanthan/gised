@@ -54,6 +54,7 @@ export class AdminComponent implements OnInit {
   approvalBy : number;
   gisedId : number;
   loader : string; 
+  profileImg : any;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -86,6 +87,13 @@ export class AdminComponent implements OnInit {
    uploadFiles_3_2Len =0;
    uploadFiles_3_3Len =0;
    uploadFiles_3_4Len =0;
+
+
+  //Application form and variables declared
+  profilePhotoUpoadForm = new FormGroup({
+    profilePhoto : new FormControl("")
+  });
+ 
 
   //Application form and variables declared
   applicationForm = new FormGroup({
@@ -586,6 +594,57 @@ export class AdminComponent implements OnInit {
       importedSaveAs(blob, displayFile);
     });
 
+  }
+
+  //Edit Profile Image
+  onSelectProfileImage(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        this.profileImg = reader.result;
+        //console.log("base 64 :"+reader.result);
+        
+        this.serverRequest = {
+          token: localStorage.getItem("token"),
+          module: "userProfile",
+          action: "profilephotoupload",
+          requestData: { image : this.profileImg, emailId : this.emailId }
+        };
+    
+        // this.loader = "Checking credentials";
+        // //this.spinner.show();
+    
+        this.server.sendToServer(this.serverRequest).subscribe(
+          (response) => {
+            this.serverResponse = JSON.parse(
+              this.server.decryption(response["response"])
+            );
+            console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+            //this.spinner.hide();
+            this.loader = "";
+            if (this.serverResponse.responseData.status == "EMPTY") {
+              this.errorMsg = "Sorry! Mail id not exist";
+              Swal.fire(this.errorMsg);
+            } else if (this.serverResponse.responseData.status == "ERROR") {
+              this.errorMsg = "Sorry! Something went wrong";
+              Swal.fire(this.errorMsg);
+            } else {
+              
+            }
+          },
+          (error) => {
+            //this.spinner.hide();
+            this.loader = "";
+            this.errorMsg = "Sorry! Something went wrong";
+            Swal.fire(this.errorMsg);
+          },
+          () => {
+            console.log("Completed");
+          }
+        );
+      }
+    }
   }
 
 }
