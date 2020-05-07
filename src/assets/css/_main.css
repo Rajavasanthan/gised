@@ -903,7 +903,9 @@ body {
 .loader-message {
   color:#FFFFFF;
 }
-
 .errors{
   color:red;
+}
+.btn-profile-photo {
+  margin: 20px 0 0 37px;
 }
