@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, LocationStrategy, HashLocationStrategy } from '@angular/common';
 // import { NgxSpinnerModule } from "../../../../node_modules/ngx-spinner";
 
 import { ProductService } from '../../services/product.service';
@@ -13,7 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
   AdminComponent,
   UserComponent],
-  providers:[ProductService],
+  providers:[{provide: LocationStrategy, useClass: HashLocationStrategy},ProductService],
   imports: [
     CommonModule,
     AfterLoginRoutingModule,

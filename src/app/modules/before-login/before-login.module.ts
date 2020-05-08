@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,HashLocationStrategy, LocationStrategy  } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -39,7 +39,7 @@ import { SetPasswordComponent } from '../../components/before-login/set-password
     // NgxSpinnerModule,
     HttpModule
   ],
-  providers: [ValidationService,ServerCallService,AuthService],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},ValidationService,ServerCallService,AuthService],
   bootstrap: [IndexComponent,FooterComponent]
 })
 export class BeforeLoginModule {
