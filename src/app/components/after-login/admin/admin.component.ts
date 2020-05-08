@@ -62,6 +62,9 @@ export class AdminComponent implements OnInit {
    //Files Accepet Types
    fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
 
+   //Profile Image Files Accepet Types
+   profileImgFileTypes = Configurations.PROFILE_IMG_UPLOAD_ACCEPET_TYPES;
+
    //Breaf assesment files
    uploadFiles_2_0:string  [] = [];
    uploadFiles_2_1:string [] = [];
