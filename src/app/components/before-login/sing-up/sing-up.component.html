@@ -64,11 +64,11 @@
          <div class="signup__radio-container">
           <div class="signup__radio-input-container">
            <label for="male">Male</label>
-           <input type="radio" class="" name="gender" value="male" formControlName="gender"/>
+           <input type="radio" class="" name="gender" value="Male" formControlName="gender"/>
           </div>
           <div class="signup__radio-input-container">
            <label for="male">Female</label>
-           <input type="radio" class="" name="gender" value="female" formControlName="gender"/>
+           <input type="radio" class="" name="gender" value="Female" formControlName="gender"/>
           </div>
          </div>
         </div>
@@ -97,7 +97,7 @@
          <!-- <input type="text" class="registration__input" placeholder="Country"  formControlName="country" /> -->
          <select class="registration__input" placeholder="Country"  formControlName="country">
              <option value="0">Select your country</option>
-             <option *ngFor="let country of countries" value="country.country_id">{{country.country_name}}</option>
+             <option *ngFor="let country of countries" value="{{country.country_id}}">{{country.country_name}}</option>
          </select>
         </div>
         <div *ngIf="signUpForm.controls.country.errors && signUpForm.controls.country.touched" class="errors">

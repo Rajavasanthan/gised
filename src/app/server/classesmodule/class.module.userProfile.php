@@ -30,6 +30,9 @@
                 case 'adminlist':
                     $this->adminListAction();
                     break;
+                case 'profilephotoupload':
+                    $this->profilePhotoAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
@@ -108,6 +111,8 @@
                     $this->output['loggedProfile'][$innerKey] = $innerValue;
                 }
             }
+
+            $this->output['loggedProfile']['profileImg'] = $this->getProfilePicture($userResult[0]['user_id'], $userResult[0]['gender']);
 
             require_once "classes/class.dmapplicationdetails.php";
             $applicationObj = new dmapplicationdetails();
@@ -306,12 +311,60 @@
 
         }
 
+        function profilePhotoAction() {
+        
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $result = dbConnection::selectQuery($sql);
+            $user_id = $result[0]['user_id'];
+            $gender = $result[0]['gender'];
+            
+            $img = $this->input['image'];
+            $file = 'user_' .$user_id. '.jpg';
+            $this->base64_to_jpeg($img, $file );
+
+            $this->output['emailId'] = $this->input['emailId'];
+            $this->output['profileImg'] = $this->getProfilePicture($user_id, $gender);
+        
+        }
+
+        function base64_to_jpeg($base64_string, $output_file) {
+
+            $ifp = fopen( USER_PROFILE_PICTURE_PATH.$output_file, 'wb' );
+            $data = explode( ',', $base64_string );
+            fwrite( $ifp, base64_decode( $data[ 1 ] ) );
+            fclose( $ifp );
+
+        }
+
+	    function getProfilePicture($userId, $gender) {
+
+            $profilePicturePath = "./assets/images/blank.jpg";
+
+            if(file_exists(USER_PROFILE_PICTURE_PATH . "user_".$userId.".jpg")) {
+                $profilePicturePath = BACKEND_PRODUCT_LINK . USER_PROFILE_PICTURE_PATH . "user_".$userId.".jpg?".date("dmYHis");
+            } else if($gender == "Male") {
+                $profilePicturePath = "./assets/images/male.jpg";
+            } else if($gender == "Female") {
+                $profilePicturePath = "./assets/images/female.jpg";
+            }
+
+            return $profilePicturePath;
+
+        }
+
         function defaultAction() {
+            
             $this->output = "I am defaultAction. I got called successfully :)";
+        
         }
 
         function getModuleOutput() {
+        
             return $this->output;
+        
         }
 
     }

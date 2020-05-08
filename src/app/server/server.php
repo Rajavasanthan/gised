@@ -49,7 +49,6 @@ class serverController {
 			$moduleObj->executeModule();
 			
 			$this->jwtObj->prepareJwtToken($moduleObj->output['emailId']);
-			$moduleObj->output['tokendata'] = $this->angularRequest['responseData']['emailId'];
 			$moduleObj->output['token'] = $this->jwtObj->encodeJwtToken();
 
 			$this->angularResponse['responseData'] = $moduleObj->getModuleOutput();
@@ -66,7 +65,6 @@ class serverController {
 
 	function checkJwtValidation() {
 
-		//if(($this->module['module_name'] != 'login') && ($this->module['module_name'] != 'userProfile' && $this->module['action'] != 'showprofile')) {
 		if(isset($this->angularRequest['token'])) {			
 
 			$jwtData = $this->jwtObj->decodeJwtToken($this->angularRequest['token']);

@@ -54,6 +54,7 @@ export class AdminComponent implements OnInit {
   approvalBy : number;
   gisedId : number;
   loader : string; 
+  profileImg : any;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -86,6 +87,13 @@ export class AdminComponent implements OnInit {
    uploadFiles_3_2Len =0;
    uploadFiles_3_3Len =0;
    uploadFiles_3_4Len =0;
+
+
+  //Application form and variables declared
+  profilePhotoUpoadForm = new FormGroup({
+    profilePhoto : new FormControl("")
+  });
+ 
 
   //Application form and variables declared
   applicationForm = new FormGroup({
@@ -208,6 +216,7 @@ export class AdminComponent implements OnInit {
           //Load basic data informations from server
           this.loggedProfile =  this.serverResponse.responseData.loggedProfile;
           this.emailId = this.serverResponse.responseData.loggedProfile.email_id;
+          this.profileImg = this.loggedProfile.profileImg;
 
           //Admin process assigned
           this.userRequestList = this.serverResponse.responseData.userRequestList;
@@ -586,6 +595,59 @@ export class AdminComponent implements OnInit {
       importedSaveAs(blob, displayFile);
     });
 
+  }
+
+  //Edit Profile Image
+  onSelectProfileImage(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event) => { // called once readAsDataURL is completed
+        let profileImg = reader.result;
+        //console.log("base 64 :"+reader.result);
+        
+        this.serverRequest = {
+          token: localStorage.getItem("token"),
+          module: "userProfile",
+          action: "profilephotoupload",
+          requestData: { image : profileImg, emailId : this.emailId }
+        };
+    
+        // this.loader = "Checking credentials";
+        // //this.spinner.show();
+    
+        this.server.sendToServer(this.serverRequest).subscribe(
+          (response) => {
+            this.serverResponse = JSON.parse(
+              this.server.decryption(response["response"])
+            );
+            console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+            //this.spinner.hide();
+            this.loader = "";
+            if (this.serverResponse.responseData.status == "EMPTY") {
+              this.errorMsg = "Sorry! Something went wrong";
+              Swal.fire(this.errorMsg);
+            } else if (this.serverResponse.responseData.status == "ERROR") {
+              this.errorMsg = "Sorry! Something went wrong";
+              Swal.fire(this.errorMsg);
+            } else {
+              this.profileImg = this.serverResponse.responseData.profileImg;
+              this.errorMsg = "Profile picture updated";
+              Swal.fire(this.errorMsg);
+            }
+          },
+          (error) => {
+            //this.spinner.hide();
+            this.loader = "";
+            this.errorMsg = "Sorry! Something went wrong";
+            Swal.fire(this.errorMsg);
+          },
+          () => {
+            console.log("Completed");
+          }
+        );
+      }
+    }
   }
 
 }
