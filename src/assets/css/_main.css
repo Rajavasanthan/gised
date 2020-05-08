@@ -690,7 +690,7 @@ body {
   cursor: pointer; }
 
 .btn-primary {
-  background-color: #eda321; }
+  background-color: #eda321 !important; }
 
 .btn-danger {
   background-color: #db2c2c; }
