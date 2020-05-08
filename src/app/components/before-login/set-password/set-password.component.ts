@@ -62,11 +62,11 @@ export class SetPasswordComponent implements OnInit {
           console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
           //this.spinner.hide();
           this.loader = "";
-          if (this.serverResponse.responseData == "EMPTY") {
+          if (this.serverResponse.responseData.result == "EMPTY") {
             this.errorMsg = "Sorry! Bad link";
             Swal.fire(this.errorMsg);
             this.router.navigate(["/"]);
-          } else if (this.serverResponse.responseData == "ERROR") {
+          } else if (this.serverResponse.responseData.result == "ERROR") {
             this.errorMsg = "Sorry! Something went wrong";
             Swal.fire(this.errorMsg);
             this.router.navigate(["/"]);

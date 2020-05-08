@@ -86,12 +86,12 @@
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
             $dmUserObj->mobile_no = $this->input['mobileNo'];
-            $dmUserObj->title = 'Mr';
+            $dmUserObj->title = ($this->input['gender'] == "Male") ? "Mr" : "Ms" ;
             $dmUserObj->first_name = $this->input['fullName'];
             $dmUserObj->gender = $this->input['gender'];
             $dmUserObj->age = $this->input['age'];
             $dmUserObj->r_state_id = 1;
-            $dmUserObj->r_country_id = 1;
+            $dmUserObj->r_country_id = $this->input['country'];
             $sql = $dmUserObj->insertdmuser();
             $result = dbConnection::insertQuery($sql);
 
@@ -158,6 +158,7 @@
                 $result = dbConnection::insertQuery($sql);
                 
                 $sendMailObj->mail();
+
             } else {
                 $this->output = $result;
             }
@@ -182,7 +183,7 @@
                 $this->output['emailId'] = $emailId;
                 $this->output['userId'] = $userId;
             } else {
-                $this->output = $result;
+                $this->output['result'] = $result;
             }
 
         }
@@ -208,7 +209,7 @@
             $sql = $dmSetPassObj->disableExistingLink();
             $result = dbConnection::updateQuery($sql);
 
-            $this->output = $sql2;
+            //$this->output['result'] = $result;
         }
 
         function getCountriesAction() {
@@ -236,7 +237,7 @@
             if(isset($result[0]['email_id'])) {
                 $this->output['emailId'] = $result[0]['email_id'];
             } else {
-                $this->output = $result;
+                $this->output['result'] = $result;
             }
 
         }

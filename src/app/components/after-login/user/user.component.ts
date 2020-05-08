@@ -227,6 +227,7 @@ export class UserComponent implements OnInit {
           this.presentFormNo = this.serverResponse.responseData.presentFormNo;
           this.action = this.serverResponse.responseData.action;
           this.emailId = this.loggedProfile.email_id;
+          this.profileImg = this.loggedProfile.profileImg;
 
           //Set for wordpress user name show
           localStorage.setItem(
@@ -781,14 +782,14 @@ export class UserComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event) => { // called once readAsDataURL is completed
-        this.profileImg = reader.result;
+        let profileImg = reader.result;
         //console.log("base 64 :"+reader.result);
         
         this.serverRequest = {
           token: localStorage.getItem("token"),
           module: "userProfile",
           action: "profilephotoupload",
-          requestData: { image : this.profileImg, emailId : this.emailId }
+          requestData: { image : profileImg, emailId : this.emailId }
         };
     
         // this.loader = "Checking credentials";
@@ -803,13 +804,15 @@ export class UserComponent implements OnInit {
             //this.spinner.hide();
             this.loader = "";
             if (this.serverResponse.responseData.status == "EMPTY") {
-              this.errorMsg = "Sorry! Mail id not exist";
+              this.errorMsg = "Sorry! Something went wrong";
               Swal.fire(this.errorMsg);
             } else if (this.serverResponse.responseData.status == "ERROR") {
               this.errorMsg = "Sorry! Something went wrong";
               Swal.fire(this.errorMsg);
             } else {
-              
+              this.profileImg = this.serverResponse.responseData.profileImg;
+              this.errorMsg = "Profile picture updated";
+              Swal.fire(this.errorMsg);
             }
           },
           (error) => {

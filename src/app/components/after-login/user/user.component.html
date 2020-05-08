@@ -13,7 +13,7 @@
    <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
   <form [formGroup]="profilePhotoUpoadForm">
-  <img [src]="profileImg ? profileImg : 'https://www.w3schools.com/howto/img_avatar.png'" alt="" class="profile__image" />
+  <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
   <div>
     <input type='file' (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
     <button type="button" class="btn btn-primary btn-profile-photo">Edit Photo</button>

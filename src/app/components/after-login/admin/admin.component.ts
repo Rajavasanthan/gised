@@ -216,6 +216,7 @@ export class AdminComponent implements OnInit {
           //Load basic data informations from server
           this.loggedProfile =  this.serverResponse.responseData.loggedProfile;
           this.emailId = this.serverResponse.responseData.loggedProfile.email_id;
+          this.profileImg = this.loggedProfile.profileImg;
 
           //Admin process assigned
           this.userRequestList = this.serverResponse.responseData.userRequestList;
@@ -602,14 +603,14 @@ export class AdminComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
       reader.onload = (event) => { // called once readAsDataURL is completed
-        this.profileImg = reader.result;
+        let profileImg = reader.result;
         //console.log("base 64 :"+reader.result);
         
         this.serverRequest = {
           token: localStorage.getItem("token"),
           module: "userProfile",
           action: "profilephotoupload",
-          requestData: { image : this.profileImg, emailId : this.emailId }
+          requestData: { image : profileImg, emailId : this.emailId }
         };
     
         // this.loader = "Checking credentials";
@@ -624,13 +625,15 @@ export class AdminComponent implements OnInit {
             //this.spinner.hide();
             this.loader = "";
             if (this.serverResponse.responseData.status == "EMPTY") {
-              this.errorMsg = "Sorry! Mail id not exist";
+              this.errorMsg = "Sorry! Something went wrong";
               Swal.fire(this.errorMsg);
             } else if (this.serverResponse.responseData.status == "ERROR") {
               this.errorMsg = "Sorry! Something went wrong";
               Swal.fire(this.errorMsg);
             } else {
-              
+              this.profileImg = this.serverResponse.responseData.profileImg;
+              this.errorMsg = "Profile picture updated";
+              Swal.fire(this.errorMsg);
             }
           },
           (error) => {
