@@ -15,8 +15,8 @@
   <form [formGroup]="profilePhotoUpoadForm">
   <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
   <div>
-    <input type='file' (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
-    <button type="button" class="btn btn-primary btn-profile-photo">Edit Photo</button>
+    <input type='file' #profilePic (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
+    <button type="button" (click)="profilePic.click()" class="btn btn-primary btn-profile-photo">Edit Photo</button>
   </div>
 </form>
   <div class="profile__name">{{loggedProfile.title}}. {{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
