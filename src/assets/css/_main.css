@@ -909,3 +909,6 @@ body {
 .btn-profile-photo {
   margin: 20px 0 0 37px;
 }
+button:disabled {
+  background-color:#8b8b8b !important;
+}
