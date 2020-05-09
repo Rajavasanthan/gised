@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 // import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+
 import Swal from "sweetalert2";
 
 import { ValidationService } from "../../../services/validation.service";
@@ -13,6 +15,9 @@ import { ServerCallService } from "../../../services/server-call.service";
   styleUrls: ["./forgot-password.component.css"],
 })
 export class ForgotPasswordComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+  
   serverRequest: any;
   serverResponse: any;
   errorMsg: string;
@@ -53,6 +58,7 @@ export class ForgotPasswordComponent implements OnInit {
     this.loader =
       "Mail id checking and password reset link sending to your mail";
     //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(
       (response) => {
@@ -60,7 +66,7 @@ export class ForgotPasswordComponent implements OnInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", this.serverResponse);
-        //this.spinner.hide();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "EMPTY") {
           this.errorMsg = "Sorry! Mail id not exist";
@@ -75,7 +81,7 @@ export class ForgotPasswordComponent implements OnInit {
         this.router.navigate(["/"]);
       },
       (error) => {
-        //this.spinner.hide();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);

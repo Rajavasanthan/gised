@@ -130,7 +130,7 @@ export class UserComponent implements OnInit {
     ]),
     organizationName: new FormControl("", [Validators.required]),
     orgDetails: new FormControl("", [Validators.required]),
-    signUpEmail: new FormControl("", [Validators.required]),
+    signUpEmail: new FormControl(""),
     sourceValue: new FormGroup({
       newspaper: new FormControl(false),
       edm: new FormControl(false),
@@ -243,6 +243,7 @@ export class UserComponent implements OnInit {
 
           //Form open and close according to the user access
           this.firstContactFormClose = this.serverResponse.responseData.close.firstContactFormClose;
+          
           if (this.firstContactFormClose == "CLOSE") {
             this.firstContactFormSelector.classList.add("completed");
             this.firstContactCompleted = 1;
@@ -270,6 +271,15 @@ export class UserComponent implements OnInit {
           } else if (this.action == "detailedpresentationforminsertion") {
             this.detailedPresentaionForm.enable();
           }
+
+          //Load the exsisting values
+          if(this.action == "firstcontactformupdation") {
+            this.firstContactFormValuesUpdate();
+          }
+          if(this.action == "briefassesmentformupdation") {
+            this.briefAssementFormValuesUpdate();
+          }
+
         }
       },
       (error) => {
@@ -319,6 +329,85 @@ export class UserComponent implements OnInit {
   //Logout the logged user
   logout() {
     this.product.logout();
+  }
+
+  firstContactFormValuesUpdate() {
+
+      if(this.firstContactValues.brief_idea != "") {
+        this.firstContactForm.controls.describeIdea1.setValue(this.firstContactValues.brief_idea);
+      }
+      if(this.firstContactValues.explained_idea != "") {
+        this.firstContactForm.controls.describeIdea2.setValue(this.firstContactValues.explained_idea);
+      }
+      if(this.firstContactValues.about_group != "") {
+        this.firstContactForm.controls.describeIdea3.setValue(this.firstContactValues.about_group);
+      }
+      if(this.firstContactValues.first_name != "") {
+        this.firstContactForm.controls.firstName.setValue(this.firstContactValues.first_name);
+      }
+      if(this.firstContactValues.last_name != "") {
+        this.firstContactForm.controls.lastName.setValue(this.firstContactValues.last_name);
+      }
+      if(this.firstContactValues.email != "") {
+        this.firstContactForm.controls.email.setValue(this.firstContactValues.email_id);
+      }
+      if(this.firstContactValues.organization_name != "") {
+        this.firstContactForm.controls.organizationName.setValue(this.firstContactValues.organization_name);
+      }
+      if(this.firstContactValues.org_details != "") {
+        this.firstContactForm.controls.orgDetails.setValue(this.firstContactValues.org_details);
+      }
+      if(this.firstContactValues.sign_up_for_emails != "") {
+        this.firstContactForm.controls.signUpEmail.setValue((this.firstContactValues.sign_up_for_emails=="Y") ? true : false);
+      }
+      if(this.firstContactValues.r_source_id.newspaper == true) {
+        this.firstContactForm.controls.sourceValue.get('newspaper').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.edm == true) {
+        this.firstContactForm.controls.sourceValue.get('edm').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.sms == true) {
+        this.firstContactForm.controls.sourceValue.get('sms').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.website == true) {
+        this.firstContactForm.controls.sourceValue.get('website').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.pressads == true) {
+        this.firstContactForm.controls.sourceValue.get('pressads').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.online == true) {
+        this.firstContactForm.controls.sourceValue.get('online').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.wordofmouth == true) {
+        this.firstContactForm.controls.sourceValue.get('wordofmouth').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.maildrop == true) {
+        this.firstContactForm.controls.sourceValue.get('maildrop').setValue(true);
+      }
+      if(this.firstContactValues.r_source_id.others != "") {
+        this.firstContactForm.controls.sourceValue.get('others').setValue(this.firstContactValues.others);
+      }
+
+  }
+
+  briefAssementFormValuesUpdate() {
+
+    if(this.briefAssesmentValues.full_name != "") {
+      this.briefAssesmentForm.controls.name.setValue(this.briefAssesmentValues.full_name);
+    }
+    if(this.briefAssesmentValues.address != "") {
+      this.briefAssesmentForm.controls.address.setValue(this.briefAssesmentValues.address);
+    }
+    if(this.briefAssesmentValues.email_id != "") {
+      this.briefAssesmentForm.controls.email.setValue(this.briefAssesmentValues.email_id);
+    }
+    if(this.briefAssesmentValues.telephone_number != "") {
+      this.briefAssesmentForm.controls.telephoneNo.setValue(this.briefAssesmentValues.telephone_number);
+    }
+    if(this.briefAssesmentValues.website_url != "") {
+      this.briefAssesmentForm.controls.website.setValue((this.briefAssesmentValues.website_url=='Y') ? true : false);
+    }
+
   }
 
   feedBackFormSubmit() {
