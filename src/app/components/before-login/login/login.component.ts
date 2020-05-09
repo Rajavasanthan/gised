@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 
 import { ValidationService } from "../../../services/validation.service";
@@ -13,6 +13,9 @@ import { ServerCallService } from "../../../services/server-call.service";
   styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+
   serverRequest: any;
   serverResponse: any;
   errorMsg: string;
@@ -32,7 +35,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private server: ServerCallService,
     private router: Router,
-    // private spinner: NgxSpinnerService,
     private validation: ValidationService
   ) {}
 
@@ -46,7 +48,7 @@ export class LoginComponent implements OnInit {
     };
 
     this.loader = "Checking credentials";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(
       (response) => {
@@ -54,8 +56,8 @@ export class LoginComponent implements OnInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-        //this.spinner.hide();
         this.loader = "";
+        this.blockUI.stop();
         if (this.serverResponse.responseData.status == "EMPTY") {
           this.errorMsg = "Sorry! Mail id not exist";
           Swal.fire(this.errorMsg);
@@ -85,8 +87,8 @@ export class LoginComponent implements OnInit {
         }
       },
       (error) => {
-        //this.spinner.hide();
         this.loader = "";
+        this.blockUI.stop();
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
       },

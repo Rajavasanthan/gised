@@ -5,7 +5,6 @@ import { CommonModule,HashLocationStrategy, LocationStrategy  } from '@angular/c
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
-// import { NgxSpinnerModule } from "../../../../node_modules/ngx-spinner";
 import { BlockUIModule } from 'ng-block-ui';
 
 import { ValidationService } from '../../services/validation.service';
@@ -37,7 +36,6 @@ import { SetPasswordComponent } from '../../components/before-login/set-password
     BeforeLoginRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    // NgxSpinnerModule,
     HttpModule,
     BlockUIModule.forRoot()
   ],

@@ -4,9 +4,9 @@ import {
   FormGroup,
   FormControl,
   Validators,
-  AbstractControl,
+  AbstractControl
 } from "@angular/forms";
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 
 import { ValidationService } from "../../../services/validation.service";
@@ -18,6 +18,9 @@ import { ServerCallService } from "../../../services/server-call.service";
   styleUrls: ["./set-password.component.css"],
 })
 export class SetPasswordComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+
   serverRequest: any;
   serverResponse: any;
   errorMsg: string;
@@ -40,7 +43,6 @@ export class SetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private server: ServerCallService,
     private router: Router,
-    // private spinner: NgxSpinnerService,
     private validation: ValidationService
   ) {
     this.route.params.subscribe((params) => {
@@ -52,7 +54,7 @@ export class SetPasswordComponent implements OnInit {
       };
 
       this.loader = "Preparing set password page";
-      //this.spinner.show();
+      this.blockUI.start(this.loader);
 
       this.server.sendToServer(this.serverRequest).subscribe(
         (response) => {
@@ -60,7 +62,7 @@ export class SetPasswordComponent implements OnInit {
             this.server.decryption(response["response"])
           );
           console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-          //this.spinner.hide();
+          this.blockUI.stop();
           this.loader = "";
           if (this.serverResponse.responseData.result == "EMPTY") {
             this.errorMsg = "Sorry! Bad link";
@@ -76,7 +78,7 @@ export class SetPasswordComponent implements OnInit {
           }
         },
         (error) => {
-          //this.spinner.hide();
+          this.blockUI.stop();
           this.loader = "";
           this.errorMsg = "Sorry! Something went wrong";
           Swal.fire(this.errorMsg);
@@ -103,7 +105,7 @@ export class SetPasswordComponent implements OnInit {
     };
 
     this.loader = "Updating the changed passowrd";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(
       (response) => {
@@ -111,7 +113,7 @@ export class SetPasswordComponent implements OnInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-        //this.spinner.hide();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "EMPTY") {
           this.errorMsg = "Sorry! Mail id not exist";
@@ -128,7 +130,7 @@ export class SetPasswordComponent implements OnInit {
         }
       },
       (error) => {
-        //this.spinner.hide();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);

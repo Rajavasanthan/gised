@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 import Swal from "sweetalert2";
@@ -33,19 +32,13 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private server: ServerCallService,
     private router: Router,
-    // private spinner: NgxSpinnerService,
     private validation: ValidationService
   ) {
     this.loader = "";
   }
 
   ngOnInit() {
-    /** spinner starts on init */
-    // //this.spinner.show();
-    // setTimeout(() => {
-    //   /** spinner ends after 5 seconds */
-    //   //this.spinner.hide();
-    // }, 5000);
+
   }
 
   forgotPasswordFormSubmit() {
@@ -55,9 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
       requestData: this.forgotPasswordForm.value,
     };
 
-    this.loader =
-      "Mail id checking and password reset link sending to your mail";
-    //this.spinner.show();
+    this.loader = "Mail id checking and password reset link sending to your mail";
     this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(

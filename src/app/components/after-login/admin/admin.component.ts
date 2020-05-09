@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Configurations } from '../../../config/configurations';
 import { saveAs as importedSaveAs } from 'file-saver';
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 
 //Specifid the this component schema
@@ -18,6 +18,8 @@ import Swal from "sweetalert2";
 
 //Class implmentation for this component
 export class AdminComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
 
   //Variable decrlation with its type
   loggedProfile : any;
@@ -177,7 +179,7 @@ export class AdminComponent implements OnInit {
   constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef) { 
   
     this.loader = "Loading GISED admin page";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
     
       //Define intial values to the variables
       this.currentStatus = 'Nil';
@@ -240,10 +242,6 @@ export class AdminComponent implements OnInit {
     //Body class chaged to applications
     this.product.login();
   
-    //this.selectedApplication = 1;
-    //this.applicationForm.controls.applicationValue.setValue(1);
-    //this.applicationForm.get('applicationValue').setValue(1);
-
     //Select the element to load class
     this.firstContactFormSelector = this.el.nativeElement.querySelector("#firstContactFormId");
     this.briefAssesmentFormSelector = this.el.nativeElement.querySelector("#briefAssesmentFormId");
@@ -252,7 +250,7 @@ export class AdminComponent implements OnInit {
     //Form disable
     this.formsDisable();
 
-    //this.spinner.show();
+    this.blockUI.stop();
     this.loader = "";
 
   }
@@ -268,7 +266,7 @@ export class AdminComponent implements OnInit {
     }  
 
     this.loader = "Loading list for admin";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
@@ -277,7 +275,7 @@ export class AdminComponent implements OnInit {
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       console.log('RESPONSE : ', this.serverResponse);
       this.product.checkToken(this.serverResponse.responseData.token);
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
@@ -287,7 +285,7 @@ export class AdminComponent implements OnInit {
         this.userRequestListCount = this.serverResponse.responseData.userRequestListCount;
       }
     }, (error) => {
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
       Swal.fire(this.errorMsg);
@@ -308,7 +306,7 @@ export class AdminComponent implements OnInit {
     }
 
     this.loader = "Loading form data for selected user";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
@@ -317,7 +315,7 @@ export class AdminComponent implements OnInit {
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       console.log('RESPONSE : ', this.serverResponse);
       this.product.checkToken(this.serverResponse.responseData.token);
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
@@ -356,7 +354,7 @@ export class AdminComponent implements OnInit {
         
       }
     }, (error) => {
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
       Swal.fire(this.errorMsg);
@@ -479,14 +477,14 @@ export class AdminComponent implements OnInit {
     }
 
     this.loader = "Changing the form status";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).
     subscribe((response) => {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       this.product.checkToken(this.serverResponse.responseData.token);
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
@@ -501,7 +499,7 @@ export class AdminComponent implements OnInit {
         Swal.fire(this.userMsg);
       }
     }, (error) => {
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
       Swal.fire(this.errorMsg);
@@ -523,7 +521,7 @@ export class AdminComponent implements OnInit {
     }
 
     this.loader = "Suggesstion mail sending to GISET user";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).
@@ -531,7 +529,7 @@ export class AdminComponent implements OnInit {
       this.serverResponse = JSON.parse(this.server.decryption(response['response']));
       console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
       this.product.checkToken(this.serverResponse.responseData.token);
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       if(this.serverResponse.responseData == 'ERROR') {
         this.errorMsg = 'Sorry! Something went wrong';
@@ -542,7 +540,7 @@ export class AdminComponent implements OnInit {
         this.feedBackForm.reset();
       }
     }, (error) => {
-      //this.spinner.show();
+      this.blockUI.stop();
       this.loader = "";
       this.errorMsg = 'Sorry! Something went wrong';
       Swal.fire(this.errorMsg);
@@ -591,7 +589,7 @@ export class AdminComponent implements OnInit {
     }
 
     //this.loader = "Downloading file";
-    //this.spinner.show();
+    //this.blockUI.stop();
 
     //Hit to the server for get logged user informations
     this.server.downloadFile(downloadfile).subscribe(blob => {
@@ -616,8 +614,8 @@ export class AdminComponent implements OnInit {
           requestData: { image : profileImg, emailId : this.emailId }
         };
     
-        // this.loader = "Checking credentials";
-        // //this.spinner.show();
+        this.loader = "Profile photo uploading";
+        this.blockUI.start(this.loader);
     
         this.server.sendToServer(this.serverRequest).subscribe(
           (response) => {
@@ -625,7 +623,7 @@ export class AdminComponent implements OnInit {
               this.server.decryption(response["response"])
             );
             console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-            //this.spinner.hide();
+            this.blockUI.stop();
             this.loader = "";
             if (this.serverResponse.responseData.status == "EMPTY") {
               this.errorMsg = "Sorry! Something went wrong";
@@ -640,7 +638,7 @@ export class AdminComponent implements OnInit {
             }
           },
           (error) => {
-            //this.spinner.hide();
+            this.blockUI.stop();
             this.loader = "";
             this.errorMsg = "Sorry! Something went wrong";
             Swal.fire(this.errorMsg);

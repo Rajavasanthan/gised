@@ -6,7 +6,7 @@ import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Configurations } from "../../../config/configurations";
 
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 import * as jspdf from "jspdf";
 import html2canvas from "html2canvas";
@@ -21,6 +21,9 @@ import { ValidationService } from "src/app/services/validation.service";
 
 //Class implmentation for this component
 export class UserComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+
   //Variable decrlation with its type
   loggedProfile : any;
   applications : any;
@@ -185,7 +188,7 @@ export class UserComponent implements OnInit {
   constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation:ValidationService) { 
     
       this.loader = "Loading GISED user page";
-      // this.spinner.show();
+      this.blockUI.start(this.loader);
 
       //Define intial values to the variables
       this.currentStatus = 'Nil';
@@ -314,7 +317,7 @@ export class UserComponent implements OnInit {
     //Form disable
     this.formsDisable();
 
-    //this.spinner.show();
+    this.blockUI.stop();
     this.loader = "";
   }
 
@@ -419,7 +422,7 @@ export class UserComponent implements OnInit {
     };
 
     this.loader = "Sending suggestion to GISET admin";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
     this.server.sendToServer(this.serverRequest).subscribe(
@@ -430,18 +433,19 @@ export class UserComponent implements OnInit {
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
         this.product.checkToken(this.serverResponse.responseData.token);
 
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
           Swal.fire(this.errorMsg);
         } else {
+          this.feedBackForm.reset();
           this.errorMsg = this.serverResponse.responseData.userMsg;
           Swal.fire(this.errorMsg);
         }
       },
       (error) => {
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
@@ -494,7 +498,7 @@ export class UserComponent implements OnInit {
     };
 
     this.loader = "Inserting the form data";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     //Hit to the server for insert first contact form informations
     this.server.sendToServer(this.serverRequest).subscribe(
@@ -504,7 +508,7 @@ export class UserComponent implements OnInit {
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
         this.product.checkToken(this.serverResponse.responseData.token);
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
@@ -524,7 +528,7 @@ export class UserComponent implements OnInit {
         }
       },
       (error) => {
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
@@ -537,7 +541,7 @@ export class UserComponent implements OnInit {
 
   firstContactFormInsert() {
     if (this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
       return false;
     }
 
@@ -548,7 +552,7 @@ export class UserComponent implements OnInit {
   //Final approval presentation form insertion
   finalApprovalFormInsert() {
     if (this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
       return false;
     }
 
@@ -583,14 +587,14 @@ export class UserComponent implements OnInit {
     } else if (this.presentFormNo == 3) {
       this.detailedPresentaionForm.enable();
     } else {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
     }
   }
 
   //Share the form according to the action
   shareDetails(formNo, formName) {
     this.loader = "Creating form data to PDF";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     let data;
     if (formNo == 1) {
@@ -617,7 +621,7 @@ export class UserComponent implements OnInit {
 
     Swal.fire(formName + " downloaded successfully");
 
-    //this.spinner.show();
+    this.blockUI.stop();
     this.loader = "";
   }
 
@@ -627,13 +631,7 @@ export class UserComponent implements OnInit {
       console.log(event.target);
       console.log(event.target.files);
       for (let i = 0; i < filesCount; i++) {
-        console.log(event.target.result);
-        // var reader = new FileReader();
-        // reader.onload = (event:any) => {
-        //   console.log(event.target.result);
-        //    this.urls.push(event.target.result);
-        // }
-        // reader.readAsDataURL(event.target.files[i]);
+        console.log(event.target.result);        
       }
     }
   }
@@ -698,7 +696,7 @@ export class UserComponent implements OnInit {
   //Brief assesment form insertion
   briefAssesmentFormInsert() {
     if (this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
       return false;
     }
 
@@ -708,7 +706,7 @@ export class UserComponent implements OnInit {
 
   briefFileAppend() {
     this.loader = "Uploading files";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     const formData = new FormData();
 
@@ -794,7 +792,7 @@ export class UserComponent implements OnInit {
   //Detailed presentation form insertion
   detailedPresentaionFormInsert() {
     if (this.presentFormNo == 0) {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
       return false;
     }
 
@@ -804,7 +802,7 @@ export class UserComponent implements OnInit {
 
   detailedFileAppend() {
     this.loader = "Uploading files";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     const formData = new FormData();
 
@@ -834,7 +832,7 @@ export class UserComponent implements OnInit {
   fileUpload(formData, formNo) {
     this.server.sendToServer1(formData).subscribe(
       (response) => {
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         //this.serverResponse = JSON.parse(this.server.decryption(response['response']));
         //this.serverResponse = JSON.parse(response);
@@ -852,7 +850,7 @@ export class UserComponent implements OnInit {
         }
       },
       (error) => {
-        //this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         //console.log('Error : ', JSON.stringify(error));
@@ -881,8 +879,8 @@ export class UserComponent implements OnInit {
           requestData: { image : profileImg, emailId : this.emailId }
         };
     
-        // this.loader = "Checking credentials";
-        // //this.spinner.show();
+        this.loader = "Profile photo uploading";
+        this.blockUI.start(this.loader);
     
         this.server.sendToServer(this.serverRequest).subscribe(
           (response) => {
@@ -890,7 +888,7 @@ export class UserComponent implements OnInit {
               this.server.decryption(response["response"])
             );
             console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-            //this.spinner.hide();
+            this.blockUI.stop();
             this.loader = "";
             if (this.serverResponse.responseData.status == "EMPTY") {
               this.errorMsg = "Sorry! Something went wrong";
@@ -905,7 +903,7 @@ export class UserComponent implements OnInit {
             }
           },
           (error) => {
-            //this.spinner.hide();
+            this.blockUI.stop();
             this.loader = "";
             this.errorMsg = "Sorry! Something went wrong";
             Swal.fire(this.errorMsg);

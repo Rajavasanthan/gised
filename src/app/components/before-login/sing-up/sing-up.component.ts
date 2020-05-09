@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-// import { NgxSpinnerService } from "../../../../../node_modules/ngx-spinner";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 
 import { ValidationService } from "../../../services/validation.service";
@@ -13,6 +13,9 @@ import { ServerCallService } from "../../../services/server-call.service";
   styleUrls: ["./sing-up.component.css"],
 })
 export class SingUpComponent implements OnInit {
+
+  @BlockUI() blockUI: NgBlockUI;
+
   serverRequest: any;
   serverResponse: any;
   emailErrorMsg: string;
@@ -32,7 +35,6 @@ export class SingUpComponent implements OnInit {
   constructor(
     private server: ServerCallService,
     private router: Router,
-    // private spinner: NgxSpinnerService,
     private validation: ValidationService
   ) {
     this.serverRequest = {
@@ -42,7 +44,7 @@ export class SingUpComponent implements OnInit {
     };
 
     this.loader = "Preparing signup page";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(
       (response) => {
@@ -50,7 +52,7 @@ export class SingUpComponent implements OnInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-        ////this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
@@ -60,7 +62,7 @@ export class SingUpComponent implements OnInit {
         }
       },
       (error) => {
-        ////this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
@@ -115,7 +117,7 @@ export class SingUpComponent implements OnInit {
     };
 
     this.loader = "Creating your profile on GISET";
-    //this.spinner.show();
+    this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(
       (response) => {
@@ -123,7 +125,7 @@ export class SingUpComponent implements OnInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", this.serverResponse);
-        ////this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
@@ -137,7 +139,7 @@ export class SingUpComponent implements OnInit {
         }
       },
       (error) => {
-        ////this.spinner.show();
+        this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);

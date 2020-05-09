@@ -261,10 +261,12 @@
 
             $preparedFiles = array();
             foreach($files AS $key => $value) {
+                $index = 0;
                 foreach($value AS $innerKey => $innerValue) {
                     if($innerValue != "" && $innerValue != "No Files") {
-                        $preparedFiles[$key][$innerKey]['displayFileName'] = explode("___",$innerValue)[1];
-                        $preparedFiles[$key][$innerKey]['downloadFileName'] = $innerValue;
+                        $preparedFiles[$key][$index]['displayFileName'] = explode("___",$innerValue)[1];
+                        $preparedFiles[$key][$index]['downloadFileName'] = $innerValue;
+                        $index = $index + 1;
                     }
                 }
             }
