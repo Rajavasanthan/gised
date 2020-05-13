@@ -7,6 +7,10 @@ import Swal from "sweetalert2";
 import { ValidationService } from "../../../services/validation.service";
 import { ServerCallService } from "../../../services/server-call.service";
 
+import { AuthService } from 'angularx-social-login';
+import { SocialUser } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
@@ -16,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
 
+  user: SocialUser;
   serverRequest: any;
   serverResponse: any;
   errorMsg: string;
@@ -35,10 +40,43 @@ export class LoginComponent implements OnInit {
   constructor(
     private server: ServerCallService,
     private router: Router,
-    private validation: ValidationService
+    private validation: ValidationService,
+    private authService: AuthService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
+
+  signInWithGoogle(): void {
+
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      console.log(JSON.stringify(this.user));
+      this.authService.signOut();
+    },(error) => {
+    },
+    () => {
+    });
+
+  }
+
+  signInWithFB(): void {
+    
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      console.log(JSON.stringify(this.user));
+      this.authService.signOut();
+    },(error) => {
+    },
+    () => {
+    });
+
+  }
 
   loginFormSubmit() {
     this.serverRequest = {

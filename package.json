@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~8.2.14",
     "@angular/router": "~8.2.14",
     "@babel/compat-data": "7.8.0",
+    "angularx-social-login": "^2.3.1",
     "bootstrap": "^4.4.1",
     "file-saver": "^2.0.2",
     "html2canvas": "^1.0.0-rc.5",
