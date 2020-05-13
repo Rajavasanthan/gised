@@ -20,11 +20,11 @@ export class LoginComponent implements OnInit {
 
   @BlockUI() blockUI: NgBlockUI;
 
-  user: SocialUser;
   serverRequest: any;
   serverResponse: any;
   errorMsg: string;
   loader: string;
+  user : SocialUser;
 
   loginForm = new FormGroup({
     emailId: new FormControl("", [
@@ -49,33 +49,32 @@ export class LoginComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(JSON.stringify(this.user));
-      this.authService.signOut();
-    },(error) => {
-    },
-    () => {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(()=>{
+      this.authService.authState.subscribe((user) => {
+        this.user = user;
+        console.log(JSON.stringify(this.user));
+        
+      },(error) => {
+      }
+      );
     });
 
   }
 
   signInWithFB(): void {
-    
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      console.log(JSON.stringify(this.user));
-      this.authService.signOut();
-    },(error) => {
-    },
-    () => {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(()=>{
+      this.authService.authState.subscribe((user) => {
+        this.user = user;
+        console.log(JSON.stringify(this.user));
+        
+      },(error) => {
+      }
+      );
     });
+  }
 
+  signOut(): void {
+    this.authService.signOut();
   }
 
   loginFormSubmit() {
