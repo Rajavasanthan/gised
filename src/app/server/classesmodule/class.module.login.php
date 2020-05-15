@@ -119,6 +119,22 @@
             $result = dbConnection::insertQuery($sql);
 
             $this->forgotPasswordAction();
+
+            if(isset($this->input['social'])) {
+                $this->insertSocialResponse($userId);
+            }
+        }
+
+        function insertSocialResponse($userId) {
+
+            require_once "classes/class.dmsocial.php";
+            $socialObj = new dmsocial();
+            $socialObj->r_user_id = $userId;
+            $socialObj->social_site = $this->input['socialType'];
+            $socialObj->response = json_encode($this->input['social']);
+            $sql = $socialObj->insertdmsocial();
+            $result = dbConnection::insertQuery($sql);
+
         }
 
         function forgotPasswordAction() {

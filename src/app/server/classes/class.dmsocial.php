@@ -27,7 +27,7 @@ class dmsocial {
                                             $this->social_id,
                                             $this->r_user_id,
                                             '$this->social_site',
-                                            '$this->response',
+                                            compress('$this->response'),
                                             now(),
                                             now()
                                             )";
@@ -38,7 +38,8 @@ class dmsocial {
     //Select query for the table
     function selectdmsocial() {
         $sql = "select
-                        *
+                        *,
+                        uncompress(response) as response 
                 from 
                 dm_social 
                 where 1 ";
@@ -86,8 +87,8 @@ class dmsocial {
 
         $sql = $sql . " where ";
                 
-        if($this->social_id != 0) {
-            $sql = $sql . " social_id = " . $this->social_id;
+        if($this->r_user_id != 0) {
+            $sql = $sql . " r_user_id = " . $this->r_user_id;
         }
 
         return $sql;

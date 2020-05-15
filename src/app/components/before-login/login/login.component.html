@@ -45,22 +45,20 @@
   <p class="lead text-center">Or Sign Up using</p>
   <div class="registration__signup-container">
    <!-- Facebook -->
-   <!-- <a
-    href="#"
-    class="registration__signup-link registration__signup-link--facebook"
+   <a
+    href="javascript:"
+    class="registration__signup-link registration__signup-link--facebook" 
+    (click)="signInWithFB()"
    >
     <i class="fab fa-facebook-f"></i>
-   </a> -->
-   <button type="button" (click)="signInWithFB()">Facebook</button>&nbsp;
+   </a>
    <!-- Twitter -->
    
    <!-- Gmail -->
-   <!-- <a
-    href="#"
-    class="registration__signup-link registration__signup-link--google"
-   ><i class="fab fa-google"></i>
-   </a> -->
-   <button type="button" (click)="signInWithGoogle()">Google</button>
+   <a
+    href="javascript:"
+    class="registration__signup-link registration__signup-link--google"  (click)="signInWithGoogle()"><i class="fab fa-google"></i>
+   </a>
    <!-- LinkedIn -->
    
   </div>

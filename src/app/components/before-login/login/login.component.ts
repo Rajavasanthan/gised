@@ -10,6 +10,7 @@ import { ServerCallService } from "../../../services/server-call.service";
 import { AuthService } from 'angularx-social-login';
 import { SocialUser } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: "app-login",
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   serverResponse: any;
   errorMsg: string;
   loader: string;
+  socialType : string;
   user : SocialUser;
 
   loginForm = new FormGroup({
@@ -48,29 +50,121 @@ export class LoginComponent implements OnInit {
 
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(()=>{
-      this.authService.authState.subscribe((user) => {
-        this.user = user;
-        console.log(JSON.stringify(this.user));
-        
-      },(error) => {
+  socialProfileCheck() {
+
+    this.serverRequest = {
+      module: "login",
+      action: "mailidcheck",
+      requestData: { emailId: this.user.email }
+    };
+
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", this.serverResponse);
+        if (this.serverResponse.responseData.emailId != "" && this.serverResponse.responseData.emailId == this.user.email) {
+          Swal.fire("Sorry! Email id already exist");
+        } else {
+          this.socialProfileCreation();
+        }
+      },
+      (error) => {
+        this.errorMsg = "Sorry! Something went wrong";
+      },
+      () => {
+        console.log("Completed");
       }
+    );
+
+  }
+
+  socialProfileCreation() {
+
+      let data = {
+        fullName : this.user.name,
+        emailId : this.user.email,
+        mobileNo : 0,
+        gender : 'Nil',
+        age : 0,
+        country : 1,
+        social : this.user,
+        socialType : this.socialType 
+      };
+
+      this.serverRequest = {
+        module: "login",
+        action: "signup",
+        requestData: data
+      };
+
+      this.loader = "Creating your profile on GISET";
+      this.blockUI.start(this.loader);
+
+      this.server.sendToServer(this.serverRequest).subscribe(
+        (response) => {
+          this.serverResponse = JSON.parse(
+            this.server.decryption(response["response"])
+          );
+          console.log("RESPONSE : ", this.serverResponse);
+          this.blockUI.stop();
+          this.loader = "";
+          if (this.serverResponse.responseData == "ERROR") {
+            this.errorMsg = "Sorry! Something went wrong";
+            Swal.fire(this.errorMsg);
+            this.router.navigate(["/"]);
+          } else {
+            this.errorMsg =
+              "Account created successfully. Complete account creation check your mail to set password.";
+            Swal.fire(this.errorMsg);
+            this.router.navigate(["/"]);
+          }
+        },
+        (error) => {
+          this.blockUI.stop();
+          this.loader = "";
+          this.errorMsg = "Sorry! Something went wrong";
+          Swal.fire(this.errorMsg);
+          this.router.navigate(["/"]);
+        },
+        () => {
+          console.log("Completed");
+        }
       );
+
+  }
+
+  signInWithGoogle(): void {
+
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(()=>{
+      this.authService.authState.pipe(take(1)).subscribe((response) => {
+        this.socialType = "GOOGLE";
+        this.user = response;
+        console.log(JSON.stringify(this.user));
+        console.log(JSON.stringify(this.user.email));
+        console.log(response);
+        this.socialProfileCheck();        
+      },(error) => {
+      },() => {
+      });
     });
 
   }
 
   signInWithFB(): void {
+
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(()=>{
-      this.authService.authState.subscribe((user) => {
+      this.authService.authState.pipe(take(1)).subscribe((user) => {
+        this.socialType = "FACEBOOK";
         this.user = user;
         console.log(JSON.stringify(this.user));
-        
+        this.socialProfileCheck();        
       },(error) => {
+      },() => {
+        this.signOut();
       }
-      );
-    });
+    )});
   }
 
   signOut(): void {
