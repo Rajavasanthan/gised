@@ -120,6 +120,13 @@
             $sql = $applicationObj->selectdmapplicationdetails();
             $result = dbConnection::selectQuery($sql);
             $this->output['applications'] = $result;
+
+            require_once "classes/class.dmfaq.php";
+            $faqObj = new dmfaq();
+            $faqObj->status = 'Y';
+            $sql = $faqObj->selectdmfaq();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['faq'] = $result;
             
             require_once "classes/class.factstatustrackingdetails.php";
             $factTrackObj = new factstatustrackingdetails();

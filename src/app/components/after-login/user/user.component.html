@@ -1,508 +1,1078 @@
-<i class="far fa-circle application__circle"></i>
-<div class="application__nav">
-<a href="#" class="registration__forgot-password lead" (click)="logout()" style="margin-left:20px;color:black;font-size:15px;">Logout</a>
- <span class="application__nav--name">{{loggedProfile.title}}. {{loggedProfile.first_name}} {{loggedProfile.last_name}}</span>
- <i class="far fa-user-circle application__nav--icon"></i>
-</div>
-<div class="application__container">
- <!-- APplication Profile -->
- <div class="application__profile">
-  <!-- Profile header -->
-  <div class="profile__header">
-   <span class="lead-dark">My Profile</span>
-   <i class="fas fa-ellipsis-h profile__icon"></i>
-  </div>
-  <form [formGroup]="profilePhotoUpoadForm">
-  <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
-  <div>
-    <input type='file' #profilePic (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
-    <button type="button" (click)="profilePic.click()" class="btn btn-primary btn-profile-photo">Edit Photo</button>
-  </div>
-</form>
-  <div class="profile__name">{{loggedProfile.title}}. {{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
-  <hr class="profile__line" />
-  <!-- Profile Info -->
-  <!-- Gender -->
-  <div class="profile__info">
-   <div class="lead-dark">
-    Gender
-   </div>
-   <div class="semi-bold">
-    {{loggedProfile.gender}}
-   </div>
-  </div>
-  <!-- Age -->
-  <div class="profile__info">
-   <div class="lead-dark">
-    Age
-   </div>
-   <div class="semi-bold">
-    {{loggedProfile.age}} years old
-   </div>
-  </div>
-  <!-- Country -->
-  <div class="profile__info">
-   <div class="lead-dark">
-    Country
-   </div>
-   <div class="semi-bold">
-    {{loggedProfile.country_name}}
-   </div>
-  </div>
-  <!-- Contact -->
-  <div class="profile__info">
-   <div class="lead-dark">
-    Contact
-   </div>
-   <div class="semi-bold">
-    {{loggedProfile.mobile_no}}
-   </div>
+<!-- <div class="application__nav">
+  <a
+    href="#"
+    class="registration__forgot-password lead"
+    (click)="logout()"
+    style="margin-left: 20px; color: black; font-size: 15px;"
+    >Logout</a
+  >
+  <span class="application__nav--name"
+    >{{ loggedProfile.title }}. {{ loggedProfile.first_name }}
+    {{ loggedProfile.last_name }}</span
+  >
+  <i class="far fa-user-circle application__nav--icon"></i>
+</div> -->
 
+
+<div class="application__container">
+  <!-- APplication Profile -->
+  <div class="application__profile">
+    <div class="flex justify-end">
+      <a href="javascript:" class="trigger-profile">Edit profile</a>
+    </div>
+    <!-- Profile header -->
+    <img [src]="profileImg" alt="" class="profile__image" />
+    <div class="profile__name">{{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
+    <hr class="profile__line" />
+    <!-- Profile Info -->
+    <!-- Date of Foundation -->
+    <div class="profile__info">
+      <div class="">
+        Date of Foundation
+      </div>
+      <div class="semi-bold font-12">
+        01 / 05 / 2020
+      </div>
+    </div>
+    <!-- Country Registered -->
+    <div class="profile__info">
+      <div class="">
+        Country Registered
+      </div>
+      <div class="semi-bold font-12">
+        {{loggedProfile.country_name}}
+      </div>
+    </div>
+    <!-- Field of Activity -->
+    <div class="profile__info">
+      <div class="">
+        Field of Activity
+      </div>
+      <div class="semi-bold font-12">
+        Education
+      </div>
+    </div>
+    <div class="profile__ci-header bg-primary p-1_2 semi-bold">
+      Contact Info
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="profile__ci-row mt-3_5">
+      <!-- Name -->
+      <div class="profile__ci-field">
+        <div class="">
+          Name
+        </div>
+        <div class="semi-bold font-12">
+          {{loggedProfile.first_name}} {{loggedProfile.last_name}}
+        </div>
+      </div>
+      <!-- Age -->
+      <div class="profile__ci-field">
+        <div class="">
+          Age
+        </div>
+        <div class="semi-bold font-12">
+          {{loggedProfile.age}}
+        </div>
+      </div>
+    </div>
+    <!-- ROW 2 -->
+    <div class="profile__ci-row mt-0_5">
+      <!-- Contact -->
+      <div class="profile__ci-field">
+        <div class="">
+          Contact
+        </div>
+        <div class="semi-bold font-12">
+          {{loggedProfile.mobile_no}}
+        </div>
+      </div>
+      <!-- Gender -->
+      <div class="profile__ci-field">
+        <div class="">
+          Gender
+        </div>
+        <div class="semi-bold font-12">
+          {{loggedProfile.gender}}
+        </div>
+      </div>
+    </div>
+    <!-- ROW 3 -->
+    <div class="profile__ci-row mt-0_5">
+      <!-- Name -->
+      <div class="profile__ci-field">
+        <div class="">
+          Country
+        </div>
+        <div class="semi-bold font-12">
+          {{loggedProfile.country_name}}
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- Email -->
-  <div class="profile__info">
-   <div class="lead-dark">
-    Email
-   </div>
-   <div class="semi-bold">
-    {{loggedProfile.email_id}}
-   </div>
-  </div>
- </div>
- <!-- Application Category -->
- <div class="application__category">
-  <h6 class="lead-dark">Grant Category:</h6>
-  <!-- <select>
+  <!-- Application Category -->
+  <div class="application__category">
+    <h6 class="">Grant Category:</h6>
+    <!-- <select>
    <option value="education">Education</option>
    <option value="lorem">Lorem Ipsum</option>
    <option value="senore">Senore Deas</option>
   </select> -->
-  <form [formGroup]="applicationForm">
-    <select placeholder="Grant Category"  formControlName="applicationValue">
-        <option *ngFor="let application of applications" [value]="application.application_details_id">{{application.application_name}}</option>
-    </select>
- </form>
- </div>
- <!-- Application Status -->
- <div class="application__status">
-  <h6 class="lead-dark">Current Status:</h6>
-  <span>{{currentStatus}}</span>
- </div>
- <!-- Application Suggestion -->
- <form [formGroup]="feedBackForm" (ngSubmit)="feedBackFormSubmit()">
- <div class="application__suggestion clearfix">
-  <h6>Suggestions or Comments</h6>
-  <textarea class="block" formControlName="feedback"></textarea>
-  <button type="submit" class="btn btn-primary" [disabled]="!feedBackForm.valid">
-   Submit
-  </button>
- </div>
-</form>
- <!-- Application Progress -->
- <div class="application__progress">
-  <h6 class="lead-dark">Application Progress</h6>
- <!-- ************************************************************ -->
-  <!-- First Contact -->
-  <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormInsert()">
-    <div class="accordian__section first-contact" id="firstContactFormId">
-     <div class="accordian__number">
-      <span class="accordian__number-digit">1</span>
-      <i class="fas fa-check none accordian__check"></i>
-     </div>
-     <div class="accordian__data">
-      <h6>First Contact</h6>
-      <!-- Completed Message -->
-      <div class="first-contact__completed accordian__completed none">
-       <div class="accordian__completed--btn-container">
-        <div class="lead-dark accordian__completed--approved-msg">
-         Contact details received and approved. All request have been accepted
-        </div>
-        <button type="button" class="btn btn-primary" (click)="seeDetails(1)">See details</button>
-       </div>
-       <div class="accordian__completed--text">
-        This section of your application is complete
-       </div>
-      </div>
-      <!-- Main data -->
-      <div class="first-contact__container accordian__main-data">
-       <!-- *********** LEFT SECTION ************ -->
-       <div class="first-contact__left">
-        <!-- Textarea 1 -->
-        <div class="first-contact__textarea-container">
-         <div class="first-contact__left-question uppercase">
-          How would you describe your idea to someone in 30 seconds or less ?
-         </div>
-         <textarea formControlName="describeIdea1" [value]="firstContactValues?.brief_idea"></textarea>
-        </div>
-        <div *ngIf="firstContactForm.controls.describeIdea1.errors && firstContactForm.controls.describeIdea1.touched" class="errors">
-          should contain min 25 characters
-        </div>
-        <!-- Textarea 2 -->
-        <div class="first-contact__textarea-container">
-         <div class="first-contact__left-question uppercase">
-          How would you describe your idea to someone in 30 seconds or less ?
-         </div>
-         <textarea formControlName="describeIdea2" [value]="firstContactValues?.explained_idea"></textarea>
-        </div>
-        <div *ngIf="firstContactForm.controls.describeIdea2.errors && firstContactForm.controls.describeIdea2.touched" class="errors">
-          should contain min 25 characters
-        </div>
-        <!-- Textarea 3 -->
-        <div class="first-contact__textarea-container">
-         <div class="first-contact__left-question uppercase">
-          How would you describe your idea to someone in 30 seconds or less ?
-         </div>
-         <textarea formControlName="describeIdea3" [value]="firstContactValues?.about_group"></textarea>
-        </div>
-        <div *ngIf="firstContactForm.controls.describeIdea3.errors && firstContactForm.controls.describeIdea3.touched" class="errors">
-          should contain min 25 characters
-        </div>
-       </div>
-       <!-- *********** RIGHT SECTION ************ -->
-       <div class="first-contact__right">
-        <!-- First Name -->
-        <div class="first-contact__form-control">
-         <span>First Name</span>
-         <input type="text" class="first-contact__input"  formControlName="firstName" [value]="firstContactValues?.first_name"/>
-        </div>
-        <div *ngIf="firstContactForm.controls.firstName.errors && firstContactForm.controls.firstName.touched" class="errors">
-          Invalid First Name
-        </div>
-        <!-- Last Name -->
-        <div class="first-contact__form-control">
-         <span>Last Name</span>
-         <input type="text" class="first-contact__input" formControlName="lastName" [value]="firstContactValues?.last_name"/>
-        </div>
-        <div *ngIf="firstContactForm.controls.lastName.errors && firstContactForm.controls.lastName.touched" class="errors">
-          Invalid Last Name
-        </div>
-        <!-- Email -->
-        <div class="first-contact__form-control">
-         <span>Email</span>
-         <input type="text" class="first-contact__input" formControlName="email" [value]="firstContactValues?.email_id"/>
-        </div>
-        <div *ngIf="firstContactForm.controls.email.errors && firstContactForm.controls.email.touched" class="errors">
-          Invalid Email Id
-        </div>
-        <!-- Organization Name -->
-        <div class="first-contact__form-control">
-         <span>Organization Name</span>
-         <input type="text" class="first-contact__input" formControlName="organizationName" [value]="firstContactValues?.organization_name"/>
-        </div>
-        <div *ngIf="firstContactForm.controls.organizationName.errors && firstContactForm.controls.organizationName.touched" class="errors">
-          Enter Organization Name
-        </div>
-        <!-- Org Details -->
-        <div class="first-contact__form-control">
-         <span>Org Details</span>
-         <input type="text" class="first-contact__input" formControlName="orgDetails" [value]="firstContactValues?.org_details"/>
-        </div>
-        <div *ngIf="firstContactForm.controls.orgDetails.errors && firstContactForm.controls.orgDetails.touched" class="errors">
-          Enter Organization Details
-        </div>
-        <!-- Sign up for details -->
-        <div class="first-contact__form-control">
-         <span>Sign up for emails</span>
-         <input type="checkbox" class="first-contact__right--checkbox" formControlName="signUpEmail" [checked]="(firstContactValues?.sign_up_for_emails==='Y') ? true : false " />
-        </div>
-        <!-- =============== -->
-      <form [formGroup]="firstContactForm.controls.sourceValue">
-        <h6 class="first-contact__source--heading">Source</h6>
-        <div class="first-contact__source--container">
-              <div>
-                      <input type="checkbox" formControlName="newspaper" [checked]="(firstContactValues?.r_source_id?.newspaper==true) ? true : false"/>
-                      <span class="lead-dark">Newspaper</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="edm" [checked]="firstContactValues?.r_source_id?.edm"/>
-                      <span class="lead-dark">EDM</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="sms" [checked]="firstContactValues?.r_source_id?.sms"/>
-                      <span class="lead-dark">SMS</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="website" [checked]="firstContactValues?.r_source_id?.website"/>
-                      <span class="lead-dark">Website</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="pressads" [checked]="(firstContactValues?.r_source_id?.pressads===true) ? true : false"/>
-                      <span class="lead-dark">Press Ads</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="online" [checked]="firstContactValues?.r_source_id?.online"/>
-                      <span class="lead-dark">Online</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="wordofmouth" [checked]="firstContactValues?.r_source_id?.wordofmouth"/>
-                      <span class="lead-dark">Word of mouth</span>
-                     </div>
-                     <div>
-                      <input type="checkbox" formControlName="maildrop" [checked]="firstContactValues?.r_source_id?.maildrop"/>
-                      <span class="lead-dark">Maildrop</span>
-                     </div>
-                     <div class="first-contact__source--others">
-                      <span class="lead-dark">Others</span>
-                      <input type="text" formControlName="others" [value]="firstContactValues?.r_source_id?.others"/>
-                     </div>
-        </div>
-      </form>
-        <button type="submit" class="btn btn-primary first-contact__submit-btn" *ngIf="firstContactCompleted == 0" [disabled]="!firstContactForm.valid">
-         Submit
-        </button>
-        <button type="button" class="btn btn-primary" (click)="seeDetails(1)" *ngIf="firstContactCompleted != 0">Close details</button>&nbsp;&nbsp;
-        <button type="button" class="btn btn-primary" (click)="shareDetails(1, 'First_Contact.pdf')" *ngIf="firstContactCompleted != 0">Share the details</button>
-       </div>
-      </div>
-     </div>
+    <form [formGroup]="applicationForm">
+      <select placeholder="Grant Category" formControlName="applicationValue">
+        <option
+          *ngFor="let application of applications"
+          [value]="application.application_details_id"
+          >{{ application.application_name }}</option
+        >
+      </select>
+    </form>
+  </div>
+  <!-- Application Status -->
+  <div class="application__status">
+    <h6 class="">Current Status:</h6>
+    <span>{{ currentStatus }}</span>
+  </div>
+  <!-- Application Profile details -->
+  <div class="application__profile-details">
+    <div class="application__profile-details--container">
+      <h4 class="">{{loggedProfile.first_name}} {{loggedProfile.last_name}}</h4>
+      <i class="far fa-user-circle application__profile-details--icon"></i>
     </div>
+    <hr style="margin: 1rem 0;" />
+    <a href="" (click)="logout()" class="float-right">Logout</a>
+  </div>
+  <!-- Applicaton FAQ -->
+  <div class="application__faq relative overflow-hidden">
+    <h6 class="mb-1 bg-primary abs-header top-0">Grants FAQ</h6>
+    <div id="accordion-basic">
+      <!-- ========***FAQ 1***=========== -->
+      
+      <p class="accordion-head cursor-pointer semi-bold font-12 mt-2">
+        What projects or programs does GISED fund?
+      </p>
+      <div class="accordion-body font-14 mt-0_5">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
+        voluptas reprehenderit culpa alias consequuntur ullam dolores nam
+        perferendis voluptatum ea.
+      </div>
+
+      <hr style="margin: 0.5rem 0;" />
+
+      <!-- ========***FAQ 10***=========== -->
+      <p class="accordion-head cursor-pointer semi-bold font-12">
+        May I schedule an appointment to discuss project or program ideas?
+      </p>
+      <div class="accordion-body font-14 mt-0_5">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
+        voluptas reprehenderit culpa alias consequuntur ullam dolores nam
+        perferendis voluptatum ea.
+      </div>
+    </div>
+  </div>
+  <!-- Application Suggestion -->
+  <div class="application__suggestion clearfix">
+    <h6>Send us your feedback!</h6>
+    <p class="lead-dark">Do you have a suggestion? let us know.</p>
+    <button class="btn btn-primary mt-1 semi-bold trigger-feedback" (click)="openModal('feedback-modal')">
+      Send feedback
+    </button>
+  </div>
+  <!-- Application Progress -->
+  <div class="application__progress">
+    <h6 class="">Application Progress</h6>
+    <!-- ************************************************************ -->
+    <!-- First Contact -->
+    <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormInsert()">
+      <div class="accordian__section first-contact" id="firstContactFormId">
+        <div class="accordian__number">
+          <span class="accordian__number-digit">1</span>
+          <i class="fas fa-check none accordian__check"></i>
+        </div>
+        <div class="accordian__data">
+          <h6>First Contact</h6>
+          <!-- Completed Message -->
+          <div class="first-contact__completed accordian__completed none">
+            <div class="accordian__completed--btn-container">
+              <div class="accordian__completed--approved-msg">
+                Contact details received and approved. All request have been
+                accepted
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="seeDetails(1)"
+              >
+                See details
+              </button>
+            </div>
+            <div class="accordian__completed--text">
+              This section of your application is complete
+            </div>
+          </div>
+          <!-- Main data -->
+          <div class="first-contact__container accordian__main-data">
+            <!-- *********** LEFT SECTION ************ -->
+            <div class="first-contact__left">
+              <!-- Textarea 1 -->
+              <div class="first-contact__textarea-container">
+                <div class="first-contact__left-question uppercase">
+                  How would you describe your idea to someone in 30 seconds or
+                  less ?
+                </div>
+                <textarea
+                  formControlName="describeIdea1"
+                  [value]="firstContactValues?.brief_idea"
+                ></textarea>
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.describeIdea1.errors &&
+                  firstContactForm.controls.describeIdea1.touched
+                "
+                class="errors"
+              >
+                should contain min 25 characters
+              </div>
+              <!-- Textarea 2 -->
+              <div class="first-contact__textarea-container">
+                <div class="first-contact__left-question uppercase">
+                  How would you describe your idea to someone in 30 seconds or
+                  less ?
+                </div>
+                <textarea
+                  formControlName="describeIdea2"
+                  [value]="firstContactValues?.explained_idea"
+                ></textarea>
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.describeIdea2.errors &&
+                  firstContactForm.controls.describeIdea2.touched
+                "
+                class="errors"
+              >
+                should contain min 25 characters
+              </div>
+              <!-- Textarea 3 -->
+              <div class="first-contact__textarea-container">
+                <div class="first-contact__left-question uppercase">
+                  How would you describe your idea to someone in 30 seconds or
+                  less ?
+                </div>
+                <textarea
+                  formControlName="describeIdea3"
+                  [value]="firstContactValues?.about_group"
+                ></textarea>
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.describeIdea3.errors &&
+                  firstContactForm.controls.describeIdea3.touched
+                "
+                class="errors"
+              >
+                should contain min 25 characters
+              </div>
+            </div>
+            <!-- *********** RIGHT SECTION ************ -->
+            <div class="first-contact__right">
+              <!-- First Name -->
+              <div class="first-contact__form-control">
+                <span>First Name</span>
+                <input
+                  type="text"
+                  class="first-contact__input"
+                  formControlName="firstName"
+                  [value]="firstContactValues?.first_name"
+                />
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.firstName.errors &&
+                  firstContactForm.controls.firstName.touched
+                "
+                class="errors"
+              >
+                Invalid First Name
+              </div>
+              <!-- Last Name -->
+              <div class="first-contact__form-control">
+                <span>Last Name</span>
+                <input
+                  type="text"
+                  class="first-contact__input"
+                  formControlName="lastName"
+                  [value]="firstContactValues?.last_name"
+                />
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.lastName.errors &&
+                  firstContactForm.controls.lastName.touched
+                "
+                class="errors"
+              >
+                Invalid Last Name
+              </div>
+              <!-- Email -->
+              <div class="first-contact__form-control">
+                <span>Email</span>
+                <input
+                  type="text"
+                  class="first-contact__input"
+                  formControlName="email"
+                  [value]="firstContactValues?.email_id"
+                />
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.email.errors &&
+                  firstContactForm.controls.email.touched
+                "
+                class="errors"
+              >
+                Invalid Email Id
+              </div>
+              <!-- Organization Name -->
+              <div class="first-contact__form-control">
+                <span>Organization Name</span>
+                <input
+                  type="text"
+                  class="first-contact__input"
+                  formControlName="organizationName"
+                  [value]="firstContactValues?.organization_name"
+                />
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.organizationName.errors &&
+                  firstContactForm.controls.organizationName.touched
+                "
+                class="errors"
+              >
+                Enter Organization Name
+              </div>
+              <!-- Org Details -->
+              <div class="first-contact__form-control">
+                <span>Org Details</span>
+                <input
+                  type="text"
+                  class="first-contact__input"
+                  formControlName="orgDetails"
+                  [value]="firstContactValues?.org_details"
+                />
+              </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.orgDetails.errors &&
+                  firstContactForm.controls.orgDetails.touched
+                "
+                class="errors"
+              >
+                Enter Organization Details
+              </div>
+              <!-- Sign up for details -->
+              <div class="first-contact__form-control">
+                <span>Sign up for emails</span>
+                <input
+                  type="checkbox"
+                  class="first-contact__right--checkbox"
+                  formControlName="signUpEmail"
+                  [checked]="
+                    firstContactValues?.sign_up_for_emails === 'Y'
+                      ? true
+                      : false
+                  "
+                />
+              </div>
+              <!-- =============== -->
+              <form [formGroup]="firstContactForm.controls.sourceValue">
+                <h6 class="first-contact__source--heading">Source</h6>
+                <div class="first-contact__source--container">
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="newspaper"
+                      [checked]="
+                        firstContactValues?.r_source_id?.newspaper == true
+                          ? true
+                          : false
+                      "
+                    />
+                    <span class="">Newspaper</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="edm"
+                      [checked]="firstContactValues?.r_source_id?.edm"
+                    />
+                    <span class="">EDM</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="sms"
+                      [checked]="firstContactValues?.r_source_id?.sms"
+                    />
+                    <span class="">SMS</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="website"
+                      [checked]="firstContactValues?.r_source_id?.website"
+                    />
+                    <span class="">Website</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="pressads"
+                      [checked]="
+                        firstContactValues?.r_source_id?.pressads === true
+                          ? true
+                          : false
+                      "
+                    />
+                    <span class="">Press Ads</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="online"
+                      [checked]="firstContactValues?.r_source_id?.online"
+                    />
+                    <span class="">Online</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="wordofmouth"
+                      [checked]="firstContactValues?.r_source_id?.wordofmouth"
+                    />
+                    <span class="">Word of mouth</span>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      formControlName="maildrop"
+                      [checked]="firstContactValues?.r_source_id?.maildrop"
+                    />
+                    <span class="">Maildrop</span>
+                  </div>
+                  <div class="first-contact__source--others">
+                    <span class="">Others</span>
+                    <input
+                      type="text"
+                      formControlName="others"
+                      [value]="firstContactValues?.r_source_id?.others"
+                    />
+                  </div>
+                </div>
+              </form>
+              <button
+                type="submit"
+                class="btn btn-primary first-contact__submit-btn"
+                *ngIf="firstContactCompleted == 0"
+                [disabled]="!firstContactForm.valid"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="seeDetails(1)"
+                *ngIf="firstContactCompleted != 0"
+              >
+                Close details</button
+              >&nbsp;&nbsp;
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="shareDetails(1, 'First_Contact.pdf')"
+                *ngIf="firstContactCompleted != 0"
+              >
+                Share the details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </form>
     <!-- ************************************************************* -->
     <!-- Brief Assesment -->
-    <form [formGroup]="briefAssesmentForm" (ngSubmit)="briefAssesmentFormInsert()">
-    <div class="accordian__section brief-assesment" id="briefAssesmentFormId">
-     <div class="accordian__number">
-      <span class="accordian__number--digit">2</span>
-      <i class="fas fa-check none accordian__number--check"></i>
-     </div>
-     <div class="accordian__data">
-      <h6>Brief Assesment</h6>
-      <!-- Completed Message -->
-      <div class="accordian__completed none">
-       <div>
-        <div class="lead-dark accordian__completed--approved-msg">
-         Contact details received and approved. All request have been accepted
+    <form
+      [formGroup]="briefAssesmentForm"
+      (ngSubmit)="briefAssesmentFormInsert()"
+    >
+      <div class="accordian__section brief-assesment" id="briefAssesmentFormId">
+        <div class="accordian__number">
+          <span class="accordian__number--digit">2</span>
+          <i class="fas fa-check none accordian__number--check"></i>
         </div>
-        <button type="button" class="btn btn-primary" (click)="seeDetails(2)">See details</button>
-       </div>
-       <div class="accordian__completed--text">
-        This section of your application is complete
-       </div>
+        <div class="accordian__data">
+          <h6>Brief Assesment</h6>
+          <!-- Completed Message -->
+          <div class="accordian__completed none">
+            <div>
+              <div class="accordian__completed--approved-msg">
+                Contact details received and approved. All request have been
+                accepted
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="seeDetails(2)"
+              >
+                See details
+              </button>
+            </div>
+            <div class="accordian__completed--text">
+              This section of your application is complete
+            </div>
+          </div>
+          <div class="brief-assesment__container accordian__main-data" *ngIf="initialPresentForm >= 2">
+            <div class="brief-assesment__form-control">
+              <span class="">Name</span>
+              <input
+                type="text"
+                class="brief-assesment__form-control--input"
+                formControlName="name"
+                [value]="briefAssesmentValues?.full_name"
+              />
+            </div>
+            <div
+              *ngIf="
+                briefAssesmentForm.controls.name.errors &&
+                briefAssesmentForm.controls.name.touched
+              "
+              class="errors"
+            >
+              Invalid Name
+            </div>
+            <div class="brief-assesment__form-control">
+              <span class="">Address</span>
+              <input
+                type="text"
+                class="brief-assesment__form-control--input"
+                formControlName="address"
+                [value]="briefAssesmentValues?.address"
+              />
+            </div>
+            <div
+              *ngIf="
+                briefAssesmentForm.controls.address.errors &&
+                briefAssesmentForm.controls.address.touched
+              "
+              class="errors"
+            >
+              Enter Address
+            </div>
+            <div class="brief-assesment__form-control">
+              <span class="">Email</span>
+              <input
+                type="text"
+                class="brief-assesment__form-control--input"
+                formControlName="email"
+                [value]="briefAssesmentValues?.email_id"
+              />
+            </div>
+            <div
+              *ngIf="
+                briefAssesmentForm.controls.email.errors &&
+                briefAssesmentForm.controls.email.touched
+              "
+              class="errors"
+            >
+              Invalid Email Id
+            </div>
+            <div class="brief-assesment__form-control">
+              <span class="">Telephone Number</span>
+              <input
+                type="text"
+                class="brief-assesment__form-control--input"
+                formControlName="telephoneNo"
+                [value]="briefAssesmentValues?.telephone_number"
+              />
+            </div>
+            <div
+              *ngIf="
+                briefAssesmentForm.controls.telephoneNo.errors &&
+                briefAssesmentForm.controls.telephoneNo.touched
+              "
+              class="errors"
+            >
+              Enter Telephone Number
+            </div>
+            <div class="brief-assesment__form-control">
+              <span class="">Website (Optional)</span>
+              <input
+                type="checkbox"
+                formControlName="website"
+                [checked]="
+                  briefAssesmentValues?.website_url === 'Y' ? true : false
+                "
+              />
+            </div>
+            <!-- ====== -->
+            <div class="brief-assesment__fileupload-section">
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject1"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_0Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Detailed Information about the organization conducting the
+                  project
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="detailedInformation"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeDetailed($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_1Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.detailedInformation
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class="">Estimated overall Budget </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="estimatedBudget"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeEstimated($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_2Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.estimatedBudget
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Period of time for which founds are requested
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="periodOfTime"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePeriod($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_3Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject2"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_4Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary brief-assesment__submit-btn text-center"
+              *ngIf="briefAssesmentCompleted == 0"
+              [disabled]="!briefAssesmentForm.valid"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="seeDetails(2)"
+              *ngIf="briefAssesmentCompleted != 0"
+            >
+              Close details</button
+            >&nbsp;&nbsp;
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="shareDetails(2, 'Brief_Assement.pdf')"
+              *ngIf="briefAssesmentCompleted != 0"
+            >
+              Share the details
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="brief-assesment__container accordian__main-data">
-       <div class="brief-assesment__form-control">
-        <span class="lead-dark">Name</span>
-        <input type="text" class="brief-assesment__form-control--input" formControlName="name" [value]="briefAssesmentValues?.full_name"/>
-       </div>
-       <div *ngIf="briefAssesmentForm.controls.name.errors && briefAssesmentForm.controls.name.touched" class="errors">
-          Invalid Name
-        </div>
-       <div class="brief-assesment__form-control">
-        <span class="lead-dark">Address</span>
-        <input type="text" class="brief-assesment__form-control--input" formControlName="address" [value]="briefAssesmentValues?.address"/>
-       </div>
-       <div *ngIf="briefAssesmentForm.controls.address.errors && briefAssesmentForm.controls.address.touched" class="errors">
-        Enter Address
-      </div>
-       <div class="brief-assesment__form-control">
-        <span class="lead-dark">Email</span>
-        <input type="text" class="brief-assesment__form-control--input" formControlName="email" [value]="briefAssesmentValues?.email_id"/>
-       </div>
-       <div *ngIf="briefAssesmentForm.controls.email.errors && briefAssesmentForm.controls.email.touched" class="errors">
-        Invalid Email Id
-      </div>
-       <div class="brief-assesment__form-control">
-        <span class="lead-dark">Telephone Number</span>
-        <input type="text" class="brief-assesment__form-control--input" formControlName="telephoneNo" [value]="briefAssesmentValues?.telephone_number"/>
-       </div>
-       <div *ngIf="briefAssesmentForm.controls.telephoneNo.errors && briefAssesmentForm.controls.telephoneNo.touched" class="errors">
-        Enter Telephone Number
-      </div>
-       <div class="brief-assesment__form-control">
-        <span class="lead-dark">Website (Optional)</span>
-        <input type="checkbox" formControlName="website"  [checked]="(briefAssesmentValues?.website_url==='Y') ? true : false " />
-       </div>
-       <!-- ====== -->
-       <div class="brief-assesment__fileupload-section">
-        <div class="brief-assesment__fileupload-container">
-         <span class="lead-dark"
-          >Purpose of the Project, specifying the problems and issues it will
-          address
-         </span>
-         <div *ngIf="briefAssesmentCompleted == 0">
-          <input type="file" class="" formControlName="purposeOfProject1" [accept]="fileTypes" multiple (change)="onFileChangePurpose($event)"/>
-          <button type="button" class="btn btn-primary">Upload</button>
-         </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_0Len}} Files Selected</span>
-        </div>
-        <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-          {{file.displayFileName}}
-        </div>
-        <div class="brief-assesment__fileupload-container">
-         <span class="lead-dark"
-          >Detailed Information about the organization conducting the project
-         </span>
-         <div *ngIf="briefAssesmentCompleted == 0">
-          <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed($event)"/>
-          <button type="button" class="btn btn-primary">Upload</button>
-         </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_1Len}} Files Selected</span>
-        </div>
-        <div *ngFor="let file of briefAssesmentValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-          {{file.displayFileName}}
-        </div>
-        <div class="brief-assesment__fileupload-container">
-         <span class="lead-dark">Estimated overall Budget </span>
-         <div *ngIf="briefAssesmentCompleted == 0">
-          <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated($event)"/>
-          <button type="button" class="btn btn-primary">Upload</button>
-         </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_2Len}} Files Selected</span>
-        </div>
-        <div *ngFor="let file of briefAssesmentValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-          {{file.displayFileName}}
-        </div>
-        <div class="brief-assesment__fileupload-container">
-         <span class="lead-dark"
-          >Period of time for which founds are requested
-         </span>
-         <div *ngIf="briefAssesmentCompleted == 0">
-          <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod($event)"/>
-          <button type="button" class="btn btn-primary">Upload</button>
-         </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_3Len}} Files Selected</span>
-        </div>
-        <div *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-          {{file.displayFileName}}
-        </div>
-        <div class="brief-assesment__fileupload-container">
-         <span class="lead-dark"
-          >Purpose of the Project, specifying the problems and issues it will
-          address
-         </span>
-         <div *ngIf="briefAssesmentCompleted == 0">
-          <input type="file" class="" formControlName="purposeOfProject2" [accept]="fileTypes"  multiple (change)="onFileChangePurpose1($event)"/>
-          <button type="button" class="btn btn-primary">Upload</button>
-         </div>&nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0">{{uploadFiles_2_4Len}} Files Selected</span>
-        </div>
-        <div *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-          {{file.displayFileName}}
-        </div>
-       </div>
-       <button type="submit" class="btn btn-primary brief-assesment__submit-btn text-center" *ngIf="briefAssesmentCompleted == 0" [disabled]="!briefAssesmentForm.valid">
-        Submit
-       </button>
-       <button type="button" class="btn btn-primary" (click)="seeDetails(2)" *ngIf="briefAssesmentCompleted != 0">Close details</button>&nbsp;&nbsp;
-       <button type="button" class="btn btn-primary" (click)="shareDetails(2, 'Brief_Assement.pdf')" *ngIf="briefAssesmentCompleted != 0">Share the details</button>
-      </div>
-     </div>
-    </div>
-  </form>
+    </form>
     <!-- ************************************************************* -->
-  <!-- Detailed Presentation -->
-  <form [formGroup]="detailedPresentaionForm" (ngSubmit)="detailedPresentaionFormInsert()">
-  <div class="accordian__section detailed-presentation" id="detailedPresentationFormId">
-   <div class="accordian__number">
-    <span class="accordian__number-digit">3</span>
-    <i class="fas fa-check none accordian__check"></i>
-   </div>
-   <div class="accordian__data">
-    <h6>Detailed Presentation</h6>
-    <!-- Completed Message -->
-    <div class="accordian__completed none">
-     <div>
-      <div class="lead-dark accordian__completed--approved-msg">
-       Contact details received and approved. All request have been accepted
+    <!-- Detailed Presentation -->
+    <form
+      [formGroup]="detailedPresentaionForm"
+      (ngSubmit)="detailedPresentaionFormInsert()"
+    >
+      <div
+        class="accordian__section detailed-presentation"
+        id="detailedPresentationFormId"
+      >
+        <div class="accordian__number">
+          <span class="accordian__number-digit">3</span>
+          <i class="fas fa-check none accordian__check"></i>
+        </div>
+        <div class="accordian__data">
+          <h6>Detailed Presentation</h6>
+          <!-- Completed Message -->
+          <div class="accordian__completed none">
+            <div>
+              <div class="accordian__completed--approved-msg">
+                Contact details received and approved. All request have been
+                accepted
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="seeDetails(3)"
+              >
+                See details
+              </button>
+            </div>
+            <div class="accordian__completed--text">
+              This section of your application is complete
+            </div>
+          </div>
+          <div class="detailed-presentation__container accordian__main-data" *ngIf="initialPresentForm >= 3">
+            <!-- ====== -->
+            <div class="detailed-presentation__fileupload-section">
+              <div class="detailed-presentation__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="detailedPresentationCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject1"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose_1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
+                  >{{ uploadFiles_3_0Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of detailedPresentationValues?.uploads
+                    ?.purposeOfProject1
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="detailed-presentation__fileupload-container">
+                <span class=""
+                  >Detailed Information about the organization conducting the
+                  project
+                </span>
+                <div *ngIf="detailedPresentationCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="detailedInformation"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeDetailed_1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
+                  >{{ uploadFiles_3_1Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of detailedPresentationValues?.uploads
+                    ?.detailedInformation
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="detailed-presentation__fileupload-container">
+                <span class="">Estimated overall Budget </span>
+                <div *ngIf="detailedPresentationCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="estimatedBudget"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeEstimated_1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
+                  >{{ uploadFiles_3_2Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of detailedPresentationValues?.uploads
+                    ?.estimatedBudget
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="detailed-presentation__fileupload-container">
+                <span class=""
+                  >Period of time for which founds are requested
+                </span>
+                <div *ngIf="detailedPresentationCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="periodOfTime"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePeriod_1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
+                  >{{ uploadFiles_3_3Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of detailedPresentationValues?.uploads?.periodOfTime
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="detailed-presentation__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="detailedPresentationCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject2"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose1_1($event)"
+                  />
+                  <button class="btn-upload">
+                    Upload
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
+                  >{{ uploadFiles_3_4Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of detailedPresentationValues?.uploads
+                    ?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary detailed-presentation__submit-btn text-center"
+              [disabled]="briefAssesmentCompleted == 0"
+              *ngIf="detailedPresentationCompleted == 0"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="seeDetails(3)"
+              *ngIf="detailedPresentationCompleted != 0"
+            >
+              Close details</button
+            >&nbsp;&nbsp;
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="shareDetails(3, 'Detailed_Presentation.pdf')"
+              *ngIf="detailedPresentationCompleted != 0"
+            >
+              Share the details
+            </button>
+          </div>
+        </div>
       </div>
-      <button type="button" class="btn btn-primary" (click)="seeDetails(3)">See details</button>
-     </div>
-     <div class="accordian__completed--text">
-      This section of your application is complete
-     </div>
+    </form>
+    <!-- ************************************************************* -->
+    <!-- Final Approval -->
+    <div class="accordian__section final-approval">
+      <div class="accordian__number remove-line">
+        <span class="accordian__number-digit">4</span>
+        <i class="fas fa-check none accordian__check"></i>
+      </div>
+      <form
+        [formGroup]="finalApprovalForm"
+        (ngSubmit)="finalApprovalFormInsert()"
+      >
+        <div class="accordian__data">
+          <h6>Final Approval</h6>
+          <div class="final-approval__container">
+            <p *ngIf="initialPresentForm >= 4">
+              I hereby acknowledge that the information provided is true,
+              correct and complete.
+            </p>
+            <div class="final-approval__btn-container">
+              <button
+                type="button"
+                *ngIf="detailedPresentationCompleted == 0"
+                class="btn btn-primary"
+                (click)="editForm()"
+              >
+                Edit</button
+              >&nbsp;
+              <button
+                type="button"
+                *ngIf="detailedPresentationCompleted == 0"
+                class="btn btn-primary"
+                (click)="saveAsDraft()"
+              >
+                Save Draft</button
+              >&nbsp;
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="detailedPresentationCompleted == 0"
+                *ngIf="finalApprovalCompleted == 0 && initialPresentForm >= 4"
+                >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
-    <div class="detailed-presentation__container accordian__main-data">
-     <!-- ====== -->
-     <div class="detailed-presentation__fileupload-section">
-      <div class="detailed-presentation__fileupload-container">
-       <span class="lead-dark"
-        >Purpose of the Project, specifying the problems and issues it will
-        address
-       </span>
-       <div *ngIf="detailedPresentationCompleted == 0">
-        <input type="file" class="" formControlName="purposeOfProject1"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose_1($event)"/>
-        <button type="button" class="btn btn-primary">Upload</button>
-       </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_0Len}} Files Selected</span>
-      </div>
-      <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject1" style="display:block;font-size:14px;">
-        {{file.displayFileName}}
-      </div>
-      <div class="detailed-presentation__fileupload-container">
-       <span class="lead-dark"
-        >Detailed Information about the organization conducting the project
-       </span>
-       <div *ngIf="detailedPresentationCompleted == 0">
-        <input type="file" class="" formControlName="detailedInformation" [accept]="fileTypes"  multiple (change)="onFileChangeDetailed_1($event)"/>
-        <button type="button" class="btn btn-primary">Upload</button>
-       </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_1Len}} Files Selected</span>
-      </div>
-      <div *ngFor="let file of detailedPresentationValues?.uploads?.detailedInformation" style="display:block;font-size:14px;">
-        {{file.displayFileName}}
-      </div>
-      <div class="detailed-presentation__fileupload-container">
-       <span class="lead-dark">Estimated overall Budget </span>
-       <div *ngIf="detailedPresentationCompleted == 0">
-        <input type="file" class="" formControlName="estimatedBudget" [accept]="fileTypes"  multiple (change)="onFileChangeEstimated_1($event)"/>
-        <button type="button" class="btn btn-primary">Upload</button>
-       </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_2Len}} Files Selected</span>
-      </div>
-      <div *ngFor="let file of detailedPresentationValues?.uploads?.estimatedBudget" style="display:block;font-size:14px;">
-        {{file.displayFileName}}
-      </div>
-      <div class="detailed-presentation__fileupload-container">
-       <span class="lead-dark"
-        >Period of time for which founds are requested
-       </span>
-       <div *ngIf="detailedPresentationCompleted == 0">
-        <input type="file" class="" formControlName="periodOfTime"  [accept]="fileTypes"  multiple (change)="onFileChangePeriod_1($event)"/>
-        <button type="button" class="btn btn-primary">Upload</button>
-       </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_3Len}} Files Selected</span>
-      </div>
-      <div *ngFor="let file of detailedPresentationValues?.uploads?.periodOfTime" style="display:block;font-size:14px;">
-        {{file.displayFileName}}
-      </div>
-      <div class="detailed-presentation__fileupload-container">
-       <span class="lead-dark"
-        >Purpose of the Project, specifying the problems and issues it will
-        address
-       </span>
-       <div *ngIf="detailedPresentationCompleted == 0">
-        <input type="file" class="" formControlName="purposeOfProject2"  [accept]="fileTypes"  multiple (change)="onFileChangePurpose1_1($event)"/>
-        <button type="button" class="btn btn-primary">Upload</button>
-       </div>&nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0">{{uploadFiles_3_4Len}} Files Selected</span>
-      </div>
-      <div *ngFor="let file of detailedPresentationValues?.uploads?.purposeOfProject2" style="display:block;font-size:14px;">
-        {{file.displayFileName}}
-      </div>
-     </div>
-     <button type="submit" class="btn btn-primary detailed-presentation__submit-btn text-center" [disabled]="briefAssesmentCompleted == 0" *ngIf="detailedPresentationCompleted == 0">
-      Submit
-     </button>
-     <button type="button" class="btn btn-primary" (click)="seeDetails(3)" *ngIf="detailedPresentationCompleted != 0">Close details</button>&nbsp;&nbsp;
-     <button type="button" class="btn btn-primary" (click)="shareDetails(3, 'Detailed_Presentation.pdf')" *ngIf="detailedPresentationCompleted != 0">Share the details</button>
-    </div>
-   </div>
   </div>
-  </form>
-  <!-- ************************************************************* -->
-  <!-- Final Approval -->
-  <div class="accordian__section final-approval">
-   <div class="accordian__number remove-line">
-    <span class="accordian__number-digit">4</span>
-    <i class="fas fa-check none accordian__check"></i>
-   </div>
-  <form [formGroup]="finalApprovalForm" (ngSubmit)="finalApprovalFormInsert()">
-   <div class="accordian__data">
-    <h6>Final Approval</h6>
-    <div class="final-approval__container">
-     <p>
-      I hereby acknowledge that the information provided is true, correct and
-      complete.
-     </p>
-     <div class="final-approval__btn-container">
-      <button type="button" *ngIf="detailedPresentationCompleted == 0" class="btn btn-edit" (click)="editForm()">Edit</button>&nbsp;
-      <button type="button"  *ngIf="detailedPresentationCompleted == 0" class="btn btn-draft" (click)="saveAsDraft()">Save Draft</button>&nbsp;
-      <button type="submit" class="btn btn-primary"  [disabled]="detailedPresentationCompleted == 0" *ngIf="finalApprovalCompleted == 0">Submit</button>
-     </div>
-    </div>
-   </div>
-  </form>
-  </div>
- </div>
 </div>
 <block-ui></block-ui>
+<jw-modal id="feedback-modal">
+  <span class="close-button-feedback close-button" (click)="closeModal('feedback-modal')">×</span>
+    <h4 class="text-center mb-1">Write your feedback</h4>
+    <textarea name="" id="" class="default-textarea"></textarea>
+    <div class="mt-1">
+      <button class="btn btn-primary float-right">Submit</button>
+    </div>
+</jw-modal>

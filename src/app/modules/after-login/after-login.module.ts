@@ -8,6 +8,7 @@ import { AfterLoginRoutingModule } from '../../routes/after-login/after-login-ro
 import { AdminComponent } from '../../components/after-login/admin/admin.component';
 import { UserComponent } from '../../components/after-login/user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalModule } from '../../modal';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AfterLoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    ModalModule,
     BlockUIModule.forRoot()
   ]
 })

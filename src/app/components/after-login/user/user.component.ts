@@ -11,6 +11,7 @@ import Swal from "sweetalert2";
 import * as jspdf from "jspdf";
 import html2canvas from "html2canvas";
 import { ValidationService } from "src/app/services/validation.service";
+import { ModalService } from "../../../modal";
 
 //Specifid the this component schema
 @Component({
@@ -54,6 +55,9 @@ export class UserComponent implements OnInit {
   loader : string; 
   emailId : string;
   profileImg : any;
+  initialPresentForm : number;
+  modelFeedback : any;
+  feedBackUserSelector : any;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -185,7 +189,7 @@ export class UserComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation:ValidationService) { 
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation:ValidationService, private modal : ModalService) { 
     
       this.loader = "Loading GISED user page";
       this.blockUI.start(this.loader);
@@ -202,6 +206,7 @@ export class UserComponent implements OnInit {
       this.detailedPresentationCompleted = 0;
       this.finalApprovalCompleted = 0;
       this.emailId = '';
+      this.initialPresentForm = 0;
 
       //Prepare this request for get logged user informations
       this.serverRequest = {
@@ -231,6 +236,7 @@ export class UserComponent implements OnInit {
           this.action = this.serverResponse.responseData.action;
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
+          this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
 
           //Set for wordpress user name show
           localStorage.setItem(
@@ -313,7 +319,10 @@ export class UserComponent implements OnInit {
     this.detailedPresentationFormSelector = this.el.nativeElement.querySelector(
       "#detailedPresentationFormId"
     );
-
+    this.feedBackUserSelector = this.el.nativeElement.querySelector(
+      "#feedbackuser"
+    );
+    
     //Form disable
     this.formsDisable();
 
@@ -332,6 +341,12 @@ export class UserComponent implements OnInit {
   //Logout the logged user
   logout() {
     this.product.logout();
+  }
+
+  sendFeedbackPopup() {
+
+    this.feedBackUserSelector.classList.add("show-modal");
+
   }
 
   firstContactFormValuesUpdate() {
@@ -915,4 +930,17 @@ export class UserComponent implements OnInit {
       }
     }
   }
+
+  openModal(id : string) {
+
+    this.modal.open(id);
+
+  }
+
+  closeModal(id : string) {
+
+    this.modal.close(id);
+
+  }
+
 }
