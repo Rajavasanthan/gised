@@ -33,6 +33,9 @@
                 case 'profilephotoupload':
                     $this->profilePhotoAction();
                     break;
+                case 'editProfile':
+                    $this->editProfileAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
@@ -111,7 +114,7 @@
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
                 }
             }
-
+            
             $this->output['loggedProfile']['profileImg'] = $this->getProfilePicture($userResult[0]['user_id'], $userResult[0]['gender']);
 
             require_once "classes/class.dmapplicationdetails.php";
@@ -390,6 +393,28 @@
 
             return $profilePicturePath;
 
+        }
+
+        function editProfileAction() {
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $dmUserObj->mobile_no = $this->input['mobileNo'];
+            $dmUserObj->title = ($this->input['gender'] == "Male") ? "Mr" : "Ms" ;
+            $dmUserObj->first_name = $this->input['fullName'];
+            $dmUserObj->gender = $this->input['gender'];
+            $dmUserObj->r_country_id = $this->input['country'];
+            $dmUserObj->date_of_foundation = $this->input['dob'];
+            $dmUserObj->field_of_activity = $this->input['applicationValues'];
+            $sql = $dmUserObj->updatedmuser();
+            $result = dbConnection::updateQuery($sql);
+
+            $this->output['emailId'] = $this->input['emailId'];
+            
+            if($this->input['image'] != "noImage"){
+                $this->profilePhotoAction();
+            }
+            
         }
 
     function defaultAction() {

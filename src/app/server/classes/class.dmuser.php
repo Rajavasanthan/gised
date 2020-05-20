@@ -17,6 +17,8 @@ class dmuser {
     var $activation_status;
     var $r_state_id;
     var $r_country_id;
+    var $field_of_activity;
+    var $date_of_foundation;
     var $created_date_time;
     var $updated_date_time;
 
@@ -35,6 +37,8 @@ class dmuser {
         $this->activation_status = '';
         $this->r_state_id = 0;
         $this->r_country_id = 0;
+        $this->field_of_activity = '0';
+        $this->date_of_foundation = '0000-00-00';
         $this->created_date_time = '0000-00-00 00:00:00';
         $this->updated_date_time = '0000-00-00 00:00:00';
     }
@@ -55,6 +59,8 @@ class dmuser {
                                             '$this->activation_status',
                                              $this->r_state_id,
                                              $this->r_country_id,
+                                            '$this->field_of_activity',
+                                            '$this->date_of_foundation',
                                             '$this->created_date_time',
                                             '$this->updated_date_time'
                                             )";
@@ -122,6 +128,14 @@ class dmuser {
             $sql = $sql . " and r_country_id = " . $this->r_country_id;
         }
 
+        if($this->field_of_activity != '0') {
+            $sql = $sql . " and field_of_activity = " . $this->field_of_activity;
+        }
+
+        if($this->date_of_foundation != '0000-00-00') {
+            $sql = $sql . " and date_of_foundation = " . $this->date_of_foundation;
+        }
+       
         return $sql;//stripcslashes($sql);
     }
 
@@ -134,47 +148,47 @@ class dmuser {
         $camaa = " ";        
 
         if($this->mobile_no != '') {
-            $sql = $sql . $camaa." mobile_no = " . $this->mobile_no;
+            $sql = $sql . $camaa." mobile_no = '" . $this->mobile_no . "'";
             $camaa = ', ';
         }
 
         if($this->title != '') {
-            $sql = $sql . $camaa." title = " . $this->title;
+            $sql = $sql . $camaa." title = '" . $this->title . "'";
             $camaa = ', ';
         }
 
         if($this->first_name != '') {
-            $sql = $sql . $camaa." first_name = " . $this->first_name;
+            $sql = $sql . $camaa." first_name = '" . $this->first_name . "'";
             $camaa = ', ';
         }
 
         if($this->last_name != '') {
-            $sql = $sql . $camaa." last_name = " . $this->last_name;
+            $sql = $sql . $camaa." last_name = '" . $this->last_name . "'";
             $camaa = ', ';
         }
 
         if($this->gender != '') {
-            $sql = $sql . $camaa." gender = " . $this->gender;
+            $sql = $sql . $camaa." gender = '" . $this->gender . "'";
             $camaa = ', ';
         }
 
         if($this->age != '') {
-            $sql = $sql . $camaa." age = " . $this->age;
+            $sql = $sql . $camaa." age = '" . $this->age . "'";
             $camaa = ', ';
         }
 
         if($this->communication_address != '') {
-            $sql = $sql . $camaa." communication_address = " . $this->communication_address;
+            $sql = $sql . $camaa." communication_address = '" . $this->communication_address . "'";
             $camaa = ', ';
         }
 
         if($this->permanent_address != '') {
-            $sql = $sql . $camaa." permanent_address = " . $this->permanent_address;
+            $sql = $sql . $camaa." permanent_address = '" . $this->permanent_address . "'";
             $camaa = ', ';
         }
 
         if($this->activation_status != '') {
-            $sql = $sql . $camaa." activation_status = " . $this->activation_status;
+            $sql = $sql . $camaa." activation_status = '" . $this->activation_status . "'";
             $camaa = ', ';
         }
 
@@ -188,13 +202,23 @@ class dmuser {
             $camaa = ', ';
         }
 
+        if($this->field_of_activity != '0') {
+            $sql = $sql . $camaa." field_of_activity = '" . $this->field_of_activity . "'";
+            $camaa = ', ';
+        }
+
+        if($this->date_of_foundation != '0000-00-00') {
+            $sql = $sql . $camaa." date_of_foundation = '" . $this->date_of_foundation . "'";
+            $camaa = ', ';
+        }
+
         $sql = $sql . " where ";
 
         if($this->user_id != 0) {
             $sql = $sql . " user_id = " . $this->user_id;
         }
         if($this->email_id != '') {
-            $sql = $sql . " email_id = " . $this->email_id;
+            $sql = $sql . " email_id = '" . $this->email_id . "'";
         }
 
         return $sql;
@@ -257,6 +281,14 @@ class dmuser {
 
         if($this->r_country_id != 0) {
             $sql = $sql . " and r_country_id = " . $this->r_country_id;
+        }
+
+        if($this->field_of_activity != '0') {
+            $sql = $sql . " and field_of_activity = " . $this->field_of_activity;
+        }
+
+        if($this->date_of_foundation != '0000-00-00') {
+            $sql = $sql . " and date_of_foundation = " . $this->date_of_foundation;
         }
 
         return $sql;

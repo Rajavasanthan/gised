@@ -1073,8 +1073,7 @@
    <div class="change-image-btn-container">
     <input type="file" (change)="onSelectProfileImages($event)" [accept]="profileImgFileTypes"/>
     <button class="btn btn-primary">Change photo</button>
-    <input type="hidden" formControlName="profileImgs" value="{{profileImgString}}"/>
-    
+   
    </div>
    <!-- Name -->
    <div class="form-control">
@@ -1087,12 +1086,15 @@
    <!-- DOB -->
    <div class="form-control">
     <p class="semi-bold">Date of birth</p>
-    <input type="date" placeholder="Date of Birth"  formControlName="dob" min="" max=""/>
+    <input type="date" placeholder="Date of Birth" [value]="loggedProfile.date_of_foundation == 'Nil' ? '' : loggedProfile.date_of_foundation" formControlName="dob" min="" max=""/>
+   </div>
+   <div *ngIf="editProfileForm.controls.dob.errors && editProfileForm.controls.dob.touched" class="errors">
+        Invalid Date of Birth
    </div>
    <!-- Country -->
    <div class="form-control">
     <p class="semi-bold">Country</p>
-    <select placeholder="Country"  formControlName="country">
+    <select placeholder="Country"  formControlName="country" [(ngModel)]="loggedProfile.r_country_id">
          <option value="0">Select your country</option>
          <option *ngFor="let country of countries" value="{{country.country_id}}">{{country.country_name}}</option>
      </select>
@@ -1103,8 +1105,11 @@
    <!-- Contact -->
    <div class="form-control">
     <p class="semi-bold">Contact</p>
-    <input type="text" placeholder="Phone Number" formControlName="mobileNo" value=" loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no "/>
+    <input type="text" placeholder="Phone Number" formControlName="mobileNo" [value]=" loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no"/>
    </div>
+   <div *ngIf="editProfileForm.controls.mobileNo.errors && editProfileForm.controls.mobileNo.touched" class="errors">
+      Invalid Contact
+  </div>
    <!-- Gender -->
    <div class="form-control">
     <p class="semi-bold">Gender</p>
@@ -1113,11 +1118,11 @@
      <div class="signup__radio-container">
       <div class="signup__radio-input-container">
        <label for="male">Male</label>
-       <input type="radio" class="" name="gender" value="Male" formControlName="gender" selected=" loggedProfile.gender=='Male' ? true : false "/>
+       <input type="radio" class="" name="gender" value="Male" formControlName="gender" [checked]="loggedProfile.gender == 'Male' ? true : false"/>
       </div>
       <div class="signup__radio-input-container">
        <label for="male">Female</label>
-       <input type="radio" class="" name="gender" value="Female" formControlName="gender"/>
+       <input type="radio" class="" name="gender" value="Female" formControlName="gender" [checked]="loggedProfile.gender == 'Female' ? true : false"/>
       </div>
      </div>
     </div>
@@ -1135,7 +1140,7 @@
    <!-- Field of Activity -->
    <div class="form-control">
     <p class="semi-bold">Field of Activity</p>
-    <select placeholder="Grant Category" formControlName="applicationValues">
+    <select placeholder="Grant Category" formControlName="applicationValues" [(ngModel)]="loggedProfile.field_of_activity">
      <option
        *ngFor="let application of applications"
        [value]="application.application_details_id"

@@ -59,8 +59,7 @@ export class UserComponent implements OnInit {
   modelFeedback : any;
   feedBackUserSelector : any;
   countries : any;
-  profileImgString : any;
-
+  
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
 
@@ -325,6 +324,7 @@ export class UserComponent implements OnInit {
         } else {
           this.countries = this.serverResponse.responseData.countries;
         }
+        this.setProfileValues();
       },
       (error) => {
         this.blockUI.stop();
@@ -336,15 +336,12 @@ export class UserComponent implements OnInit {
         console.log("Completed");
       }
     );  
-
-    this.profileImgString = "noImage";
-    this.setProfileValues();
-
   }
 
   setProfileValues() {
     
     if(this.loggedProfile.first_name != "") {
+      //alert("name :"+this.loggedProfile.first_name);
       this.editProfileForm.controls.fullName.setValue(this.loggedProfile.first_name);
     }
     if(this.loggedProfile.date_of_foundation != "0000-00-00") {
@@ -362,8 +359,9 @@ export class UserComponent implements OnInit {
     if(this.loggedProfile.field_of_activity != 0) {
       this.editProfileForm.controls.applicationValues.setValue(this.loggedProfile.field_of_activity);
     }
-    //profileImgs
-
+    this.editProfileForm.controls.image.setValue("noImage");
+    this.editProfileForm.controls.emailId.setValue(this.loggedProfile.email_id);
+    
   }
 
   //After dom ready will get call
@@ -1020,7 +1018,8 @@ editProfileForm = new FormGroup({
   gender : new FormControl('', [Validators.required]),
   country : new FormControl(0, [Validators.required,Validators.min(1)]),
   applicationValues : new FormControl(0, [Validators.required,Validators.min(1)]),
-  profileImgs : new FormControl('', [Validators.required])
+  image : new FormControl('', [Validators.required]),
+  emailId : new FormControl('')
 });
 
  //Edit Profile Image
@@ -1029,16 +1028,18 @@ editProfileForm = new FormGroup({
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]); // read file as data url
     reader.onload = (event) => { // called once readAsDataURL is completed
-      let profileImg = reader.result;
+      this.profileImg = reader.result;
       //console.log("base 64 :"+reader.result);
-      this.profileImgString = profileImg;
+      this.editProfileForm.controls.image.setValue(this.profileImg);
+      //this.profileImgString = this.profileImg;
     }
   }
 }
 
 editProfileSubmit() {
   this.serverRequest = {
-    module: "application",
+    token: localStorage.getItem("token"),
+    module: "userProfile",
     action: "editProfile",
     requestData: this.editProfileForm.value,
   };
@@ -1057,12 +1058,12 @@ editProfileSubmit() {
       if (this.serverResponse.responseData == "ERROR") {
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
-        this.router.navigate(["/"]);
+        //this.router.navigate(["/"]);
       } else {
         this.errorMsg =
-          "Account created successfully. Complete account creation check your mail to set password.";
+          "Account Updated Successfully.";
         Swal.fire(this.errorMsg);
-        this.router.navigate(["/"]);
+        //this.router.navigate(["/user"]);
       }
     },
     (error) => {
