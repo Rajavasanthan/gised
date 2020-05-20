@@ -58,6 +58,8 @@ export class UserComponent implements OnInit {
   initialPresentForm : number;
   modelFeedback : any;
   feedBackUserSelector : any;
+  countries : any;
+  profileImgString : any;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -298,6 +300,70 @@ export class UserComponent implements OnInit {
         console.log("Completed");
       }
     );
+
+    //Get Contries
+    this.serverRequest = {
+      module: "login",
+      action: "getcountries",
+      requestData: "",
+    };
+
+    this.loader = "Preparing User page";
+    this.blockUI.start(this.loader);
+
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+        this.blockUI.stop();
+        this.loader = "";
+        if (this.serverResponse.responseData == "ERROR") {
+          this.errorMsg = "Sorry! Something went wrong";
+          Swal.fire(this.errorMsg);
+        } else {
+          this.countries = this.serverResponse.responseData.countries;
+        }
+      },
+      (error) => {
+        this.blockUI.stop();
+        this.loader = "";
+        this.errorMsg = "Sorry! Something went wrong";
+        Swal.fire(this.errorMsg);
+      },
+      () => {
+        console.log("Completed");
+      }
+    );  
+
+    this.profileImgString = "noImage";
+    this.setProfileValues();
+
+  }
+
+  setProfileValues() {
+    
+    if(this.loggedProfile.first_name != "") {
+      this.editProfileForm.controls.fullName.setValue(this.loggedProfile.first_name);
+    }
+    if(this.loggedProfile.date_of_foundation != "0000-00-00") {
+      this.editProfileForm.controls.dob.setValue(this.loggedProfile.date_of_foundation);
+    }
+    if(this.loggedProfile.mobile_no != 0) {
+      this.editProfileForm.controls.mobileNo.setValue(this.loggedProfile.mobile_no);
+    }
+    if(this.loggedProfile.gender != "Nil") {
+      this.editProfileForm.controls.gender.setValue(this.loggedProfile.gender);
+    }
+    if(this.loggedProfile.r_country_id != 1) {
+      this.editProfileForm.controls.country.setValue(this.loggedProfile.r_country_id);
+    }
+    if(this.loggedProfile.field_of_activity != 0) {
+      this.editProfileForm.controls.applicationValues.setValue(this.loggedProfile.field_of_activity);
+    }
+    //profileImgs
+
   }
 
   //After dom ready will get call
@@ -458,12 +524,14 @@ export class UserComponent implements OnInit {
           this.errorMsg = this.serverResponse.responseData.userMsg;
           Swal.fire(this.errorMsg);
         }
+        this.closeModal('feedback-modal');
       },
       (error) => {
         this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
+        this.closeModal('feedback-modal');
       },
       () => {
         console.log("Completed");
@@ -942,5 +1010,72 @@ export class UserComponent implements OnInit {
     this.modal.close(id);
 
   }
+
+
+//Edit Profile
+editProfileForm = new FormGroup({
+  fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+  dob : new FormControl('', [Validators.required]),
+  mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
+  gender : new FormControl('', [Validators.required]),
+  country : new FormControl(0, [Validators.required,Validators.min(1)]),
+  applicationValues : new FormControl(0, [Validators.required,Validators.min(1)]),
+  profileImgs : new FormControl('', [Validators.required])
+});
+
+ //Edit Profile Image
+ onSelectProfileImages(event) {
+  if (event.target.files && event.target.files[0]) {
+    var reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]); // read file as data url
+    reader.onload = (event) => { // called once readAsDataURL is completed
+      let profileImg = reader.result;
+      //console.log("base 64 :"+reader.result);
+      this.profileImgString = profileImg;
+    }
+  }
+}
+
+editProfileSubmit() {
+  this.serverRequest = {
+    module: "application",
+    action: "editProfile",
+    requestData: this.editProfileForm.value,
+  };
+
+  this.loader = "Update your profile on GISET";
+  this.blockUI.start(this.loader);
+
+  this.server.sendToServer(this.serverRequest).subscribe(
+    (response) => {
+      this.serverResponse = JSON.parse(
+        this.server.decryption(response["response"])
+      );
+      console.log("RESPONSE : ", this.serverResponse);
+      this.blockUI.stop();
+      this.loader = "";
+      if (this.serverResponse.responseData == "ERROR") {
+        this.errorMsg = "Sorry! Something went wrong";
+        Swal.fire(this.errorMsg);
+        this.router.navigate(["/"]);
+      } else {
+        this.errorMsg =
+          "Account created successfully. Complete account creation check your mail to set password.";
+        Swal.fire(this.errorMsg);
+        this.router.navigate(["/"]);
+      }
+    },
+    (error) => {
+      this.blockUI.stop();
+      this.loader = "";
+      this.errorMsg = "Sorry! Something went wrong";
+      Swal.fire(this.errorMsg);
+      this.router.navigate(["/"]);
+    },
+    () => {
+      console.log("Completed");
+    }
+  );
+}
 
 }

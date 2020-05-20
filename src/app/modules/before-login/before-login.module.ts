@@ -21,15 +21,16 @@ import { LoginComponent } from '../../components/before-login/login/login.compon
 import { SingUpComponent } from '../../components/before-login/sing-up/sing-up.component';
 import { ForgotPasswordComponent } from '../../components/before-login/forgot-password/forgot-password.component';
 import { SetPasswordComponent } from '../../components/before-login/set-password/set-password.component';
+import { Configurations } from "../../config/configurations";
 
 let config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('147351337769-v96mob5e7vcschgd33d0chbkdcefdmq4.apps.googleusercontent.com')
+    provider: new GoogleLoginProvider(Configurations.GOOGLE_APP_ID)
   },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('170117987716123')
+    provider: new FacebookLoginProvider(Configurations.FACEBOOK_APP_ID)
   }
 ]);
  

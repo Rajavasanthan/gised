@@ -108,7 +108,7 @@
 
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
-                    $this->output['loggedProfile'][$innerKey] = $innerValue;
+                    $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
                 }
             }
 
@@ -222,6 +222,22 @@
                 $this->adminData();
             }
         
+        }
+
+        function formatedProfileData($key, $value) {
+
+            if($key == 'age' && $value==0) {
+                $value = "Nil";
+            } else if($key == 'mobile_no' && $value==0) {
+                $value = "Nil";
+            } else if($key == 'field_of_activity' && $value==0) {
+                $value = "Nil";
+            } else if($key == 'date_of_foundation' && $value=="0000-00-00") {
+                $value = "Nil";
+            }
+
+            return $value;
+
         }
 
         function setFormNoAndAction($formNo, $action) {
@@ -358,13 +374,25 @@
                 $profilePicturePath = "./assets/images/male.jpg";
             } else if($gender == "Female") {
                 $profilePicturePath = "./assets/images/female.jpg";
+            } else {
+                
+                require_once "classes/class.dmsocial.php";
+                $socialObj = new dmsocial();
+                $socialObj->r_user_id = $userId;
+                $sql = $socialObj->selectdmsocial();
+                $result = dbConnection::selectQuery($sql);
+                if(isset($result[0]['response'])) {
+                    $jsonDecode = json_decode($result[0]['response'],1);
+                    $profilePicturePath = $jsonDecode['photoUrl'];
+                }
+
             }
 
             return $profilePicturePath;
 
         }
 
-        function defaultAction() {
+    function defaultAction() {
             
             $this->output = "I am defaultAction. I got called successfully :)";
         

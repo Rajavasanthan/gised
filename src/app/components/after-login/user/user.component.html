@@ -1,28 +1,12 @@
-<!-- <div class="application__nav">
-  <a
-    href="#"
-    class="registration__forgot-password lead"
-    (click)="logout()"
-    style="margin-left: 20px; color: black; font-size: 15px;"
-    >Logout</a
-  >
-  <span class="application__nav--name"
-    >{{ loggedProfile.title }}. {{ loggedProfile.first_name }}
-    {{ loggedProfile.last_name }}</span
-  >
-  <i class="far fa-user-circle application__nav--icon"></i>
-</div> -->
-
-
 <div class="application__container">
   <!-- APplication Profile -->
   <div class="application__profile">
     <div class="flex justify-end">
-      <a href="javascript:" class="trigger-profile">Edit profile</a>
+      <a href="javascript:" class="trigger-profile" (click)="openModal('userProfile-modal')">Edit profile</a>
     </div>
     <!-- Profile header -->
-    <img [src]="profileImg" alt="" class="profile__image" />
-    <div class="profile__name">{{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
+    <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
+    <div class="profile__name">{{loggedProfile.first_name}}</div>
     <hr class="profile__line" />
     <!-- Profile Info -->
     <!-- Date of Foundation -->
@@ -31,7 +15,7 @@
         Date of Foundation
       </div>
       <div class="semi-bold font-12">
-        01 / 05 / 2020
+          {{loggedProfile.date_of_foundation}}
       </div>
     </div>
     <!-- Country Registered -->
@@ -49,7 +33,7 @@
         Field of Activity
       </div>
       <div class="semi-bold font-12">
-        Education
+          {{loggedProfile.field_of_activity}}
       </div>
     </div>
     <div class="profile__ci-header bg-primary p-1_2 semi-bold">
@@ -64,7 +48,7 @@
           Name
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.first_name}} {{loggedProfile.last_name}}
+          {{loggedProfile.first_name}}
         </div>
       </div>
       <!-- Age -->
@@ -137,7 +121,7 @@
   <!-- Application Profile details -->
   <div class="application__profile-details">
     <div class="application__profile-details--container">
-      <h4 class="">{{loggedProfile.first_name}} {{loggedProfile.last_name}}</h4>
+      <h4 class="">{{loggedProfile.first_name}}</h4>
       <i class="far fa-user-circle application__profile-details--icon"></i>
     </div>
     <hr style="margin: 1rem 0;" />
@@ -1069,10 +1053,97 @@
 </div>
 <block-ui></block-ui>
 <jw-modal id="feedback-modal">
+  <form [formGroup]="feedBackForm" (ngSubmit)="feedBackFormSubmit()">
   <span class="close-button-feedback close-button" (click)="closeModal('feedback-modal')">×</span>
     <h4 class="text-center mb-1">Write your feedback</h4>
-    <textarea name="" id="" class="default-textarea"></textarea>
+    <textarea name="" id="" class="default-textarea" formControlName="feedback"></textarea>
     <div class="mt-1">
-      <button class="btn btn-primary float-right">Submit</button>
+      <button class="btn btn-primary float-right" [disabled]="!feedBackForm.valid">Submit</button>
+  </div>
+  </form>
+</jw-modal>
+
+
+<!--Edit Profile model-->
+<jw-modal id="userProfile-modal" class="modal-profile">
+  <span class="close-button-profile close-button" (click)="closeModal('userProfile-modal')">×</span>
+  <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
+  <div class="profile-modal__container">
+   <img [src]="profileImg" alt="Profile Photo" />
+   <div class="change-image-btn-container">
+    <input type="file" (change)="onSelectProfileImages($event)" [accept]="profileImgFileTypes"/>
+    <button class="btn btn-primary">Change photo</button>
+    <input type="hidden" formControlName="profileImgs" value="{{profileImgString}}"/>
+    
+   </div>
+   <!-- Name -->
+   <div class="form-control">
+    <p class="semi-bold">Name</p>
+    <input type="text" formControlName="fullName" [value]="loggedProfile.first_name"/>
+   </div>
+   <div *ngIf="editProfileForm.controls.fullName.errors && editProfileForm.controls.fullName.touched" class="errors">
+       Invalid Name
+   </div>
+   <!-- DOB -->
+   <div class="form-control">
+    <p class="semi-bold">Date of birth</p>
+    <input type="date" placeholder="Date of Birth"  formControlName="dob" min="" max=""/>
+   </div>
+   <!-- Country -->
+   <div class="form-control">
+    <p class="semi-bold">Country</p>
+    <select placeholder="Country"  formControlName="country">
+         <option value="0">Select your country</option>
+         <option *ngFor="let country of countries" value="{{country.country_id}}">{{country.country_name}}</option>
+     </select>
+   </div>
+   <div *ngIf="editProfileForm.controls.country.errors && editProfileForm.controls.country.touched" class="errors">
+     Invalid Country
+ </div>
+   <!-- Contact -->
+   <div class="form-control">
+    <p class="semi-bold">Contact</p>
+    <input type="text" placeholder="Phone Number" formControlName="mobileNo" value=" loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no "/>
+   </div>
+   <!-- Gender -->
+   <div class="form-control">
+    <p class="semi-bold">Gender</p>
+    <div class="registration__input-container">
+     <i class="fas fa-venus-mars registration__icon"></i>
+     <div class="signup__radio-container">
+      <div class="signup__radio-input-container">
+       <label for="male">Male</label>
+       <input type="radio" class="" name="gender" value="Male" formControlName="gender" selected=" loggedProfile.gender=='Male' ? true : false "/>
+      </div>
+      <div class="signup__radio-input-container">
+       <label for="male">Female</label>
+       <input type="radio" class="" name="gender" value="Female" formControlName="gender"/>
+      </div>
+     </div>
     </div>
+   </div>
+   <div *ngIf="editProfileForm.controls.gender.errors && editProfileForm.controls.gender.touched" class="errors">
+     Invalid Gender
+ </div>
+   
+   <!-- Age -->
+   <!-- <div class="form-control">
+    <p class="semi-bold">Age</p>
+    <span contenteditable="true">22</span>
+   </div> -->
+
+   <!-- Field of Activity -->
+   <div class="form-control">
+    <p class="semi-bold">Field of Activity</p>
+    <select placeholder="Grant Category" formControlName="applicationValues">
+     <option
+       *ngFor="let application of applications"
+       [value]="application.application_details_id"
+       >{{ application.application_name }}</option
+     >
+   </select>
+   </div>
+   <button type="submit" class="btn btn-primary semi-bold float-right" [disabled]="!editProfileForm.valid">Submit</button>
+  </div>
+ </form>
 </jw-modal>
