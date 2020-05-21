@@ -8,6 +8,8 @@ import { Configurations } from '../../../config/configurations';
 import { saveAs as importedSaveAs } from 'file-saver';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
+import { ValidationService } from "src/app/services/validation.service";
+import { ModalService } from "../../../modal";
 
 //Specifid the this component schema
 @Component({
@@ -57,6 +59,7 @@ export class AdminComponent implements OnInit {
   gisedId : number;
   loader : string; 
   profileImg : any;
+  countries: any;
 
    //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -176,7 +179,8 @@ export class AdminComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef) { 
+  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation: ValidationService,
+    private modal: ModalService) { 
   
     this.loader = "Loading GISED admin page";
     this.blockUI.start(this.loader);
@@ -234,7 +238,84 @@ export class AdminComponent implements OnInit {
         console.log('Completed');
       });
 
+
+      //Get Contries
+    this.serverRequest = {
+      module: "login",
+      action: "getcountries",
+      requestData: "",
+    };
+
+    this.loader = "Preparing User page";
+    this.blockUI.start(this.loader);
+
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+        this.blockUI.stop();
+        this.loader = "";
+        if (this.serverResponse.responseData == "ERROR") {
+          this.errorMsg = "Sorry! Something went wrong";
+          Swal.fire(this.errorMsg);
+        } else {
+          this.countries = this.serverResponse.responseData.countries;
+        }
+        this.setProfileValues();
+      },
+      (error) => {
+        this.blockUI.stop();
+        this.loader = "";
+        this.errorMsg = "Sorry! Something went wrong";
+        Swal.fire(this.errorMsg);
+      },
+      () => {
+        console.log("Completed");
+      }
+    );
+
   }
+
+  setProfileValues() {
+    if (this.loggedProfile.first_name != "") {
+      //alert("name :"+this.loggedProfile.first_name);
+      this.editProfileForm.controls.fullName.setValue(
+        this.loggedProfile.first_name
+      );
+    }
+    if (this.loggedProfile.date_of_foundation != "0000-00-00") {
+      this.editProfileForm.controls.dob.setValue(
+        this.loggedProfile.date_of_foundation
+      );
+    }
+    if (this.loggedProfile.mobile_no != "Nil") {
+      this.editProfileForm.controls.mobileNo.setValue(
+        this.loggedProfile.mobile_no
+      );
+    }
+    if (this.loggedProfile.gender != "Nil") {
+      this.editProfileForm.controls.gender.setValue(this.loggedProfile.gender);
+    }
+    if (this.loggedProfile.r_country_id != 1) {
+      this.editProfileForm.controls.country.setValue(
+        this.loggedProfile.r_country_id
+      );
+    }else{
+      this.editProfileForm.controls.country.setValue(0);
+    }
+    if (this.loggedProfile.field_of_activity != "Nil") {
+      this.editProfileForm.controls.applicationValues.setValue(
+        this.loggedProfile.field_of_activity
+      );
+    }else{
+      this.editProfileForm.controls.applicationValues.setValue(0);
+    }
+    this.editProfileForm.controls.image.setValue("noImage");
+    this.editProfileForm.controls.emailId.setValue(this.loggedProfile.email_id);
+  }
+
 
   //After dom ready will get call
   ngOnInit() {
@@ -649,6 +730,88 @@ export class AdminComponent implements OnInit {
         );
       }
     }
+  }
+
+  openModal(id: string) {
+    this.modal.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modal.close(id);
+  }
+
+  //Edit Profile
+  editProfileForm = new FormGroup({
+    fullName: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.namePattern)
+    ]),
+    dob: new FormControl("", [Validators.required]),
+    mobileNo: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.mobilePattern)
+    ]),
+    gender: new FormControl("", [Validators.required]),
+    country: new FormControl(0, [Validators.required, Validators.min(1)]),
+    applicationValues: new FormControl(''),
+    image: new FormControl("", [Validators.required]),
+    emailId: new FormControl(""),
+  });
+
+  //Edit Profile Image
+  onSelectProfileImages(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event) => {
+        // called once readAsDataURL is completed
+        this.profileImg = reader.result;
+        //console.log("base 64 :"+reader.result);
+        this.editProfileForm.controls.image.setValue(this.profileImg);
+        //this.profileImgString = this.profileImg;
+      };
+    }
+  }
+
+  editProfileSubmit() {
+    this.serverRequest = {
+      token: localStorage.getItem("token"),
+      module: "userProfile",
+      action: "editProfile",
+      requestData: this.editProfileForm.value,
+    };
+
+    this.loader = "Update your profile on GISET";
+    this.blockUI.start(this.loader);
+
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", this.serverResponse);
+        this.blockUI.stop();
+        this.loader = "";
+        if (this.serverResponse.responseData == "ERROR") {
+          this.errorMsg = "Sorry! Something went wrong";
+          Swal.fire(this.errorMsg);
+        } else {
+          this.errorMsg = "Account Updated Successfully.";
+          Swal.fire(this.errorMsg);
+        }
+        this.closeModal('userProfile-modal')
+      },
+      (error) => {
+        this.blockUI.stop();
+        this.loader = "";
+        this.errorMsg = "Sorry! Something went wrong";
+        Swal.fire(this.errorMsg);
+        this.closeModal('userProfile-modal')
+      },
+      () => {
+        console.log("Completed");
+      }
+    );
   }
 
 }

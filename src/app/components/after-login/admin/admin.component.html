@@ -7,18 +7,26 @@
 <div class="application__container">
  <!-- APplication Profile -->
  <div class="application__profile">
+  <div class="flex justify-end">
+    <a
+      href="javascript:"
+      class="trigger-profile"
+      (click)="openModal('adminProfile-modal')"
+      >Edit profile</a>
+  </div>
   <!-- Profile header -->
   <div class="profile__header">
    <span class="lead-dark">My Profile</span>
    <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
-  <form [formGroup]="profilePhotoUpoadForm">
-    <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
+  <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
+  <!-- <form [formGroup]="profilePhotoUpoadForm">
+   
     <div>
       <input type='file' #profilePic (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
       <button type="button" (click)="profilePic.click()" class="btn btn-primary btn-profile-photo">Edit Photo</button>
     </div>
-  </form>
+  </form> -->
   <div class="profile__name">{{loggedProfile.title}}. {{loggedProfile.first_name}} {{loggedProfile.last_name}}</div>
   <hr class="profile__line" />
   <!-- Profile Info -->
@@ -246,10 +254,10 @@
       <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(1)">
        Approve
       </button>
-      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(1)">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="openModal('hold-modal')">
         Hold
        </button>
-      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(1)">
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="openModal('reject-modal')">
        Reject
       </button>
      </div>
@@ -349,10 +357,10 @@
       <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(2)">
        Approve
       </button>
-      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(2)">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="openModal('hold-modal')">
         Hold
        </button>
-      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(2)">
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="openModal('reject-modal')">
        Reject
       </button>
      </div>
@@ -431,10 +439,10 @@
       <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(3)">
        Approve
       </button>
-      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(3)">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="openModal('hold-modal')">
         Hold
        </button>
-      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(3)">
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="openModal('reject-modal')">
        Reject
       </button>
      </div>
@@ -461,10 +469,10 @@
       <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formApprove(4)">
        Approve
       </button>
-      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="formHold(4)">
+      <button type="button" class="btn btn-primary first-contact__submit-btn" (click)="openModal('hold-modal')">
         Hold
        </button>
-      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="formReject(4)">
+      <button type="button" class="btn btn-danger first-contact__submit-btn" (click)="openModal('reject-modal')">
        Reject
       </button>
      </div>
@@ -475,3 +483,231 @@
  </div>
 </div>
 <block-ui></block-ui>
+
+<!--Edit Profile model-->
+<jw-modal id="adminProfile-modal" class="modal-profile">
+  <span
+    class="close-button-profile close-button"
+    (click)="closeModal('adminProfile-modal')"
+    >×</span
+  >
+  <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
+    <div class="profile-modal__container">
+      <img [src]="profileImg" alt="Profile Photo" />
+      <div class="change-image-btn-container">
+        <input
+          type="file"
+          (change)="onSelectProfileImages($event)"
+          [accept]="profileImgFileTypes"
+        />
+        <button class="btn btn-primary">Change photo</button>
+      </div>
+      <!-- Name -->
+      <div class="form-control">
+        <p class="semi-bold">Name</p>
+        <input
+          type="text"
+          formControlName="fullName"
+          [value]="loggedProfile.first_name"
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name
+      </div>
+      <!-- DOB -->
+      <div class="form-control">
+        <p class="semi-bold">Date of birth</p>
+        <input
+          type="date"
+          placeholder="Date of Birth"
+          [value]="
+            loggedProfile.date_of_foundation == 'Nil'
+              ? ''
+              : loggedProfile.date_of_foundation
+          "
+          formControlName="dob"
+          min=""
+          max=""
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.dob.errors &&
+          editProfileForm.controls.dob.touched
+        "
+        class="errors"
+      >
+        Invalid Date of Birth
+      </div>
+      <!-- Country -->
+      <div class="form-control">
+        <p class="semi-bold">Country</p>
+        <select
+          placeholder="Country"
+          formControlName="country"
+          [(ngModel)]="loggedProfile.r_country_id"
+          class="select-country"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.country.errors &&
+          editProfileForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
+      <!-- Contact -->
+      <div class="form-control">
+        <p class="semi-bold">Contact</p>
+        <input
+          type="text"
+          placeholder="Phone Number"
+          formControlName="mobileNo"
+          [value]="
+            loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no
+          "
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.mobileNo.errors &&
+          editProfileForm.controls.mobileNo.touched
+        "
+        class="errors"
+      >
+        Invalid Contact
+      </div>
+      <!-- Gender -->
+      <div class="form-control">
+        <p class="semi-bold">Gender</p>
+        <div class="registration__input-container">
+          <div class="signup__radio-container">
+            <div class="signup__radio-input-container">
+              <i class="fas fa-venus-mars mr-1"></i>
+              <label for="male"> Male</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Male"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Male' ? true : false"
+              />
+            </div>
+            <div class="signup__radio-input-container">
+              <label for="male">Female</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Female"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Female' ? true : false"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.gender.errors &&
+          editProfileForm.controls.gender.touched
+        "
+        class="errors"
+      >
+        Invalid Gender
+      </div>
+
+      <!-- Age -->
+      <!-- <div class="form-control">
+    <p class="semi-bold">Age</p>
+    <span contenteditable="true">22</span>
+   </div> -->
+
+      <!-- Field of Activity -->
+      <!-- <div class="form-control">
+        <p class="semi-bold">Field of Activity</p>
+        <select
+          placeholder="Grant Category"
+          formControlName="applicationValues"
+          [(ngModel)]="loggedProfile.field_of_activity"
+        >
+        <option value="0">Select Field of Activity</option>
+          <option
+            *ngFor="let application of applications"
+            [value]="application.application_details_id"
+            >{{ application.application_name }}</option
+          >
+        </select>
+      </div> -->
+      <button
+        type="submit"
+        class="btn btn-primary semi-bold float-right"
+        [disabled]="!editProfileForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</jw-modal>
+
+<jw-modal id="hold-modal">
+    <span
+      class="close-button-feedback close-button"
+      (click)="closeModal('hold-modal')"
+      >×</span
+    >
+    <h4 class="text-center mb-1 feedback-heading">Write your Holding Reason</h4>
+    <textarea
+      name=""
+      id=""
+      class="default-textarea"
+      formControlName="feedback"
+    ></textarea>
+    <div class="mt-1">
+      <button
+        class="btn btn-primary float-right"
+        
+      >
+        Submit
+      </button>
+    </div>
+  </jw-modal>
+
+  <jw-modal id="reject-modal">
+    <span
+      class="close-button-feedback close-button"
+      (click)="closeModal('reject-modal')"
+      >×</span
+    >
+    <h4 class="text-center mb-1 feedback-heading">Write your Rejecting Reason</h4>
+    <textarea
+      name=""
+      id=""
+      class="default-textarea"
+      formControlName="feedback"
+    ></textarea>
+    <div class="mt-1">
+      <button
+        class="btn btn-primary float-right"
+        
+      >
+        Submit
+      </button>
+    </div>
+  </jw-modal>
