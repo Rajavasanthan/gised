@@ -126,8 +126,14 @@
   <!-- Application Profile details -->
   <div class="application__profile-details">
     <div class="application__profile-details--container">
-      <h4 class="">{{ loggedProfile.first_name }}</h4>
-      <i class="far fa-user-circle application__profile-details--icon"></i>
+      <h4 class="application__profile-details--container-name">
+        {{ loggedProfile.first_name }}
+      </h4>
+      <img
+        src="https://via.placeholder.com/50x50"
+        class="application__profile-details--icon"
+        alt=""
+      />
     </div>
     <hr style="margin: 1rem 0;" />
     <a href="" (click)="logout()" class="float-right">Logout</a>
@@ -142,7 +148,7 @@
         What projects or programs does GISED fund?
       </p>
       <div class="accordion-body font-14 mt-0_5">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
+        Lorem1 ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
         voluptas reprehenderit culpa alias consequuntur ullam dolores nam
         perferendis voluptatum ea.
       </div>
@@ -154,7 +160,7 @@
         May I schedule an appointment to discuss project or program ideas?
       </p>
       <div class="accordion-body font-14 mt-0_5">
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
+        Lorem2 ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
         voluptas reprehenderit culpa alias consequuntur ullam dolores nam
         perferendis voluptatum ea.
       </div>

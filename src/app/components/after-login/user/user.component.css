@@ -26,3 +26,15 @@
   width: 80%;
   margin-left: 1rem;
 }
+
+.application__profile-details--container-name {
+  font-size: 18px;
+}
+
+.application__profile-details--container {
+  align-items: center;
+}
+
+.application__profile-details--container img {
+  border-radius: 50px;
+}
