@@ -371,7 +371,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         this.loggedProfile.date_of_foundation
       );
     }
-    if (this.loggedProfile.mobile_no != 0) {
+    if (this.loggedProfile.mobile_no != "Nil") {
       this.editProfileForm.controls.mobileNo.setValue(
         this.loggedProfile.mobile_no
       );
@@ -383,11 +383,15 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.editProfileForm.controls.country.setValue(
         this.loggedProfile.r_country_id
       );
+    }else{
+      this.editProfileForm.controls.country.setValue(0);
     }
-    if (this.loggedProfile.field_of_activity != 0) {
+    if (this.loggedProfile.field_of_activity != "Nil") {
       this.editProfileForm.controls.applicationValues.setValue(
         this.loggedProfile.field_of_activity
       );
+    }else{
+      this.editProfileForm.controls.applicationValues.setValue(0);
     }
     this.editProfileForm.controls.image.setValue("noImage");
     this.editProfileForm.controls.emailId.setValue(this.loggedProfile.email_id);
@@ -1067,18 +1071,18 @@ export class UserComponent implements OnInit, AfterViewInit {
   editProfileForm = new FormGroup({
     fullName: new FormControl("", [
       Validators.required,
-      Validators.pattern(this.validation.namePattern),
+      Validators.pattern(this.validation.namePattern)
     ]),
     dob: new FormControl("", [Validators.required]),
     mobileNo: new FormControl("", [
       Validators.required,
-      Validators.pattern(this.validation.mobilePattern),
+      Validators.pattern(this.validation.mobilePattern)
     ]),
     gender: new FormControl("", [Validators.required]),
     country: new FormControl(0, [Validators.required, Validators.min(1)]),
     applicationValues: new FormControl(0, [
       Validators.required,
-      Validators.min(1),
+      Validators.min(1)
     ]),
     image: new FormControl("", [Validators.required]),
     emailId: new FormControl(""),

@@ -1265,6 +1265,7 @@
           formControlName="applicationValues"
           [(ngModel)]="loggedProfile.field_of_activity"
         >
+        <option value="0">Select Field of Activity</option>
           <option
             *ngFor="let application of applications"
             [value]="application.application_details_id"
