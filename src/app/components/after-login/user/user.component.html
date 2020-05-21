@@ -2,11 +2,16 @@
   <!-- APplication Profile -->
   <div class="application__profile">
     <div class="flex justify-end">
-      <a href="javascript:" class="trigger-profile" (click)="openModal('userProfile-modal')">Edit profile</a>
+      <a
+        href="javascript:"
+        class="trigger-profile"
+        (click)="openModal('userProfile-modal')"
+        >Edit profile</a
+      >
     </div>
     <!-- Profile header -->
     <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
-    <div class="profile__name">{{loggedProfile.first_name}}</div>
+    <div class="profile__name">{{ loggedProfile.first_name }}</div>
     <hr class="profile__line" />
     <!-- Profile Info -->
     <!-- Date of Foundation -->
@@ -15,7 +20,7 @@
         Date of Foundation
       </div>
       <div class="semi-bold font-12">
-          {{loggedProfile.date_of_foundation}}
+        {{ loggedProfile.date_of_foundation }}
       </div>
     </div>
     <!-- Country Registered -->
@@ -24,7 +29,7 @@
         Country Registered
       </div>
       <div class="semi-bold font-12">
-        {{loggedProfile.country_name}}
+        {{ loggedProfile.country_name }}
       </div>
     </div>
     <!-- Field of Activity -->
@@ -33,7 +38,7 @@
         Field of Activity
       </div>
       <div class="semi-bold font-12">
-          {{loggedProfile.field_of_activity}}
+        {{ loggedProfile.field_of_activity }}
       </div>
     </div>
     <div class="profile__ci-header bg-primary p-1_2 semi-bold">
@@ -48,7 +53,7 @@
           Name
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.first_name}}
+          {{ loggedProfile.first_name }}
         </div>
       </div>
       <!-- Age -->
@@ -57,7 +62,7 @@
           Age
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.age}}
+          {{ loggedProfile.age }}
         </div>
       </div>
     </div>
@@ -69,7 +74,7 @@
           Contact
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.mobile_no}}
+          {{ loggedProfile.mobile_no }}
         </div>
       </div>
       <!-- Gender -->
@@ -78,7 +83,7 @@
           Gender
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.gender}}
+          {{ loggedProfile.gender }}
         </div>
       </div>
     </div>
@@ -90,7 +95,7 @@
           Country
         </div>
         <div class="semi-bold font-12">
-          {{loggedProfile.country_name}}
+          {{ loggedProfile.country_name }}
         </div>
       </div>
     </div>
@@ -121,7 +126,7 @@
   <!-- Application Profile details -->
   <div class="application__profile-details">
     <div class="application__profile-details--container">
-      <h4 class="">{{loggedProfile.first_name}}</h4>
+      <h4 class="">{{ loggedProfile.first_name }}</h4>
       <i class="far fa-user-circle application__profile-details--icon"></i>
     </div>
     <hr style="margin: 1rem 0;" />
@@ -132,8 +137,8 @@
     <h6 class="mb-1 bg-primary abs-header top-0">Grants FAQ</h6>
     <div id="accordion-basic">
       <!-- ========***FAQ 1***=========== -->
-      
-      <p class="accordion-head cursor-pointer semi-bold font-12 mt-2">
+
+      <p class="accordion-head cursor-pointer semi-bold font-12 mt-4">
         What projects or programs does GISED fund?
       </p>
       <div class="accordion-body font-14 mt-0_5">
@@ -159,13 +164,20 @@
   <div class="application__suggestion clearfix">
     <h6>Send us your feedback!</h6>
     <p class="lead-dark">Do you have a suggestion? let us know.</p>
-    <button class="btn btn-primary mt-1 semi-bold trigger-feedback" (click)="openModal('feedback-modal')">
+    <button
+      class="btn btn-primary mt-1 semi-bold trigger-feedback"
+      (click)="openModal('feedback-modal')"
+    >
       Send feedback
     </button>
   </div>
   <!-- Application Progress -->
-  <div class="application__progress">
-    <h6 class="">Application Progress</h6>
+  <div class="application__progress relative">
+    <h6
+      class="abs-header bg-primary application__progress--header top-0 text-left pl-1"
+    >
+      Application Progress
+    </h6>
     <!-- ************************************************************ -->
     <!-- First Contact -->
     <form [formGroup]="firstContactForm" (ngSubmit)="firstContactFormInsert()">
@@ -518,7 +530,10 @@
               This section of your application is complete
             </div>
           </div>
-          <div class="brief-assesment__container accordian__main-data" *ngIf="initialPresentForm >= 2">
+          <div
+            class="brief-assesment__container accordian__main-data"
+            *ngIf="initialPresentForm >= 2"
+          >
             <div class="brief-assesment__form-control">
               <span class="">Name</span>
               <input
@@ -627,7 +642,9 @@
                 >
               </div>
               <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.purposeOfProject1"
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject1
+                "
                 style="display: block; font-size: 14px;"
               >
                 {{ file.displayFileName }}
@@ -814,7 +831,10 @@
               This section of your application is complete
             </div>
           </div>
-          <div class="detailed-presentation__container accordian__main-data" *ngIf="initialPresentForm >= 3">
+          <div
+            class="detailed-presentation__container accordian__main-data"
+            *ngIf="initialPresentForm >= 3"
+          >
             <!-- ====== -->
             <div class="detailed-presentation__fileupload-section">
               <div class="detailed-presentation__fileupload-container">
@@ -1023,7 +1043,7 @@
               <button
                 type="button"
                 *ngIf="detailedPresentationCompleted == 0"
-                class="btn btn-primary"
+                class="btn btn-primary btn-small"
                 (click)="editForm()"
               >
                 Edit</button
@@ -1031,7 +1051,7 @@
               <button
                 type="button"
                 *ngIf="detailedPresentationCompleted == 0"
-                class="btn btn-primary"
+                class="btn btn-primary btn-small"
                 (click)="saveAsDraft()"
               >
                 Save Draft</button
@@ -1041,7 +1061,7 @@
                 class="btn btn-primary"
                 [disabled]="detailedPresentationCompleted == 0"
                 *ngIf="finalApprovalCompleted == 0 && initialPresentForm >= 4"
-                >
+              >
                 Submit
               </button>
             </div>
@@ -1054,101 +1074,206 @@
 <block-ui></block-ui>
 <jw-modal id="feedback-modal">
   <form [formGroup]="feedBackForm" (ngSubmit)="feedBackFormSubmit()">
-  <span class="close-button-feedback close-button" (click)="closeModal('feedback-modal')">×</span>
-    <h4 class="text-center mb-1">Write your feedback</h4>
-    <textarea name="" id="" class="default-textarea" formControlName="feedback"></textarea>
+    <span
+      class="close-button-feedback close-button"
+      (click)="closeModal('feedback-modal')"
+      >×</span
+    >
+    <h4 class="text-center mb-1 feedback-heading">Write your feedback</h4>
+    <textarea
+      name=""
+      id=""
+      class="default-textarea"
+      formControlName="feedback"
+    ></textarea>
     <div class="mt-1">
-      <button class="btn btn-primary float-right" [disabled]="!feedBackForm.valid">Submit</button>
-  </div>
+      <button
+        class="btn btn-primary float-right"
+        [disabled]="!feedBackForm.valid"
+      >
+        Submit
+      </button>
+    </div>
   </form>
 </jw-modal>
 
-
 <!--Edit Profile model-->
 <jw-modal id="userProfile-modal" class="modal-profile">
-  <span class="close-button-profile close-button" (click)="closeModal('userProfile-modal')">×</span>
+  <span
+    class="close-button-profile close-button"
+    (click)="closeModal('userProfile-modal')"
+    >×</span
+  >
   <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
-  <div class="profile-modal__container">
-   <img [src]="profileImg" alt="Profile Photo" />
-   <div class="change-image-btn-container">
-    <input type="file" (change)="onSelectProfileImages($event)" [accept]="profileImgFileTypes"/>
-    <button class="btn btn-primary">Change photo</button>
-   
-   </div>
-   <!-- Name -->
-   <div class="form-control">
-    <p class="semi-bold">Name</p>
-    <input type="text" formControlName="fullName" [value]="loggedProfile.first_name"/>
-   </div>
-   <div *ngIf="editProfileForm.controls.fullName.errors && editProfileForm.controls.fullName.touched" class="errors">
-       Invalid Name
-   </div>
-   <!-- DOB -->
-   <div class="form-control">
-    <p class="semi-bold">Date of birth</p>
-    <input type="date" placeholder="Date of Birth" [value]="loggedProfile.date_of_foundation == 'Nil' ? '' : loggedProfile.date_of_foundation" formControlName="dob" min="" max=""/>
-   </div>
-   <div *ngIf="editProfileForm.controls.dob.errors && editProfileForm.controls.dob.touched" class="errors">
+    <div class="profile-modal__container">
+      <img [src]="profileImg" alt="Profile Photo" />
+      <div class="change-image-btn-container">
+        <input
+          type="file"
+          (change)="onSelectProfileImages($event)"
+          [accept]="profileImgFileTypes"
+        />
+        <button class="btn btn-primary">Change photo</button>
+      </div>
+      <!-- Name -->
+      <div class="form-control">
+        <p class="semi-bold">Name</p>
+        <input
+          type="text"
+          formControlName="fullName"
+          [value]="loggedProfile.first_name"
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name
+      </div>
+      <!-- DOB -->
+      <div class="form-control">
+        <p class="semi-bold">Date of birth</p>
+        <input
+          type="date"
+          placeholder="Date of Birth"
+          [value]="
+            loggedProfile.date_of_foundation == 'Nil'
+              ? ''
+              : loggedProfile.date_of_foundation
+          "
+          formControlName="dob"
+          min=""
+          max=""
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.dob.errors &&
+          editProfileForm.controls.dob.touched
+        "
+        class="errors"
+      >
         Invalid Date of Birth
-   </div>
-   <!-- Country -->
-   <div class="form-control">
-    <p class="semi-bold">Country</p>
-    <select placeholder="Country"  formControlName="country" [(ngModel)]="loggedProfile.r_country_id">
-         <option value="0">Select your country</option>
-         <option *ngFor="let country of countries" value="{{country.country_id}}">{{country.country_name}}</option>
-     </select>
-   </div>
-   <div *ngIf="editProfileForm.controls.country.errors && editProfileForm.controls.country.touched" class="errors">
-     Invalid Country
- </div>
-   <!-- Contact -->
-   <div class="form-control">
-    <p class="semi-bold">Contact</p>
-    <input type="text" placeholder="Phone Number" formControlName="mobileNo" [value]=" loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no"/>
-   </div>
-   <div *ngIf="editProfileForm.controls.mobileNo.errors && editProfileForm.controls.mobileNo.touched" class="errors">
-      Invalid Contact
-  </div>
-   <!-- Gender -->
-   <div class="form-control">
-    <p class="semi-bold">Gender</p>
-    <div class="registration__input-container">
-     <i class="fas fa-venus-mars registration__icon"></i>
-     <div class="signup__radio-container">
-      <div class="signup__radio-input-container">
-       <label for="male">Male</label>
-       <input type="radio" class="" name="gender" value="Male" formControlName="gender" [checked]="loggedProfile.gender == 'Male' ? true : false"/>
       </div>
-      <div class="signup__radio-input-container">
-       <label for="male">Female</label>
-       <input type="radio" class="" name="gender" value="Female" formControlName="gender" [checked]="loggedProfile.gender == 'Female' ? true : false"/>
+      <!-- Country -->
+      <div class="form-control">
+        <p class="semi-bold">Country</p>
+        <select
+          placeholder="Country"
+          formControlName="country"
+          [(ngModel)]="loggedProfile.r_country_id"
+          class="select-country"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
       </div>
-     </div>
-    </div>
-   </div>
-   <div *ngIf="editProfileForm.controls.gender.errors && editProfileForm.controls.gender.touched" class="errors">
-     Invalid Gender
- </div>
-   
-   <!-- Age -->
-   <!-- <div class="form-control">
+      <div
+        *ngIf="
+          editProfileForm.controls.country.errors &&
+          editProfileForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
+      <!-- Contact -->
+      <div class="form-control">
+        <p class="semi-bold">Contact</p>
+        <input
+          type="text"
+          placeholder="Phone Number"
+          formControlName="mobileNo"
+          [value]="
+            loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no
+          "
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.mobileNo.errors &&
+          editProfileForm.controls.mobileNo.touched
+        "
+        class="errors"
+      >
+        Invalid Contact
+      </div>
+      <!-- Gender -->
+      <div class="form-control">
+        <p class="semi-bold">Gender</p>
+        <div class="registration__input-container">
+          <i class="fas fa-venus-mars registration__icon"></i>
+          <div class="signup__radio-container">
+            <div class="signup__radio-input-container">
+              <label for="male">Male</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Male"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Male' ? true : false"
+              />
+            </div>
+            <div class="signup__radio-input-container">
+              <label for="male">Female</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Female"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Female' ? true : false"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.gender.errors &&
+          editProfileForm.controls.gender.touched
+        "
+        class="errors"
+      >
+        Invalid Gender
+      </div>
+
+      <!-- Age -->
+      <!-- <div class="form-control">
     <p class="semi-bold">Age</p>
     <span contenteditable="true">22</span>
    </div> -->
 
-   <!-- Field of Activity -->
-   <div class="form-control">
-    <p class="semi-bold">Field of Activity</p>
-    <select placeholder="Grant Category" formControlName="applicationValues" [(ngModel)]="loggedProfile.field_of_activity">
-     <option
-       *ngFor="let application of applications"
-       [value]="application.application_details_id"
-       >{{ application.application_name }}</option
-     >
-   </select>
-   </div>
-   <button type="submit" class="btn btn-primary semi-bold float-right" [disabled]="!editProfileForm.valid">Submit</button>
-  </div>
- </form>
+      <!-- Field of Activity -->
+      <div class="form-control">
+        <p class="semi-bold">Field of Activity</p>
+        <select
+          placeholder="Grant Category"
+          formControlName="applicationValues"
+          [(ngModel)]="loggedProfile.field_of_activity"
+        >
+          <option
+            *ngFor="let application of applications"
+            [value]="application.application_details_id"
+            >{{ application.application_name }}</option
+          >
+        </select>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary semi-bold float-right"
+        [disabled]="!editProfileForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
 </jw-modal>

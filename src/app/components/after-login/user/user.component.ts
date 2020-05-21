@@ -1,12 +1,12 @@
 //Need library files imported
-import { Component, OnInit, ElementRef } from "@angular/core";
+import { Component, OnInit, ElementRef, AfterViewInit } from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Configurations } from "../../../config/configurations";
 
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { BlockUI, NgBlockUI } from "ng-block-ui";
 import Swal from "sweetalert2";
 import * as jspdf from "jspdf";
 import html2canvas from "html2canvas";
@@ -21,83 +21,82 @@ import { ModalService } from "../../../modal";
 })
 
 //Class implmentation for this component
-export class UserComponent implements OnInit {
-
+export class UserComponent implements OnInit, AfterViewInit {
   @BlockUI() blockUI: NgBlockUI;
 
   //Variable decrlation with its type
-  loggedProfile : any;
-  applications : any;
-  source : any;
-  serverRequest : any;
-  serverResponse : any;
-  errorMsg : string;
-  action : string;
-  userMsg : string;
-  presentFormNo : number;
-  firstContactValues : any;
-  briefAssesmentValues : any;
-  detailedPresentationValues : any;
-  finalApproval : any;
-  selectedApplication : number;
-  currentStatus : string;
-  firstContactFormClose : string;
-  briefAssesmentFormClose : string;
-  detailedPresentationFormClose : string;
-  finalApprovalFormClose : string;
-  firstContactFormSelector : any;
-  briefAssesmentFormSelector : any;
-  detailedPresentationFormSelector : any;
-  firstContactCompleted : number;
-  briefAssesmentCompleted : number;
-  detailedPresentationCompleted : number;
-  finalApprovalCompleted : number;
-  loader : string; 
-  emailId : string;
-  profileImg : any;
-  initialPresentForm : number;
-  modelFeedback : any;
-  feedBackUserSelector : any;
-  countries : any;
-  
-   //Files Size Allowed
-   maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
+  loggedProfile: any;
+  applications: any;
+  source: any;
+  serverRequest: any;
+  serverResponse: any;
+  errorMsg: string;
+  action: string;
+  userMsg: string;
+  presentFormNo: number;
+  firstContactValues: any;
+  briefAssesmentValues: any;
+  detailedPresentationValues: any;
+  finalApproval: any;
+  selectedApplication: number;
+  currentStatus: string;
+  firstContactFormClose: string;
+  briefAssesmentFormClose: string;
+  detailedPresentationFormClose: string;
+  finalApprovalFormClose: string;
+  firstContactFormSelector: any;
+  briefAssesmentFormSelector: any;
+  detailedPresentationFormSelector: any;
+  firstContactCompleted: number;
+  briefAssesmentCompleted: number;
+  detailedPresentationCompleted: number;
+  finalApprovalCompleted: number;
+  loader: string;
+  emailId: string;
+  profileImg: any;
+  initialPresentForm: number;
+  modelFeedback: any;
+  feedBackUserSelector: any;
+  countries: any;
 
-   //Files Accepet Types
-   fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
+  //Files Size Allowed
+  maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
 
-   //Profile Image Files Accepet Types
-   profileImgFileTypes = Configurations.PROFILE_IMG_UPLOAD_ACCEPET_TYPES;
+  //Files Accepet Types
+  fileTypes = Configurations.FILE_UPLOAD_ACCEPET_TYPES;
 
-   //Breaf assesment files
-   uploadFiles_2_0:string  [] = [];
-   uploadFiles_2_1:string [] = [];
-   uploadFiles_2_2:string [] = [];
-   uploadFiles_2_3:string [] = [];
-   uploadFiles_2_4:string [] = [];
- 
-   uploadFiles_2_0Len =0;
-   uploadFiles_2_1Len =0;
-   uploadFiles_2_2Len =0;
-   uploadFiles_2_3Len =0;
-   uploadFiles_2_4Len =0;
- 
-   //Detailed Presentation Files
-   uploadFiles_3_0:string  [] = [];
-   uploadFiles_3_1:string [] = [];
-   uploadFiles_3_2:string [] = [];
-   uploadFiles_3_3:string [] = [];
-   uploadFiles_3_4:string [] = [];
- 
-   uploadFiles_3_0Len =0;
-   uploadFiles_3_1Len =0;
-   uploadFiles_3_2Len =0;
-   uploadFiles_3_3Len =0;
-   uploadFiles_3_4Len =0;
+  //Profile Image Files Accepet Types
+  profileImgFileTypes = Configurations.PROFILE_IMG_UPLOAD_ACCEPET_TYPES;
+
+  //Breaf assesment files
+  uploadFiles_2_0: string[] = [];
+  uploadFiles_2_1: string[] = [];
+  uploadFiles_2_2: string[] = [];
+  uploadFiles_2_3: string[] = [];
+  uploadFiles_2_4: string[] = [];
+
+  uploadFiles_2_0Len = 0;
+  uploadFiles_2_1Len = 0;
+  uploadFiles_2_2Len = 0;
+  uploadFiles_2_3Len = 0;
+  uploadFiles_2_4Len = 0;
+
+  //Detailed Presentation Files
+  uploadFiles_3_0: string[] = [];
+  uploadFiles_3_1: string[] = [];
+  uploadFiles_3_2: string[] = [];
+  uploadFiles_3_3: string[] = [];
+  uploadFiles_3_4: string[] = [];
+
+  uploadFiles_3_0Len = 0;
+  uploadFiles_3_1Len = 0;
+  uploadFiles_3_2Len = 0;
+  uploadFiles_3_3Len = 0;
+  uploadFiles_3_4Len = 0;
 
   //Application form and variables declared
   profilePhotoUpoadForm = new FormGroup({
-    profilePhoto : new FormControl("")
+    profilePhoto: new FormControl(""),
   });
 
   //Application form and variables declared
@@ -156,19 +155,28 @@ export class UserComponent implements OnInit {
 
   //Brief assesment form and variables declared
   briefAssesmentForm = new FormGroup({
-    name : new FormControl('',[Validators.required,Validators.pattern(this.validation.namePattern)]),
-    address : new FormControl('',[Validators.required]),
-    email : new FormControl('',[Validators.required,Validators.pattern(this.validation.emailIdPattern)]),
-    telephoneNo : new FormControl('',[Validators.required,Validators.pattern(this.validation.telePhonePattern)]),
-    website : new FormControl('',[Validators.required]),    
-    purposeOfProject1 : new FormControl(''),
-    detailedInformation : new FormControl(''),
-    estimatedBudget : new FormControl(''),
-    periodOfTime : new FormControl(''),
-    purposeOfProject2 : new FormControl(''),
-    emailId : new FormControl(''),
-    status : new FormControl(2),
-    uploadedFiles : new FormControl()
+    name: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.namePattern),
+    ]),
+    address: new FormControl("", [Validators.required]),
+    email: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.emailIdPattern),
+    ]),
+    telephoneNo: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.telePhonePattern),
+    ]),
+    website: new FormControl("", [Validators.required]),
+    purposeOfProject1: new FormControl(""),
+    detailedInformation: new FormControl(""),
+    estimatedBudget: new FormControl(""),
+    periodOfTime: new FormControl(""),
+    purposeOfProject2: new FormControl(""),
+    emailId: new FormControl(""),
+    status: new FormControl(2),
+    uploadedFiles: new FormControl(),
   });
   //Detailed presentation form and variables declared
   detailedPresentaionForm = new FormGroup({
@@ -190,41 +198,49 @@ export class UserComponent implements OnInit {
   });
 
   //Constructor for this component
-  constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation:ValidationService, private modal : ModalService) { 
-    
-      this.loader = "Loading GISED user page";
-      this.blockUI.start(this.loader);
+  constructor(
+    private product: ProductService,
+    private server: ServerCallService,
+    private router: Router,
+    private el: ElementRef,
+    private validation: ValidationService,
+    private modal: ModalService
+  ) {
+    this.loader = "Loading GISED user page";
+    this.blockUI.start(this.loader);
 
-      //Define intial values to the variables
-      this.currentStatus = 'Nil';
-      this.loggedProfile = { title : '' };
-      this.firstContactFormClose = "OPEN";
-      this.briefAssesmentFormClose = "OPEN";
-      this.detailedPresentationFormClose = "OPEN";
-      this.finalApprovalFormClose == "OPEN";
-      this.firstContactCompleted = 0;
-      this.briefAssesmentCompleted = 0;
-      this.detailedPresentationCompleted = 0;
-      this.finalApprovalCompleted = 0;
-      this.emailId = '';
-      this.initialPresentForm = 0;
+    //Define intial values to the variables
+    this.currentStatus = "Nil";
+    this.loggedProfile = { title: "" };
+    this.firstContactFormClose = "OPEN";
+    this.briefAssesmentFormClose = "OPEN";
+    this.detailedPresentationFormClose = "OPEN";
+    this.finalApprovalFormClose == "OPEN";
+    this.firstContactCompleted = 0;
+    this.briefAssesmentCompleted = 0;
+    this.detailedPresentationCompleted = 0;
+    this.finalApprovalCompleted = 0;
+    this.emailId = "";
+    this.initialPresentForm = 0;
 
-      //Prepare this request for get logged user informations
-      this.serverRequest = {
-        'token' : localStorage.getItem('token'),
-        'module' : 'userProfile',
-        'action' : 'showprofile',
-        'requestData' : { 'emailId' : this.emailId }
-      } 
-      //Hit to the server for get logged user informations
-      this.server.sendToServer(this.serverRequest).
-      subscribe((response) => {
-        this.serverResponse = JSON.parse(this.server.decryption(response['response']));
-        console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
-        console.log('RESPONSE : ', this.serverResponse);
-        
-        if(this.serverResponse.responseData == 'ERROR') {
-          this.errorMsg = 'Sorry! Something went wrong';
+    //Prepare this request for get logged user informations
+    this.serverRequest = {
+      token: localStorage.getItem("token"),
+      module: "userProfile",
+      action: "showprofile",
+      requestData: { emailId: this.emailId },
+    };
+    //Hit to the server for get logged user informations
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+        console.log("RESPONSE : ", this.serverResponse);
+
+        if (this.serverResponse.responseData == "ERROR") {
+          this.errorMsg = "Sorry! Something went wrong";
         } else {
           //Set token
           localStorage.setItem("token", this.serverResponse.responseData.token);
@@ -253,7 +269,7 @@ export class UserComponent implements OnInit {
 
           //Form open and close according to the user access
           this.firstContactFormClose = this.serverResponse.responseData.close.firstContactFormClose;
-          
+
           if (this.firstContactFormClose == "CLOSE") {
             this.firstContactFormSelector.classList.add("completed");
             this.firstContactCompleted = 1;
@@ -269,10 +285,10 @@ export class UserComponent implements OnInit {
             this.detailedPresentationCompleted = 3;
           }
           this.finalApprovalFormClose = this.serverResponse.responseData.close.finalApprovalFormClose;
-          if(this.finalApprovalFormClose == "CLOSE") {
+          if (this.finalApprovalFormClose == "CLOSE") {
             this.finalApprovalCompleted = 4;
           }
-                    
+
           //Open form for initial action
           if (this.action == "firstcontactforminsertion") {
             this.firstContactForm.enable();
@@ -283,13 +299,12 @@ export class UserComponent implements OnInit {
           }
 
           //Load the exsisting values
-          if(this.action == "firstcontactformupdation") {
+          if (this.action == "firstcontactformupdation") {
             this.firstContactFormValuesUpdate();
           }
-          if(this.action == "briefassesmentformupdation") {
+          if (this.action == "briefassesmentformupdation") {
             this.briefAssementFormValuesUpdate();
           }
-
         }
       },
       (error) => {
@@ -335,33 +350,41 @@ export class UserComponent implements OnInit {
       () => {
         console.log("Completed");
       }
-    );  
+    );
   }
 
   setProfileValues() {
-    
-    if(this.loggedProfile.first_name != "") {
+    if (this.loggedProfile.first_name != "") {
       //alert("name :"+this.loggedProfile.first_name);
-      this.editProfileForm.controls.fullName.setValue(this.loggedProfile.first_name);
+      this.editProfileForm.controls.fullName.setValue(
+        this.loggedProfile.first_name
+      );
     }
-    if(this.loggedProfile.date_of_foundation != "0000-00-00") {
-      this.editProfileForm.controls.dob.setValue(this.loggedProfile.date_of_foundation);
+    if (this.loggedProfile.date_of_foundation != "0000-00-00") {
+      this.editProfileForm.controls.dob.setValue(
+        this.loggedProfile.date_of_foundation
+      );
     }
-    if(this.loggedProfile.mobile_no != 0) {
-      this.editProfileForm.controls.mobileNo.setValue(this.loggedProfile.mobile_no);
+    if (this.loggedProfile.mobile_no != 0) {
+      this.editProfileForm.controls.mobileNo.setValue(
+        this.loggedProfile.mobile_no
+      );
     }
-    if(this.loggedProfile.gender != "Nil") {
+    if (this.loggedProfile.gender != "Nil") {
       this.editProfileForm.controls.gender.setValue(this.loggedProfile.gender);
     }
-    if(this.loggedProfile.r_country_id != 1) {
-      this.editProfileForm.controls.country.setValue(this.loggedProfile.r_country_id);
+    if (this.loggedProfile.r_country_id != 1) {
+      this.editProfileForm.controls.country.setValue(
+        this.loggedProfile.r_country_id
+      );
     }
-    if(this.loggedProfile.field_of_activity != 0) {
-      this.editProfileForm.controls.applicationValues.setValue(this.loggedProfile.field_of_activity);
+    if (this.loggedProfile.field_of_activity != 0) {
+      this.editProfileForm.controls.applicationValues.setValue(
+        this.loggedProfile.field_of_activity
+      );
     }
     this.editProfileForm.controls.image.setValue("noImage");
     this.editProfileForm.controls.emailId.setValue(this.loggedProfile.email_id);
-    
   }
 
   //After dom ready will get call
@@ -386,7 +409,7 @@ export class UserComponent implements OnInit {
     this.feedBackUserSelector = this.el.nativeElement.querySelector(
       "#feedbackuser"
     );
-    
+
     //Form disable
     this.formsDisable();
 
@@ -408,88 +431,116 @@ export class UserComponent implements OnInit {
   }
 
   sendFeedbackPopup() {
-
     this.feedBackUserSelector.classList.add("show-modal");
-
   }
 
   firstContactFormValuesUpdate() {
-
-      if(this.firstContactValues.brief_idea != "") {
-        this.firstContactForm.controls.describeIdea1.setValue(this.firstContactValues.brief_idea);
-      }
-      if(this.firstContactValues.explained_idea != "") {
-        this.firstContactForm.controls.describeIdea2.setValue(this.firstContactValues.explained_idea);
-      }
-      if(this.firstContactValues.about_group != "") {
-        this.firstContactForm.controls.describeIdea3.setValue(this.firstContactValues.about_group);
-      }
-      if(this.firstContactValues.first_name != "") {
-        this.firstContactForm.controls.firstName.setValue(this.firstContactValues.first_name);
-      }
-      if(this.firstContactValues.last_name != "") {
-        this.firstContactForm.controls.lastName.setValue(this.firstContactValues.last_name);
-      }
-      if(this.firstContactValues.email != "") {
-        this.firstContactForm.controls.email.setValue(this.firstContactValues.email_id);
-      }
-      if(this.firstContactValues.organization_name != "") {
-        this.firstContactForm.controls.organizationName.setValue(this.firstContactValues.organization_name);
-      }
-      if(this.firstContactValues.org_details != "") {
-        this.firstContactForm.controls.orgDetails.setValue(this.firstContactValues.org_details);
-      }
-      if(this.firstContactValues.sign_up_for_emails != "") {
-        this.firstContactForm.controls.signUpEmail.setValue((this.firstContactValues.sign_up_for_emails=="Y") ? true : false);
-      }
-      if(this.firstContactValues.r_source_id.newspaper == true) {
-        this.firstContactForm.controls.sourceValue.get('newspaper').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.edm == true) {
-        this.firstContactForm.controls.sourceValue.get('edm').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.sms == true) {
-        this.firstContactForm.controls.sourceValue.get('sms').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.website == true) {
-        this.firstContactForm.controls.sourceValue.get('website').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.pressads == true) {
-        this.firstContactForm.controls.sourceValue.get('pressads').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.online == true) {
-        this.firstContactForm.controls.sourceValue.get('online').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.wordofmouth == true) {
-        this.firstContactForm.controls.sourceValue.get('wordofmouth').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.maildrop == true) {
-        this.firstContactForm.controls.sourceValue.get('maildrop').setValue(true);
-      }
-      if(this.firstContactValues.r_source_id.others != "") {
-        this.firstContactForm.controls.sourceValue.get('others').setValue(this.firstContactValues.others);
-      }
-
+    if (this.firstContactValues.brief_idea != "") {
+      this.firstContactForm.controls.describeIdea1.setValue(
+        this.firstContactValues.brief_idea
+      );
+    }
+    if (this.firstContactValues.explained_idea != "") {
+      this.firstContactForm.controls.describeIdea2.setValue(
+        this.firstContactValues.explained_idea
+      );
+    }
+    if (this.firstContactValues.about_group != "") {
+      this.firstContactForm.controls.describeIdea3.setValue(
+        this.firstContactValues.about_group
+      );
+    }
+    if (this.firstContactValues.first_name != "") {
+      this.firstContactForm.controls.firstName.setValue(
+        this.firstContactValues.first_name
+      );
+    }
+    if (this.firstContactValues.last_name != "") {
+      this.firstContactForm.controls.lastName.setValue(
+        this.firstContactValues.last_name
+      );
+    }
+    if (this.firstContactValues.email != "") {
+      this.firstContactForm.controls.email.setValue(
+        this.firstContactValues.email_id
+      );
+    }
+    if (this.firstContactValues.organization_name != "") {
+      this.firstContactForm.controls.organizationName.setValue(
+        this.firstContactValues.organization_name
+      );
+    }
+    if (this.firstContactValues.org_details != "") {
+      this.firstContactForm.controls.orgDetails.setValue(
+        this.firstContactValues.org_details
+      );
+    }
+    if (this.firstContactValues.sign_up_for_emails != "") {
+      this.firstContactForm.controls.signUpEmail.setValue(
+        this.firstContactValues.sign_up_for_emails == "Y" ? true : false
+      );
+    }
+    if (this.firstContactValues.r_source_id.newspaper == true) {
+      this.firstContactForm.controls.sourceValue
+        .get("newspaper")
+        .setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.edm == true) {
+      this.firstContactForm.controls.sourceValue.get("edm").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.sms == true) {
+      this.firstContactForm.controls.sourceValue.get("sms").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.website == true) {
+      this.firstContactForm.controls.sourceValue.get("website").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.pressads == true) {
+      this.firstContactForm.controls.sourceValue.get("pressads").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.online == true) {
+      this.firstContactForm.controls.sourceValue.get("online").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.wordofmouth == true) {
+      this.firstContactForm.controls.sourceValue
+        .get("wordofmouth")
+        .setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.maildrop == true) {
+      this.firstContactForm.controls.sourceValue.get("maildrop").setValue(true);
+    }
+    if (this.firstContactValues.r_source_id.others != "") {
+      this.firstContactForm.controls.sourceValue
+        .get("others")
+        .setValue(this.firstContactValues.others);
+    }
   }
 
   briefAssementFormValuesUpdate() {
-
-    if(this.briefAssesmentValues.full_name != "") {
-      this.briefAssesmentForm.controls.name.setValue(this.briefAssesmentValues.full_name);
+    if (this.briefAssesmentValues.full_name != "") {
+      this.briefAssesmentForm.controls.name.setValue(
+        this.briefAssesmentValues.full_name
+      );
     }
-    if(this.briefAssesmentValues.address != "") {
-      this.briefAssesmentForm.controls.address.setValue(this.briefAssesmentValues.address);
+    if (this.briefAssesmentValues.address != "") {
+      this.briefAssesmentForm.controls.address.setValue(
+        this.briefAssesmentValues.address
+      );
     }
-    if(this.briefAssesmentValues.email_id != "") {
-      this.briefAssesmentForm.controls.email.setValue(this.briefAssesmentValues.email_id);
+    if (this.briefAssesmentValues.email_id != "") {
+      this.briefAssesmentForm.controls.email.setValue(
+        this.briefAssesmentValues.email_id
+      );
     }
-    if(this.briefAssesmentValues.telephone_number != "") {
-      this.briefAssesmentForm.controls.telephoneNo.setValue(this.briefAssesmentValues.telephone_number);
+    if (this.briefAssesmentValues.telephone_number != "") {
+      this.briefAssesmentForm.controls.telephoneNo.setValue(
+        this.briefAssesmentValues.telephone_number
+      );
     }
-    if(this.briefAssesmentValues.website_url != "") {
-      this.briefAssesmentForm.controls.website.setValue((this.briefAssesmentValues.website_url=='Y') ? true : false);
+    if (this.briefAssesmentValues.website_url != "") {
+      this.briefAssesmentForm.controls.website.setValue(
+        this.briefAssesmentValues.website_url == "Y" ? true : false
+      );
     }
-
   }
 
   feedBackFormSubmit() {
@@ -522,14 +573,14 @@ export class UserComponent implements OnInit {
           this.errorMsg = this.serverResponse.responseData.userMsg;
           Swal.fire(this.errorMsg);
         }
-        this.closeModal('feedback-modal');
+        this.closeModal("feedback-modal");
       },
       (error) => {
         this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
-        this.closeModal('feedback-modal');
+        this.closeModal("feedback-modal");
       },
       () => {
         console.log("Completed");
@@ -712,7 +763,7 @@ export class UserComponent implements OnInit {
       console.log(event.target);
       console.log(event.target.files);
       for (let i = 0; i < filesCount; i++) {
-        console.log(event.target.result);        
+        console.log(event.target.result);
       }
     }
   }
@@ -949,20 +1000,21 @@ export class UserComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]); // read file as data url
-      reader.onload = (event) => { // called once readAsDataURL is completed
+      reader.onload = (event) => {
+        // called once readAsDataURL is completed
         let profileImg = reader.result;
         //console.log("base 64 :"+reader.result);
-        
+
         this.serverRequest = {
           token: localStorage.getItem("token"),
           module: "userProfile",
           action: "profilephotoupload",
-          requestData: { image : profileImg, emailId : this.emailId }
+          requestData: { image: profileImg, emailId: this.emailId },
         };
-    
+
         this.loader = "Profile photo uploading";
         this.blockUI.start(this.loader);
-    
+
         this.server.sendToServer(this.serverRequest).subscribe(
           (response) => {
             this.serverResponse = JSON.parse(
@@ -993,90 +1045,124 @@ export class UserComponent implements OnInit {
             console.log("Completed");
           }
         );
-      }
+      };
     }
   }
 
-  openModal(id : string) {
-
+  openModal(id: string) {
     this.modal.open(id);
-
   }
 
-  closeModal(id : string) {
-
+  closeModal(id: string) {
     this.modal.close(id);
-
   }
 
+  //Edit Profile
+  editProfileForm = new FormGroup({
+    fullName: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.namePattern),
+    ]),
+    dob: new FormControl("", [Validators.required]),
+    mobileNo: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.mobilePattern),
+    ]),
+    gender: new FormControl("", [Validators.required]),
+    country: new FormControl(0, [Validators.required, Validators.min(1)]),
+    applicationValues: new FormControl(0, [
+      Validators.required,
+      Validators.min(1),
+    ]),
+    image: new FormControl("", [Validators.required]),
+    emailId: new FormControl(""),
+  });
 
-//Edit Profile
-editProfileForm = new FormGroup({
-  fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
-  dob : new FormControl('', [Validators.required]),
-  mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
-  gender : new FormControl('', [Validators.required]),
-  country : new FormControl(0, [Validators.required,Validators.min(1)]),
-  applicationValues : new FormControl(0, [Validators.required,Validators.min(1)]),
-  image : new FormControl('', [Validators.required]),
-  emailId : new FormControl('')
-});
-
- //Edit Profile Image
- onSelectProfileImages(event) {
-  if (event.target.files && event.target.files[0]) {
-    var reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]); // read file as data url
-    reader.onload = (event) => { // called once readAsDataURL is completed
-      this.profileImg = reader.result;
-      //console.log("base 64 :"+reader.result);
-      this.editProfileForm.controls.image.setValue(this.profileImg);
-      //this.profileImgString = this.profileImg;
+  //Edit Profile Image
+  onSelectProfileImages(event) {
+    if (event.target.files && event.target.files[0]) {
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.onload = (event) => {
+        // called once readAsDataURL is completed
+        this.profileImg = reader.result;
+        //console.log("base 64 :"+reader.result);
+        this.editProfileForm.controls.image.setValue(this.profileImg);
+        //this.profileImgString = this.profileImg;
+      };
     }
   }
-}
 
-editProfileSubmit() {
-  this.serverRequest = {
-    token: localStorage.getItem("token"),
-    module: "userProfile",
-    action: "editProfile",
-    requestData: this.editProfileForm.value,
-  };
+  editProfileSubmit() {
+    this.serverRequest = {
+      token: localStorage.getItem("token"),
+      module: "userProfile",
+      action: "editProfile",
+      requestData: this.editProfileForm.value,
+    };
 
-  this.loader = "Update your profile on GISET";
-  this.blockUI.start(this.loader);
+    this.loader = "Update your profile on GISET";
+    this.blockUI.start(this.loader);
 
-  this.server.sendToServer(this.serverRequest).subscribe(
-    (response) => {
-      this.serverResponse = JSON.parse(
-        this.server.decryption(response["response"])
-      );
-      console.log("RESPONSE : ", this.serverResponse);
-      this.blockUI.stop();
-      this.loader = "";
-      if (this.serverResponse.responseData == "ERROR") {
+    this.server.sendToServer(this.serverRequest).subscribe(
+      (response) => {
+        this.serverResponse = JSON.parse(
+          this.server.decryption(response["response"])
+        );
+        console.log("RESPONSE : ", this.serverResponse);
+        this.blockUI.stop();
+        this.loader = "";
+        if (this.serverResponse.responseData == "ERROR") {
+          this.errorMsg = "Sorry! Something went wrong";
+          Swal.fire(this.errorMsg);
+          //this.router.navigate(["/"]);
+        } else {
+          this.errorMsg = "Account Updated Successfully.";
+          Swal.fire(this.errorMsg);
+          //this.router.navigate(["/user"]);
+        }
+      },
+      (error) => {
+        this.blockUI.stop();
+        this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
-        //this.router.navigate(["/"]);
-      } else {
-        this.errorMsg =
-          "Account Updated Successfully.";
-        Swal.fire(this.errorMsg);
-        //this.router.navigate(["/user"]);
+        this.router.navigate(["/"]);
+      },
+      () => {
+        console.log("Completed");
       }
-    },
-    (error) => {
-      this.blockUI.stop();
-      this.loader = "";
-      this.errorMsg = "Sorry! Something went wrong";
-      Swal.fire(this.errorMsg);
-      this.router.navigate(["/"]);
-    },
-    () => {
-      console.log("Completed");
-    }
-  );
-}
+    );
+  }
 
+  // Accordian FAQ
+  ngAfterViewInit() {
+    var jsaccordion = {
+      init: function (target) {
+        // init() : initialize accordion
+        // PARAM target : ID of accordion wrapper
+
+        var headers = document.querySelectorAll(
+          "#" + target + " .accordion-head"
+        );
+        if (headers.length > 0) {
+          for (var head of headers) {
+            head.addEventListener("click", jsaccordion.select);
+          }
+        }
+      },
+
+      select: function () {
+        // select() : fired when user clicks on a header
+
+        var contents = this.nextElementSibling;
+        contents.classList.toggle("open");
+      },
+    };
+
+    // ON PAGE LOAD
+    window.addEventListener("load", function () {
+      jsaccordion.init("accordion-basic");
+    });
+  }
 }
