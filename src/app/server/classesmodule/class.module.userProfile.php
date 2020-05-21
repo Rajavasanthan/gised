@@ -109,6 +109,14 @@
             $result = dbConnection::selectQuery($sql);
             $userResult[0]['country_name'] = $result[0]['country_name'];
 
+            require_once "classes/class.dmapplicationdetails.php";
+            $applicationObj = new dmapplicationdetails();
+            $applicationObj->application_details_id = $userResult[0]['field_of_activity'];
+            $applicationObj->status = 'Y';
+            $sql = $applicationObj->selectdmapplicationdetails();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['loggedProfile']['field'] = ($result[0]['application_name']) ? $result[0]['application_name'] : 'Nil' ;
+
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
@@ -396,6 +404,7 @@
         }
 
         function editProfileAction() {
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -414,6 +423,37 @@
             if($this->input['image'] != "noImage"){
                 $this->profilePhotoAction();
             }
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $userResult = dbConnection::selectQuery($sql);
+            $userId = $userResult[0]['user_id'];
+            $this->output['emailId'] = $this->input['emailId'];
+
+            require_once "classes/class.corecountrydetails.php";
+            $countryObj = new corecountrydetails();
+            $countryObj->country_id = $userResult[0]['r_country_id'];
+            $sql = $countryObj->selectcorecountrydetails();
+            $result = dbConnection::selectQuery($sql);
+            $userResult[0]['country_name'] = $result[0]['country_name'];
+
+            require_once "classes/class.dmapplicationdetails.php";
+            $applicationObj = new dmapplicationdetails();
+            $applicationObj->application_details_id = $userResult[0]['field_of_activity'];
+            $applicationObj->status = 'Y';
+            $sql = $applicationObj->selectdmapplicationdetails();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['loggedProfile']['field'] = $result[0]['application_name'];
+
+            foreach($userResult AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
+                }
+            }
+            
+            $this->output['loggedProfile']['profileImg'] = $this->getProfilePicture($userResult[0]['user_id'], $userResult[0]['gender']);
             
         }
 
