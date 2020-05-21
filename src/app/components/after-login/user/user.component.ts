@@ -1,5 +1,11 @@
 //Need library files imported
-import { Component, OnInit, ElementRef, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  AfterViewInit,
+  AfterViewChecked,
+} from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
@@ -1160,9 +1166,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       },
     };
 
-    // ON PAGE LOAD
-    window.addEventListener("load", function () {
-      jsaccordion.init("accordion-basic");
-    });
+    // Initialize accordian
+    jsaccordion.init("accordion-basic");
   }
 }

@@ -37,4 +37,5 @@
 
 .application__profile-details--container img {
   border-radius: 50px;
+  width: 50px;
 }
