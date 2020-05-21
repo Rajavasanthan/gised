@@ -1,7 +1,7 @@
 <?php
 
     require_once "lib/common/class.sendMail.php";
-    
+
     class userProfile {
 
         var $action;
@@ -50,7 +50,7 @@
 
         function showUserFormAction() {
 
-            $this->input['emailId'] = ($this->input['userEmailId']) ? $this->input['userEmailId'] : $this->input['emailId'] ; 
+            $this->input['emailId'] = ($this->input['userEmailId']) ? $this->input['userEmailId'] : $this->input['emailId'] ;
 
             $this->showProfileAction();
 
@@ -101,7 +101,7 @@
             $sql = $factUserObj->selectfactuser();
             $result = dbConnection::selectQuery($sql);
             $this->userType = $result[0]['r_user_type_id'];
-            
+
             require_once "classes/class.corecountrydetails.php";
             $countryObj = new corecountrydetails();
             $countryObj->country_id = $userResult[0]['r_country_id'];
@@ -109,12 +109,20 @@
             $result = dbConnection::selectQuery($sql);
             $userResult[0]['country_name'] = $result[0]['country_name'];
 
+            require_once "classes/class.dmapplicationdetails.php";
+            $applicationObj = new dmapplicationdetails();
+            $applicationObj->application_details_id = $userResult[0]['field_of_activity'];
+            $applicationObj->status = 'Y';
+            $sql = $applicationObj->selectdmapplicationdetails();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['loggedProfile']['field'] = ($result[0]['application_name']) ? $result[0]['application_name'] : 'Nil' ;
+
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
                 }
             }
-            
+
             $this->output['loggedProfile']['profileImg'] = $this->getProfilePicture($userResult[0]['user_id'], $userResult[0]['gender']);
 
             require_once "classes/class.dmapplicationdetails.php";
@@ -130,7 +138,7 @@
             $sql = $faqObj->selectdmfaq();
             $result = dbConnection::selectQuery($sql);
             $this->output['faq'] = $result;
-            
+
             require_once "classes/class.factstatustrackingdetails.php";
             $factTrackObj = new factstatustrackingdetails();
             $factTrackObj->r_gised_id =  (isset($this->input['gisedId'])) ? $this->input['gisedId'] : 0 ;
@@ -224,7 +232,7 @@
             if($this->userType == 1) {
                 $this->adminData();
             }
-        
+
         }
 
         function formatedProfileData($key, $value) {
@@ -268,7 +276,7 @@
         }
 
         function getBriefAssesmentForm($formId) {
-            
+
             require_once "classes/class.dmformbriefassesment.php";
             $briefAssesObj = new dmformbriefassesment();
             $briefAssesObj->form_brief_assesment_id = $formId;
@@ -302,7 +310,7 @@
         }
 
         function getDetailedPresentationForm($formId) {
-           
+
             require_once "classes/class.dmformdetailedpresentation.php";
             $detPressObj = new dmformdetailedpresentation();
             $detPressObj->form_detailed_presentation_id = $formId;
@@ -331,7 +339,7 @@
             if($result != "EMPTY") {
                 foreach($result AS $key => $value) {
                     $this->output['userRequestList'][$key] = $value;
-                }    
+                }
                 $this->output['userRequestListCount'] = count($result);
             } else {
                 $this->output['userRequestListCount'] = 0;
@@ -340,7 +348,7 @@
         }
 
         function profilePhotoAction() {
-        
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -348,14 +356,14 @@
             $result = dbConnection::selectQuery($sql);
             $user_id = $result[0]['user_id'];
             $gender = $result[0]['gender'];
-            
+
             $img = $this->input['image'];
             $file = 'user_' .$user_id. '.jpg';
             $this->base64_to_jpeg($img, $file );
 
             $this->output['emailId'] = $this->input['emailId'];
             $this->output['profileImg'] = $this->getProfilePicture($user_id, $gender);
-        
+
         }
 
         function base64_to_jpeg($base64_string, $output_file) {
@@ -378,7 +386,7 @@
             } else if($gender == "Female") {
                 $profilePicturePath = "./assets/images/female.jpg";
             } else {
-                
+
                 require_once "classes/class.dmsocial.php";
                 $socialObj = new dmsocial();
                 $socialObj->r_user_id = $userId;
@@ -396,6 +404,7 @@
         }
 
         function editProfileAction() {
+
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -410,23 +419,54 @@
             $result = dbConnection::updateQuery($sql);
 
             $this->output['emailId'] = $this->input['emailId'];
-            
+
             if($this->input['image'] != "noImage"){
                 $this->profilePhotoAction();
             }
-            
+
+            require_once "classes/class.dmuser.php";
+            $dmUserObj = new dmuser();
+            $dmUserObj->email_id = $this->input['emailId'];
+            $sql = $dmUserObj->selectdmuser();
+            $userResult = dbConnection::selectQuery($sql);
+            $userId = $userResult[0]['user_id'];
+            $this->output['emailId'] = $this->input['emailId'];
+
+            require_once "classes/class.corecountrydetails.php";
+            $countryObj = new corecountrydetails();
+            $countryObj->country_id = $userResult[0]['r_country_id'];
+            $sql = $countryObj->selectcorecountrydetails();
+            $result = dbConnection::selectQuery($sql);
+            $userResult[0]['country_name'] = $result[0]['country_name'];
+
+            require_once "classes/class.dmapplicationdetails.php";
+            $applicationObj = new dmapplicationdetails();
+            $applicationObj->application_details_id = $userResult[0]['field_of_activity'];
+            $applicationObj->status = 'Y';
+            $sql = $applicationObj->selectdmapplicationdetails();
+            $result = dbConnection::selectQuery($sql);
+            $this->output['loggedProfile']['field'] = $result[0]['application_name'];
+
+            foreach($userResult AS $key => $value) {
+                foreach($value AS $innerKey => $innerValue) {
+                    $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
+                }
+            }
+
+            $this->output['loggedProfile']['profileImg'] = $this->getProfilePicture($userResult[0]['user_id'], $userResult[0]['gender']);
+
         }
 
     function defaultAction() {
-            
+
             $this->output = "I am defaultAction. I got called successfully :)";
-        
+
         }
 
         function getModuleOutput() {
-        
+
             return $this->output;
-        
+
         }
 
     }
