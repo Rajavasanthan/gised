@@ -237,7 +237,9 @@
             //$this->output['countries'][1]['country_id'] = "0";
             //$this->output['countries'][1]['country_name'] = "Select your country";
             foreach($result AS $key => $value) {
-                $this->output['countries'][$key] = $value;
+                if($key != 0) {
+                    $this->output['countries'][$key-1] = $value;
+                }
             }
 
         }

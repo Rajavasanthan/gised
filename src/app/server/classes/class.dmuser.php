@@ -30,13 +30,13 @@ class dmuser {
         $this->title = '';
         $this->first_name = '';
         $this->last_name = '';
-        $this->gender = '';
+        $this->gender = 'Nil';
         $this->age = '';
         $this->communication_address = '';
         $this->permanent_address = '';
         $this->activation_status = '';
         $this->r_state_id = 0;
-        $this->r_country_id = 0;
+        $this->r_country_id = 1;
         $this->field_of_activity = '0';
         $this->date_of_foundation = '0000-00-00';
         $this->created_date_time = '0000-00-00 00:00:00';
@@ -100,7 +100,7 @@ class dmuser {
             $sql = $sql . " and last_name = " . $this->last_name;
         }
 
-        if($this->gender != '') {
+        if($this->gender != 'Nil') {
             $sql = $sql . " and gender = " . $this->gender;
         }
 
@@ -124,7 +124,7 @@ class dmuser {
             $sql = $sql . " and r_state_id = " . $this->r_state_id;
         }
 
-        if($this->r_country_id != 0) {
+        if($this->r_country_id != 1) {
             $sql = $sql . " and r_country_id = " . $this->r_country_id;
         }
 
@@ -167,7 +167,7 @@ class dmuser {
             $camaa = ', ';
         }
 
-        if($this->gender != '') {
+        if($this->gender != 'Nil') {
             $sql = $sql . $camaa." gender = '" . $this->gender . "'";
             $camaa = ', ';
         }
@@ -197,7 +197,7 @@ class dmuser {
             $camaa = ', ';
         }
 
-        if($this->r_country_id != 0) {
+        if($this->r_country_id != 1) {
             $sql = $sql . $camaa." r_country_id = " . $this->r_country_id;
             $camaa = ', ';
         }
@@ -279,7 +279,7 @@ class dmuser {
             $sql = $sql . " and r_state_id = " . $this->r_state_id;
         }
 
-        if($this->r_country_id != 0) {
+        if($this->r_country_id != 1) {
             $sql = $sql . " and r_country_id = " . $this->r_country_id;
         }
 

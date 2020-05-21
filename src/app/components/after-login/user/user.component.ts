@@ -1121,19 +1121,18 @@ export class UserComponent implements OnInit, AfterViewInit {
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
           Swal.fire(this.errorMsg);
-          //this.router.navigate(["/"]);
         } else {
           this.errorMsg = "Account Updated Successfully.";
           Swal.fire(this.errorMsg);
-          //this.router.navigate(["/user"]);
         }
+        this.closeModal('userProfile-modal')
       },
       (error) => {
         this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
-        this.router.navigate(["/"]);
+        this.closeModal('userProfile-modal')
       },
       () => {
         console.log("Completed");

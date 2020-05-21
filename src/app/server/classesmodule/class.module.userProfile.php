@@ -237,9 +237,7 @@
 
         function formatedProfileData($key, $value) {
 
-            if($key == 'age' && $value==0) {
-                $value = "Nil";
-            } else if($key == 'mobile_no' && $value==0) {
+            if($key == 'mobile_no' && $value==0) {
                 $value = "Nil";
             } else if($key == 'field_of_activity' && $value==0) {
                 $value = "Nil";
