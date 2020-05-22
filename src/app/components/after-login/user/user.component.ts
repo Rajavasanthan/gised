@@ -27,7 +27,7 @@ import { ModalService } from "../../../modal";
 })
 
 //Class implmentation for this component
-export class UserComponent implements OnInit, AfterViewInit {
+export class UserComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @BlockUI() blockUI: NgBlockUI;
 
   //Variable decrlation with its type
@@ -64,7 +64,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   modelFeedback: any;
   feedBackUserSelector: any;
   countries: any;
-  faq : any;
+  faq: any;
 
   //Files Size Allowed
   maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -246,7 +246,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
         console.log("RESPONSE : ", this.serverResponse);
 
-        this.product.checkToken(this.serverResponse.responseData.token);
+        // this.product.checkToken(this.serverResponse.responseData.token);
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
         } else {
@@ -262,13 +262,24 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
           this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
-          this.faq = this.serverResponse.responseData.faq;
-
+          this.faq = [
+            {
+              faq_id: "1",
+              question: "What projects or programs does GISED fund?",
+              answer:
+                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam voluptas reprehenderit culpa alias consequuntur ullam dolores nam perferendis voluptatum ea.",
+              status: "Y",
+            },
+            {
+              faq_id: "2",
+              question: "What projects or programs does GISED fund?",
+              answer:
+                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam voluptas reprehenderit culpa alias consequuntur ullam dolores nam perferendis voluptatum ea.",
+              status: "Y",
+            },
+          ];
           //Set for wordpress user name show
-          localStorage.setItem(
-            "gised_user",
-            this.loggedProfile.first_name
-          );
+          localStorage.setItem("gised_user", this.loggedProfile.first_name);
 
           //Load form inforamtion from the server
           this.firstContactValues = this.serverResponse.responseData.firstContactForm;
@@ -341,7 +352,7 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
-        this.product.checkToken(this.serverResponse.responseData.token);
+        // this.product.checkToken(this.serverResponse.responseData.token);
         this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
@@ -388,14 +399,14 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.editProfileForm.controls.country.setValue(
         this.loggedProfile.r_country_id
       );
-    }else{
+    } else {
       this.editProfileForm.controls.country.setValue(0);
     }
     if (this.loggedProfile.field_of_activity != "Nil") {
       this.editProfileForm.controls.applicationValues.setValue(
         this.loggedProfile.field_of_activity
       );
-    }else{
+    } else {
       this.editProfileForm.controls.applicationValues.setValue(0);
     }
     this.editProfileForm.controls.image.setValue("noImage");
@@ -1076,18 +1087,18 @@ export class UserComponent implements OnInit, AfterViewInit {
   editProfileForm = new FormGroup({
     fullName: new FormControl("", [
       Validators.required,
-      Validators.pattern(this.validation.namePattern)
+      Validators.pattern(this.validation.namePattern),
     ]),
     dob: new FormControl("", [Validators.required]),
     mobileNo: new FormControl("", [
       Validators.required,
-      Validators.pattern(this.validation.mobilePattern)
+      Validators.pattern(this.validation.mobilePattern),
     ]),
     gender: new FormControl("", [Validators.required]),
     country: new FormControl(0, [Validators.required, Validators.min(1)]),
     applicationValues: new FormControl(0, [
       Validators.required,
-      Validators.min(1)
+      Validators.min(1),
     ]),
     image: new FormControl("", [Validators.required]),
     emailId: new FormControl(""),
@@ -1136,14 +1147,14 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.loggedProfile = this.serverResponse.responseData.loggedProfile;
           this.profileImg = this.loggedProfile.profileImg;
         }
-        this.closeModal('userProfile-modal')
+        this.closeModal("userProfile-modal");
       },
       (error) => {
         this.blockUI.stop();
         this.loader = "";
         this.errorMsg = "Sorry! Something went wrong";
         Swal.fire(this.errorMsg);
-        this.closeModal('userProfile-modal')
+        this.closeModal("userProfile-modal");
       },
       () => {
         console.log("Completed");
@@ -1152,31 +1163,9 @@ export class UserComponent implements OnInit, AfterViewInit {
   }
 
   // Accordian FAQ
-  ngAfterViewInit() {
-    var jsaccordion = {
-      init: function (target) {
-        // init() : initialize accordion
-        // PARAM target : ID of accordion wrapper
-
-        var headers = document.querySelectorAll(
-          "#" + target + " .accordion-head"
-        );
-        if (headers.length > 0) {
-          for (var head of headers) {
-            head.addEventListener("click", jsaccordion.select);
-          }
-        }
-      },
-
-      select: function () {
-        // select() : fired when user clicks on a header
-
-        var contents = this.nextElementSibling;
-        contents.classList.toggle("open");
-      },
-    };
-
-    // Initialize accordian
-    jsaccordion.init("accordion-basic");
+  toggleFaq(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.target.nextElementSibling.classList.toggle("open");
   }
 }

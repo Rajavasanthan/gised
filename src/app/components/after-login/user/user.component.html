@@ -38,7 +38,7 @@
         Field of Activity
       </div>
       <div class="semi-bold font-12">
-          {{loggedProfile.field}}
+        {{ loggedProfile.field }}
       </div>
     </div>
     <div class="profile__ci-header bg-primary p-1_2 semi-bold">
@@ -130,7 +130,8 @@
         {{ loggedProfile.first_name }}
       </h4>
       <img
-        [src]="profileImg" alt="Profile Photo"
+        [src]="profileImg"
+        alt="Profile Photo"
         class="application__profile-details--icon"
       />
     </div>
@@ -143,7 +144,10 @@
     <div id="accordion-basic">
       <!-- ========***FAQ 1***=========== -->
       <div *ngFor="let faq of faq; let last = last">
-        <p class="accordion-head cursor-pointer semi-bold font-12 mt-4">
+        <p
+          class="accordion-head cursor-pointer semi-bold font-12 mt-4"
+          (click)="toggleFaq($event)"
+        >
           {{ faq.question }}
         </p>
         <div class="accordion-body font-14 mt-0_5">
@@ -628,7 +632,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
@@ -659,7 +662,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
@@ -687,7 +689,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
@@ -717,7 +718,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
@@ -746,7 +746,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
@@ -847,7 +846,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
@@ -879,7 +877,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
@@ -908,7 +905,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
@@ -939,7 +935,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
@@ -970,7 +965,6 @@
                   />
                   <button class="btn-upload" type="button">
                     Upload
-                    
                   </button>
                 </div>
                 &nbsp;&nbsp;<span *ngIf="detailedPresentationCompleted == 0"
@@ -1254,7 +1248,7 @@
           formControlName="applicationValues"
           [(ngModel)]="loggedProfile.field_of_activity"
         >
-        <option value="0">Select Field of Activity</option>
+          <option value="0">Select Field of Activity</option>
           <option
             *ngFor="let application of applications"
             [value]="application.application_details_id"
