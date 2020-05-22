@@ -667,6 +667,7 @@
 </jw-modal>
 
 <jw-modal id="hold-modal">
+  <form [formGroup]="holdApprovalForm" (ngSubmit)="holdReason()">
     <span
       class="close-button-feedback close-button"
       (click)="closeModal('hold-modal')"
@@ -677,19 +678,18 @@
       name=""
       id=""
       class="default-textarea"
-      formControlName="feedback"
+      formControlName="reason"
     ></textarea>
     <div class="mt-1">
-      <button
-        class="btn btn-primary float-right"
-        
-      >
+      <button class="btn btn-primary float-right" type="submit" [disabled]="!holdApprovalForm.valid">
         Submit
       </button>
     </div>
+  </form>
   </jw-modal>
 
   <jw-modal id="reject-modal">
+    <form [formGroup]="rejectApprovalForm" (ngSubmit)="rejectReason()">
     <span
       class="close-button-feedback close-button"
       (click)="closeModal('reject-modal')"
@@ -700,14 +700,13 @@
       name=""
       id=""
       class="default-textarea"
-      formControlName="feedback"
+      formControlName="reason"
     ></textarea>
     <div class="mt-1">
       <button
-        class="btn btn-primary float-right"
-        
-      >
+        class="btn btn-primary float-right" [disabled]="!rejectApprovalForm.valid">
         Submit
       </button>
     </div>
+    </form>
   </jw-modal>

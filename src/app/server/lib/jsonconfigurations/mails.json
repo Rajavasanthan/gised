@@ -27,11 +27,11 @@
     {
         "action" : "drafted",
         "mail_subject" : "Gised : Form in Draft by Approver",
-        "mail_message" : "The GISED admin save in draft your form. The admin will send the reason for that. You can rectify and send them back to approval."
+        "mail_message" : "The GISED admin save in draft your form. Kindly find below the reason in the box. You can rectify and send them back to approval.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
     },
     {
         "action" : "rejected",
         "mail_subject" : "Gised : Form Rejected",
-        "mail_message" : "The GISED admin rejected your form. Hope we will meet later."
+        "mail_message" : "The GISED admin rejected your form. Kindly find below the reason in the box. Hope we will meet later.<p style=\"border: 1px black solid;margin: 0 20px 0 20px;padding: 10px;\">FEEDBACK_SUGESSTION</p>"
     }
 ]

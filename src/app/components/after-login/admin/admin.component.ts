@@ -178,6 +178,14 @@ export class AdminComponent implements OnInit {
     status : new FormControl(2)
   });
 
+  holdApprovalForm = new FormGroup({
+    reason : new FormControl('',[Validators.required]),
+  });
+
+  rejectApprovalForm = new FormGroup({
+    reason : new FormControl('',[Validators.required]),
+  });
+
   //Constructor for this component
   constructor(private product:ProductService, private server:ServerCallService, private router: Router, private el: ElementRef,private validation: ValidationService,
     private modal: ModalService) { 
@@ -522,7 +530,8 @@ export class AdminComponent implements OnInit {
       process : 'DRAFT',
       mailerAction : 'drafted',
       userMsg : 'Form save in draft mail send to user successfully',
-      loggedEmailId : this.emailId
+      loggedEmailId : this.emailId,
+      approverReason : this.holdApprovalForm.value
     };
 
     this.approverAction(data); 
@@ -541,10 +550,25 @@ export class AdminComponent implements OnInit {
       process : 'REJECT',
       mailerAction : 'rejected',
       userMsg : 'Form rejected mail send to user successfully',
-      loggedEmailId : this.emailId
+      loggedEmailId : this.emailId,
+      approverReason : this.rejectApprovalForm.value
     };
 
     this.approverAction(data); 
+
+  }
+
+  holdReason() {
+
+    this.formHold(0);
+    this.closeModal('hold-modal');
+
+  }
+
+  rejectReason() {
+
+    this.formReject(0);
+    this.closeModal('reject-modal');
 
   }
 
@@ -579,6 +603,8 @@ export class AdminComponent implements OnInit {
         this.formsDisable();
         Swal.fire(this.userMsg);
       }
+      this.holdApprovalForm.reset();
+      this.rejectApprovalForm.reset();
     }, (error) => {
       this.blockUI.stop();
       this.loader = "";

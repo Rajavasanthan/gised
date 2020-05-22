@@ -300,6 +300,7 @@
             $sql = $briefAssesObj->updatedmformbriefassesment();
             $result = dbConnection::updateQuery($sql);
             $this->output['fileup'] = $briefAssesObj->uploads;
+            $this->output['sqllllllllll'] = $sql;
 
             require_once "classes/class.dmgisedform.php";
             $gisedObj = new dmgisedform();
@@ -423,7 +424,7 @@
             }
 
             if($this->input['status'] == 3) {
-                $this->setFormNoActionMsg(2, 'detailedpresentationformupdation', 'Detailed presentation form saved successfully', $this->input['status']);
+                $this->setFormNoActionMsg(3, 'detailedpresentationformupdation', 'Detailed presentation form saved successfully', $this->input['status']);
             } else if($this->input['status'] == 2) {
                 $this->setFormNoActionMsg(0, '', 'Detailed presentation form submited to approver successfully', $this->input['status']);
             }   
@@ -527,7 +528,11 @@
             $mailMsg = str_replace("TITLE", $replaceStr['title'], $mailMsg);
             $mailMsg = str_replace("USER_NAME", $replaceStr['first_name'], $mailMsg);
             $mailMsg = str_replace("EMAIL_ID", $replaceStr['email_id'], $mailMsg);
-            $mailMsg = str_replace("FEEDBACK_SUGESSTION", $this->input['feedback'], $mailMsg);
+            if(isset($this->input['feedback'])) {
+                $mailMsg = str_replace("FEEDBACK_SUGESSTION", $this->input['feedback'], $mailMsg);
+            } else if(isset($this->input['approverReason'])) {
+                $mailMsg = str_replace("FEEDBACK_SUGESSTION", $this->input['approverReason']['reason'], $mailMsg);
+            }
 
             return $mailMsg;
 
@@ -554,6 +559,9 @@
             foreach($uploadedFiles AS $key => $value) {
                 // if($value[0] != "No Files") {
                     foreach($value AS $innerKey => $innerValue) {
+                        if(count($stroedArray[$key])==0) {
+                            $stroedArray[$key] = array();
+                        }
                         array_push($stroedArray[$key], $innerValue);
                     }
                 // }
