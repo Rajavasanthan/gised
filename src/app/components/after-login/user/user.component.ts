@@ -256,22 +256,8 @@ export class UserComponent implements OnInit {
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
           this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
-          this.faq = [
-            {
-              faq_id: "1",
-              question: "What projects or programs does GISED fund?",
-              answer:
-                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam voluptas reprehenderit culpa alias consequuntur ullam dolores nam perferendis voluptatum ea.",
-              status: "Y",
-            },
-            {
-              faq_id: "2",
-              question: "What projects or programs does GISED fund?",
-              answer:
-                "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquam voluptas reprehenderit culpa alias consequuntur ullam dolores nam perferendis voluptatum ea.",
-              status: "Y",
-            },
-          ];
+          this.faq = this.serverResponse.responseData.faq;
+
           //Set for wordpress user name show
           localStorage.setItem("gised_user", this.loggedProfile.first_name);
 

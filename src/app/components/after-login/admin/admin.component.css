@@ -41,7 +41,8 @@
 }
 
 .profile-email {
-  font-size: 14px;
+  font-size: 15px;
+  word-break: break-all;
 }
 .form-details__progress .view-table {
   width: auto;
@@ -58,13 +59,18 @@
 .admin-profile-right img {
   max-width: 50px;
 }
+
 .admin-profile-container {
   display: flex;
   justify-content: flex-end;
-  margin-right: 1rem;
+  margin-right: 4.5rem;
   margin-top: 1rem;
 }
 
 .application__profile-details h4 {
   width: 80%;
+}
+
+.application__container {
+  padding: 0 5rem;
 }
