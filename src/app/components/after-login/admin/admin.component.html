@@ -17,13 +17,9 @@
   <div class="application__profile-details admin-profile-right">
     <div class="application__profile-details--container">
       <h4 class="application__profile-details--container-name">
-        {{ loggedProfile.title }}. {{ loggedProfile.first_name }}
-        {{ loggedProfile.last_name }}
+        {{ loggedProfile.first_name }}
       </h4>
-      <img
-        src="https://via.placeholder.com/150"
-        alt="Profile Photo"
-        class="application__profile-details--icon"
+      <img [src]="profileImg" alt="Profile Photo" class="application__profile-details--icon"
       />
     </div>
     <hr style="margin: 1rem 0;" />
@@ -52,8 +48,7 @@
     </div>
   </form> -->
     <div class="profile__name">
-      {{ loggedProfile.title }}. {{ loggedProfile.first_name }}
-      {{ loggedProfile.last_name }}
+      {{ loggedProfile.first_name }}
     </div>
     <hr class="profile__line" />
     <!-- Profile Info -->
