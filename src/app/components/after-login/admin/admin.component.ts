@@ -223,6 +223,8 @@ export class AdminComponent implements OnInit {
         this.serverResponse = JSON.parse(this.server.decryption(response['response']));
         console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
         console.log('RESPONSE : ', this.serverResponse);
+
+        this.product.checkToken(this.serverResponse.responseData.token);
         if(this.serverResponse.responseData == 'ERROR') {
           this.errorMsg = 'Sorry! Something went wrong';
         } else {

@@ -246,6 +246,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
         console.log("RESPONSE : ", this.serverResponse);
 
+        this.product.checkToken(this.serverResponse.responseData.token);
         if (this.serverResponse.responseData == "ERROR") {
           this.errorMsg = "Sorry! Something went wrong";
         } else {
@@ -266,7 +267,7 @@ export class UserComponent implements OnInit, AfterViewInit {
           //Set for wordpress user name show
           localStorage.setItem(
             "gised_user",
-            this.loggedProfile.first_name + " " + this.loggedProfile.last_name
+            this.loggedProfile.first_name
           );
 
           //Load form inforamtion from the server
@@ -325,6 +326,7 @@ export class UserComponent implements OnInit, AfterViewInit {
 
     //Get Contries
     this.serverRequest = {
+      token: localStorage.getItem("token"),
       module: "login",
       action: "getcountries",
       requestData: "",
@@ -339,6 +341,7 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.server.decryption(response["response"])
         );
         console.log("RESPONSE : ", JSON.stringify(this.serverResponse));
+        this.product.checkToken(this.serverResponse.responseData.token);
         this.blockUI.stop();
         this.loader = "";
         if (this.serverResponse.responseData == "ERROR") {
@@ -717,7 +720,7 @@ export class UserComponent implements OnInit, AfterViewInit {
       this.detailedPresentaionForm.controls.status.setValue(3);
       this.detailedFileAppend();
     } else {
-      alert("Till get approve, You cant proceed with another form");
+      Swal.fire("Till get approve, You cant proceed with another form");
     }
   }
 
