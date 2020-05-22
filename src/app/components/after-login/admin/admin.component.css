@@ -1,42 +1,70 @@
 .btn-small {
-    padding: 0.4rem 1rem;
-    width: 150px;
-  }
-  
-  .feedback-heading {
-    font-size: 20px;
-  }
-  
-  .modal-profile input {
-    padding: 0.2rem;
-  }
-  
-  .modal-profile .form-control {
-    padding-bottom: 0;
-    height: 100%;
-    padding: 0.4rem;
-    align-items: center !important;
-  }
-  
-  .modal-profile p {
-    margin-bottom: 0;
-  }
-  
-  .modal-profile .select-country {
-    width: 80%;
-    margin-left: 1rem;
-  }
-  
-  .application__profile-details--container-name {
-    font-size: 18px;
-  }
-  
-  .application__profile-details--container {
-    align-items: center;
-  }
-  
-  .application__profile-details--container img {
-    border-radius: 50px;
-    width: 50px;
-  }
-  
+  padding: 0.4rem 1rem;
+  width: 150px;
+}
+
+.feedback-heading {
+  font-size: 20px;
+}
+
+.modal-profile input {
+  padding: 0.2rem;
+}
+
+.modal-profile .form-control {
+  padding-bottom: 0;
+  height: 100%;
+  padding: 0.4rem;
+  align-items: center !important;
+}
+
+.modal-profile p {
+  margin-bottom: 0;
+}
+
+.modal-profile .select-country {
+  width: 80%;
+  margin-left: 1rem;
+}
+
+.application__profile-details--container-name {
+  font-size: 18px;
+}
+
+.application__profile-details--container {
+  align-items: center;
+}
+
+.application__profile-details--container img {
+  border-radius: 50px;
+  width: 50px;
+}
+
+.profile-email {
+  font-size: 14px;
+}
+.form-details__progress .view-table {
+  width: auto;
+}
+
+.admin-profile-right {
+  width: 150px;
+}
+
+.admin-profile-right {
+  width: 250px;
+}
+
+.admin-profile-right img {
+  max-width: 50px;
+}
+.admin-profile-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 1rem;
+  margin-top: 1rem;
+}
+
+.application__profile-details h4 {
+  width: 80%;
+}
