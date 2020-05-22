@@ -1,11 +1,5 @@
 //Need library files imported
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  AfterViewInit,
-  AfterViewChecked,
-} from "@angular/core";
+import { Component, OnInit, ElementRef } from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
@@ -27,7 +21,7 @@ import { ModalService } from "../../../modal";
 })
 
 //Class implmentation for this component
-export class UserComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class UserComponent implements OnInit {
   @BlockUI() blockUI: NgBlockUI;
 
   //Variable decrlation with its type
