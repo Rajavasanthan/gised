@@ -117,6 +117,9 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = ($result[0]['application_name']) ? $result[0]['application_name'] : 'Nil' ;
 
+            $from = new DateTime($userResult[0]['date_of_foundation']);
+            $to   = new DateTime('today');
+            $userResult[0]['age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
@@ -445,6 +448,9 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = $result[0]['application_name'];
 
+            $from = new DateTime($userResult[0]['date_of_foundation']);
+            $to   = new DateTime('today');
+            $userResult[0]['age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);

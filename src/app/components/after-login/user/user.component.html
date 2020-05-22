@@ -142,26 +142,15 @@
     <h6 class="mb-1 bg-primary abs-header top-0">Grants FAQ</h6>
     <div id="accordion-basic">
       <!-- ========***FAQ 1***=========== -->
+      <div *ngFor="let faq of faq; let last = last">
+        <p class="accordion-head cursor-pointer semi-bold font-12 mt-4">
+          {{ faq.question }}
+        </p>
+        <div class="accordion-body font-14 mt-0_5">
+          {{ faq.answer }}
+        </div>
 
-      <p class="accordion-head cursor-pointer semi-bold font-12 mt-4">
-        What projects or programs does GISED fund?
-      </p>
-      <div class="accordion-body font-14 mt-0_5">
-        Lorem1 ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
-        voluptas reprehenderit culpa alias consequuntur ullam dolores nam
-        perferendis voluptatum ea.
-      </div>
-
-      <hr style="margin: 0.5rem 0;" />
-
-      <!-- ========***FAQ 10***=========== -->
-      <p class="accordion-head cursor-pointer semi-bold font-12">
-        May I schedule an appointment to discuss project or program ideas?
-      </p>
-      <div class="accordion-body font-14 mt-0_5">
-        Lorem2 ipsum dolor, sit amet consectetur adipisicing elit. Aliquam
-        voluptas reprehenderit culpa alias consequuntur ullam dolores nam
-        perferendis voluptatum ea.
+        <hr style="margin: 0.5rem 0;" *ngIf="last == false" />
       </div>
     </div>
   </div>

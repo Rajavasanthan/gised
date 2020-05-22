@@ -16,8 +16,6 @@
   </div>
   <!-- Profile header -->
   <div class="profile__header">
-   <span class="lead-dark">My Profile</span>
-   <i class="fas fa-ellipsis-h profile__icon"></i>
   </div>
   <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
   <!-- <form [formGroup]="profilePhotoUpoadForm">
@@ -80,7 +78,7 @@
  
  <!-- Application Suggestion -->
  <form [formGroup]="feedBackForm" (ngSubmit)="feedBackFormSubmit()">
- <div class="application__suggestion clearfix">
+ <div class="application__suggestion clearfix hide">
   <h6>Suggestions or Comments</h6>
   <textarea class="block" formControlName="feedback"></textarea>
   <button type="submit" class="btn btn-primary" [disabled]="!feedBackForm.valid">

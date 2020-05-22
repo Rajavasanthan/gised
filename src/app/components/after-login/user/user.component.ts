@@ -64,6 +64,7 @@ export class UserComponent implements OnInit, AfterViewInit {
   modelFeedback: any;
   feedBackUserSelector: any;
   countries: any;
+  faq : any;
 
   //Files Size Allowed
   maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
@@ -260,6 +261,7 @@ export class UserComponent implements OnInit, AfterViewInit {
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
           this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
+          this.faq = this.serverResponse.responseData.faq;
 
           //Set for wordpress user name show
           localStorage.setItem(
@@ -521,7 +523,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     if (this.firstContactValues.r_source_id.others != "") {
       this.firstContactForm.controls.sourceValue
         .get("others")
-        .setValue(this.firstContactValues.others);
+        .setValue(this.firstContactValues.r_source_id.others);
     }
   }
 
@@ -1128,6 +1130,8 @@ export class UserComponent implements OnInit, AfterViewInit {
         } else {
           this.errorMsg = "Account Updated Successfully.";
           Swal.fire(this.errorMsg);
+          this.loggedProfile = this.serverResponse.responseData.loggedProfile;
+          this.profileImg = this.loggedProfile.profileImg;
         }
         this.closeModal('userProfile-modal')
       },

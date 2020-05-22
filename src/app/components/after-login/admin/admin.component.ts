@@ -824,8 +824,10 @@ export class AdminComponent implements OnInit {
         } else {
           this.errorMsg = "Account Updated Successfully.";
           Swal.fire(this.errorMsg);
+          this.loggedProfile = this.serverResponse.responseData.loggedProfile;
+          this.profileImg = this.loggedProfile.profileImg;
         }
-        this.closeModal('userProfile-modal')
+        this.closeModal('adminProfile-modal')
       },
       (error) => {
         this.blockUI.stop();
