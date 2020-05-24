@@ -557,7 +557,7 @@ export class UserComponent implements OnInit {
       requestData: this.feedBackForm.value,
     };
 
-    this.loader = "Sending suggestion to GISET admin";
+    this.loader = "Sending suggestion to GISED admin";
     this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
@@ -1107,7 +1107,7 @@ export class UserComponent implements OnInit {
       requestData: this.editProfileForm.value,
     };
 
-    this.loader = "Update your profile on GISET";
+    this.loader = "Updating your profile on GISED";
     this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(

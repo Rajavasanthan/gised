@@ -629,7 +629,7 @@ export class AdminComponent implements OnInit {
       'requestData' :  this.feedBackForm.value 
     }
 
-    this.loader = "Suggesstion mail sending to GISET user";
+    this.loader = "Suggesstion mail sending to GISED user";
     this.blockUI.start(this.loader);
 
     //Hit to the server for get logged user informations
@@ -809,7 +809,7 @@ export class AdminComponent implements OnInit {
       requestData: this.editProfileForm.value,
     };
 
-    this.loader = "Update your profile on GISET";
+    this.loader = "Update your profile on GISED";
     this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(

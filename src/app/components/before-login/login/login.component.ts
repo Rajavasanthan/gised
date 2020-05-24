@@ -99,7 +99,7 @@ export class LoginComponent implements OnInit {
         requestData: data
       };
 
-      this.loader = "Creating your profile on GISET";
+      this.loader = "Creating your profile on GISED";
       this.blockUI.start(this.loader);
 
       this.server.sendToServer(this.serverRequest).subscribe(

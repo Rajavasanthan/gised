@@ -116,7 +116,7 @@ export class SingUpComponent implements OnInit {
       requestData: this.signUpForm.value,
     };
 
-    this.loader = "Creating your profile on GISET";
+    this.loader = "Creating your profile on GISED";
     this.blockUI.start(this.loader);
 
     this.server.sendToServer(this.serverRequest).subscribe(

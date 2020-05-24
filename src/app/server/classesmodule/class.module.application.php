@@ -300,7 +300,6 @@
             $sql = $briefAssesObj->updatedmformbriefassesment();
             $result = dbConnection::updateQuery($sql);
             $this->output['fileup'] = $briefAssesObj->uploads;
-            $this->output['sqllllllllll'] = $sql;
 
             require_once "classes/class.dmgisedform.php";
             $gisedObj = new dmgisedform();
