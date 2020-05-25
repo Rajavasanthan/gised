@@ -2,7 +2,7 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
-import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormArray, ValidatorFn } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Configurations } from "../../../config/configurations";
 
@@ -138,7 +138,7 @@ export class UserComponent implements OnInit {
     ]),
     organizationName: new FormControl("", [Validators.required]),
     orgDetails: new FormControl("", [Validators.required]),
-    signUpEmail: new FormControl(""),
+    signUpEmail: new FormControl("", [Validators.requiredTrue]),
     sourceValue: new FormGroup({
       newspaper: new FormControl(false),
       edm: new FormControl(false),
@@ -149,7 +149,7 @@ export class UserComponent implements OnInit {
       wordofmouth: new FormControl(false),
       maildrop: new FormControl(false),
       others: new FormControl(""),
-    }),
+    },this.requireCheckboxesToBeCheckedValidator()),
     emailId: new FormControl(""),
     status: new FormControl(2),
   });
@@ -1148,4 +1148,34 @@ export class UserComponent implements OnInit {
     e.stopPropagation();
     e.target.nextElementSibling.classList.toggle("open");
   }
+
+  //Select Any one Checkbox Validation
+  requireCheckboxesToBeCheckedValidator(minRequired = 1): ValidatorFn {
+    return function validate (formGroup: FormGroup) {
+      let checked = 0;
+  
+      Object.keys(formGroup.controls).forEach(key => {
+        const control = formGroup.controls[key];
+  
+        if (control.value === true) {
+          checked ++;
+        }
+      });
+
+      //alert(formGroup.controls.others.value);
+
+      if(formGroup.controls.others.value != ''){
+        checked ++;
+      }
+  
+      if (checked < minRequired) {
+        return {
+          requireCheckboxesToBeChecked: true,
+        };
+      }
+  
+      return null;
+    };
+  }
+  
 }

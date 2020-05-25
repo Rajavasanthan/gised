@@ -381,6 +381,15 @@
                   "
                 />
               </div>
+              <div
+                *ngIf="
+                  firstContactForm.controls.signUpEmail.errors &&
+                  firstContactForm.controls.signUpEmail.touched
+                "
+                class="errors"
+              >
+                Must be select the sign up for emails
+              </div>
               <!-- =============== -->
               <form [formGroup]="firstContactForm.controls.sourceValue">
                 <h6 class="first-contact__source--heading">Source</h6>
@@ -467,6 +476,15 @@
                   </div>
                 </div>
               </form>
+              <div
+                *ngIf="
+                  firstContactForm.controls.sourceValue.errors &&
+                  firstContactForm.controls.sourceValue.touched
+                "
+                class="errors"
+              >
+                Must be select anyone source
+              </div>
               <button
                 type="submit"
                 class="btn btn-primary first-contact__submit-btn"
