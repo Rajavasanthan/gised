@@ -193,8 +193,8 @@ h6 {
   padding: 1rem;
 }
 
-.bg-primary {
-  background-color: #eda321 !important;
+.bg-primary-custom {
+  background-color: #eda321;
 }
 
 .cursor-pointer {
@@ -523,6 +523,7 @@ body {
   border: 1.5px solid #898989;
   border-radius: 10px;
   padding: 1rem;
+  overflow: hidden;
 }
 @media only screen and (max-width: 1000px) {
   .application__container > div {
@@ -1249,14 +1250,14 @@ body {
   z-index: 999;
 }
 
-.modal-content {
+.modal-content-custom {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 1rem 1.5rem;
-  width: 24rem;
+  width: 24rem !important;
   border-radius: 0.5rem;
 }
 
