@@ -30,7 +30,6 @@ const routes: Routes = [
       import("../../modules/after-login/after-login.module").then(
         (m) => m.AfterLoginModule
       ),
-    canActivate: [AuthGuard],
   },
 ];
 

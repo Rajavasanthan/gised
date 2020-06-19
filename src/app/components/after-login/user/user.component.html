@@ -546,10 +546,7 @@
               This section of your application is complete
             </div>
           </div>
-          <div
-            class="brief-assesment__container accordian__main-data d-flex"
-            *ngIf="initialPresentForm >= 2"
-          >
+          <div class="brief-assesment__container accordian__main-data d-flex">
             <div class="brief-assesment__left">
               <div class="brief-assesment__form-control">
                 <span class="">Name</span>
@@ -624,15 +621,26 @@
                 Enter Telephone Number
               </div>
 
-              <div class="brief-assesment__form-control">
+              <div class="brief-assesment__form-control d-block">
                 <span class="">Website (Optional)</span>
                 <input
                   type="checkbox"
                   formControlName="website"
+                  #website
                   [checked]="
                     briefAssesmentValues?.website_url === 'Y' ? true : false
                   "
                 />
+                <div>
+                  <input
+                    class="d-block"
+                    *ngIf="website.checked"
+                    type="text"
+                    formControlName="websiteName"
+                    name=""
+                    id=""
+                  />
+                </div>
               </div>
 
               <!-- ========================= -->
@@ -1083,7 +1091,7 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="name"
+                  formControlName="progressOfNgo"
                   [value]="briefAssesmentValues?.full_name"
                 >
                 </textarea>
@@ -1106,7 +1114,7 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="name"
+                  formControlName="termStrategy"
                   [value]="briefAssesmentValues?.full_name"
                 >
                 </textarea>
@@ -1118,7 +1126,7 @@
                 "
                 class="errors"
               >
-                Invalid Name
+                Required field, characters must be between 25-250
               </div>
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1129,19 +1137,19 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="name"
+                  formControlName="programActivity"
                   [value]="briefAssesmentValues?.full_name"
                 >
                 </textarea>
               </div>
               <div
                 *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
+                  briefAssesmentForm.controls.progressOfNgo.errors &&
+                  briefAssesmentForm.controls.progressOfNgo.touched
                 "
                 class="errors"
               >
-                Invalid Name
+                Required field, characters must be between 25-250
               </div>
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1153,7 +1161,7 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="name"
+                  formControlName="partnerships"
                   [value]="briefAssesmentValues?.full_name"
                 >
                 </textarea>
@@ -1165,7 +1173,7 @@
                 "
                 class="errors"
               >
-                Invalid Name
+                Required field, characters must be between 25-250
               </div>
               <!-- === -->
               <!-- === -->
@@ -1177,7 +1185,7 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="name"
+                  formControlName="ngoFinance"
                   [value]="briefAssesmentValues?.full_name"
                 >
                 </textarea>
@@ -1189,7 +1197,7 @@
                 "
                 class="errors"
               >
-                Invalid Name
+                Required field, characters must be between 25-250
               </div>
               <!-- === -->
             </div>
@@ -1510,7 +1518,18 @@
             (change)="onSelectProfileImages($event)"
             [accept]="profileImgFileTypes"
           />
-          <button class="btn btn-primary">Change NGO photo</button>
+          <button class="btn btn-primary">Update NGO logo</button>
+        </div>
+
+        <!-- Country registered -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Name of Foundation</p>
+          <input
+            type="text"
+            formControlName="name_of_foundation"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
         </div>
 
         <!-- DOB -->
@@ -1532,8 +1551,8 @@
         </div>
         <div
           *ngIf="
-            editProfileForm.controls.dob.errors &&
-            editProfileForm.controls.dob.touched
+            editProfileForm.controls.date_of_foundation.errors &&
+            editProfileForm.controls.date_of_foundation.touched
           "
           class="errors"
         >
@@ -1559,7 +1578,6 @@
         >
           Invalid country_registered
         </div>
-
         <!-- Country -->
         <div class="form-control d-block profile-form-control">
           <p class="semi-bold">Field of Activity</p>
@@ -1597,6 +1615,8 @@
           In Country
         </div>
       </div>
+      <hr />
+      <h3 class="mb-2">Contact Info</h3>
       <div class="right">
         <!-- Full name -->
         <div class="form-control d-block profile-form-control">

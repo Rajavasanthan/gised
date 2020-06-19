@@ -179,13 +179,35 @@ export class UserComponent implements OnInit {
       Validators.pattern(this.validation.telePhonePattern),
     ]),
     website: new FormControl("", [Validators.required]),
+    websiteName: new FormControl("", [Validators.required]),
     streetAddress: new FormControl("", [Validators.required]),
     zipCode: new FormControl("", [Validators.required]),
     city: new FormControl("", [Validators.required]),
     country: new FormControl("", [Validators.required]),
     date: new FormControl("", [Validators.required]),
     countryActive: new FormControl("", [Validators.required]),
+    termStrategy: new FormControl("", [Validators.required]),
     visionMission: new FormControl("", [Validators.required]),
+    progressOfNgo: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(250),
+      Validators.min(20),
+    ]),
+    programActivity: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(250),
+      Validators.min(20),
+    ]),
+    partnerships: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(250),
+      Validators.min(20),
+    ]),
+    ngoFinance: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(250),
+      Validators.min(20),
+    ]),
 
     purposeOfProject1: new FormControl(""),
     detailedInformation: new FormControl(""),
@@ -448,7 +470,7 @@ export class UserComponent implements OnInit {
   ////Form disable
   formsDisable() {
     this.firstContactForm.disable();
-    this.briefAssesmentForm.disable();
+    // this.briefAssesmentForm.disable();
     this.detailedPresentaionForm.disable();
     this.finalApprovalForm.disable();
   }
@@ -1089,6 +1111,11 @@ export class UserComponent implements OnInit {
   editProfileForm = new FormGroup({
     // Fullname
     fullName: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.namePattern),
+    ]),
+    // Fullname
+    name_of_foundation: new FormControl("", [
       Validators.required,
       Validators.pattern(this.validation.namePattern),
     ]),
