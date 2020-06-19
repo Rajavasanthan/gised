@@ -2,7 +2,13 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
-import { FormGroup, FormControl, Validators, FormArray, ValidatorFn } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  ValidatorFn,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { Configurations } from "../../../config/configurations";
 
@@ -139,17 +145,20 @@ export class UserComponent implements OnInit {
     organizationName: new FormControl("", [Validators.required]),
     orgDetails: new FormControl("", [Validators.required]),
     signUpEmail: new FormControl("", [Validators.requiredTrue]),
-    sourceValue: new FormGroup({
-      newspaper: new FormControl(false),
-      edm: new FormControl(false),
-      sms: new FormControl(false),
-      website: new FormControl(false),
-      pressads: new FormControl(false),
-      online: new FormControl(false),
-      wordofmouth: new FormControl(false),
-      maildrop: new FormControl(false),
-      others: new FormControl(""),
-    },this.requireCheckboxesToBeCheckedValidator()),
+    sourceValue: new FormGroup(
+      {
+        newspaper: new FormControl(false),
+        edm: new FormControl(false),
+        sms: new FormControl(false),
+        website: new FormControl(false),
+        pressads: new FormControl(false),
+        online: new FormControl(false),
+        wordofmouth: new FormControl(false),
+        maildrop: new FormControl(false),
+        others: new FormControl(""),
+      },
+      this.requireCheckboxesToBeCheckedValidator()
+    ),
     emailId: new FormControl(""),
     status: new FormControl(2),
   });
@@ -170,11 +179,24 @@ export class UserComponent implements OnInit {
       Validators.pattern(this.validation.telePhonePattern),
     ]),
     website: new FormControl("", [Validators.required]),
+    streetAddress: new FormControl("", [Validators.required]),
+    zipCode: new FormControl("", [Validators.required]),
+    city: new FormControl("", [Validators.required]),
+    country: new FormControl("", [Validators.required]),
+    date: new FormControl("", [Validators.required]),
+    countryActive: new FormControl("", [Validators.required]),
+    visionMission: new FormControl("", [Validators.required]),
+
     purposeOfProject1: new FormControl(""),
     detailedInformation: new FormControl(""),
     estimatedBudget: new FormControl(""),
     periodOfTime: new FormControl(""),
     purposeOfProject2: new FormControl(""),
+    certifiedRegistration: new FormControl(""),
+    activityReport: new FormControl(""),
+    certifiedId: new FormControl(""),
+    deedOfFoundation: new FormControl(""),
+    budgetReport: new FormControl(""),
     emailId: new FormControl(""),
     status: new FormControl(2),
     uploadedFiles: new FormControl(),
@@ -222,7 +244,7 @@ export class UserComponent implements OnInit {
     this.detailedPresentationCompleted = 0;
     this.finalApprovalCompleted = 0;
     this.emailId = "";
-    this.initialPresentForm = 0;
+    this.initialPresentForm = 2;
 
     //Prepare this request for get logged user informations
     this.serverRequest = {
@@ -1065,17 +1087,22 @@ export class UserComponent implements OnInit {
 
   //Edit Profile
   editProfileForm = new FormGroup({
+    // Fullname
     fullName: new FormControl("", [
       Validators.required,
       Validators.pattern(this.validation.namePattern),
     ]),
-    dob: new FormControl("", [Validators.required]),
+    date_of_foundation: new FormControl("", [Validators.required]),
     mobileNo: new FormControl("", [
       Validators.required,
       Validators.pattern(this.validation.mobilePattern),
     ]),
+    country_registered: new FormControl("", [Validators.required]),
+    age: new FormControl("", [Validators.required]),
+
     gender: new FormControl("", [Validators.required]),
     country: new FormControl(0, [Validators.required, Validators.min(1)]),
+    fieldOfActivity: new FormControl("", [Validators.required]),
     applicationValues: new FormControl(0, [
       Validators.required,
       Validators.min(1),
@@ -1151,31 +1178,30 @@ export class UserComponent implements OnInit {
 
   //Select Any one Checkbox Validation
   requireCheckboxesToBeCheckedValidator(minRequired = 1): ValidatorFn {
-    return function validate (formGroup: FormGroup) {
+    return function validate(formGroup: FormGroup) {
       let checked = 0;
-  
-      Object.keys(formGroup.controls).forEach(key => {
+
+      Object.keys(formGroup.controls).forEach((key) => {
         const control = formGroup.controls[key];
-  
+
         if (control.value === true) {
-          checked ++;
+          checked++;
         }
       });
 
       //alert(formGroup.controls.others.value);
 
-      if(formGroup.controls.others.value != ''){
-        checked ++;
+      if (formGroup.controls.others.value != "") {
+        checked++;
       }
-  
+
       if (checked < minRequired) {
         return {
           requireCheckboxesToBeChecked: true,
         };
       }
-  
+
       return null;
     };
   }
-  
 }

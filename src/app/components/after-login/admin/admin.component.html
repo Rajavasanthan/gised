@@ -19,7 +19,10 @@
       <h4 class="application__profile-details--container-name">
         {{ loggedProfile.first_name }}
       </h4>
-      <img [src]="profileImg" alt="Profile Photo" class="application__profile-details--icon"
+      <img
+        [src]="profileImg"
+        alt="Profile Photo"
+        class="application__profile-details--icon"
       />
     </div>
     <hr style="margin: 1rem 0;" />
@@ -867,7 +870,7 @@
           (change)="onSelectProfileImages($event)"
           [accept]="profileImgFileTypes"
         />
-        <button class="btn btn-primary">Change photo</button>
+        <button class="btn btn-primary">Change NGO photo</button>
       </div>
       <!-- Name -->
       <div class="form-control">

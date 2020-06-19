@@ -1,114 +1,230 @@
 <i class="far fa-circle registration__circle"></i>
 <form [formGroup]="signUpForm" (ngSubmit)="signUpFormSubmit()">
-<div class="registration__container">
-    <a href="#" routerLink='' class="registration__forgot-password lead">Back to Login</a>
-    <h2 class="registration__heading">Sign Up</h2>
+  <div class="registration__container">
+    <a href="#" routerLink="" class="registration__forgot-password float-right"
+      >Back to Login</a
+    >
+    <!-- <h2 class="registration__heading">Sign Up</h2> -->
+    <a href="">
+      <img src="../../../../assets/images/logo.png" alt="" class="logo-img" />
+    </a>
     <!-- Username -->
-    <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Full Name</div>
-        <div class="registration__input-container">
-         <i class="fas fa-user registration__icon"></i>
-         <input
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Full Name</div>
+      <div class="registration__input-container">
+        <i class="fas fa-user registration__icon"></i>
+        <input
           type="text"
           class="registration__input"
-          placeholder="Type your fullname" 
+          placeholder="Type your fullname"
           formControlName="fullName"
-         />
-        </div>
-       <div *ngIf="signUpForm.controls.fullName.errors && signUpForm.controls.fullName.touched" class="errors">
-           Invalid Name
-       </div>
-       </div>
-    
-       <!-- Email -->
-       <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Email</div>
-        <div class="registration__input-container">
-         <i class="fas fa-envelope registration__icon"></i>
-         <input
+        />
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.fullName.errors &&
+          signUpForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name
+      </div>
+    </div>
+
+    <!-- Name of organization -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Name of organization</div>
+      <div class="registration__input-container">
+        <i class="fas fa-user registration__icon"></i>
+        <input
+          type="text"
+          class="registration__input"
+          placeholder="Type your organization name"
+          formControlName="nameOforganization"
+        />
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.nameOforganization.errors &&
+          signUpForm.controls.nameOforganization.touched
+        "
+        class="errors"
+      >
+        Invalid Name of Organization
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Email</div>
+      <div class="registration__input-container">
+        <i class="fas fa-envelope registration__icon"></i>
+        <input
           type="email"
           class="registration__input"
-          placeholder="Type your Email" 
-          formControlName="emailId" 
+          placeholder="Type your Email"
+          formControlName="emailId"
           (blur)="checkEmailId()"
-         />
-         <div class="error-msg" *ngIf="emailErrorMsg !== ''">{{emailErrorMsg}}</div>
+        />
+        <div class="error-msg" *ngIf="emailErrorMsg !== ''">
+          {{ emailErrorMsg }}
         </div>
-        <div *ngIf="signUpForm.controls.emailId.errors && signUpForm.controls.emailId.touched" class="errors">
-           Invalid Email id
-       </div>
-       </div>
-    
-       <!-- Mobile -->
-       <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Contact</div>
-        <div class="registration__input-container">
-         <i class="fas fa-mobile-alt registration__icon"></i>
-         <input
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.emailId.errors &&
+          signUpForm.controls.emailId.touched
+        "
+        class="errors"
+      >
+        Invalid Email id
+      </div>
+    </div>
+
+    <!-- Mobile -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Contact</div>
+      <div class="registration__input-container">
+        <i class="fas fa-mobile-alt registration__icon"></i>
+        <input
           type="text"
           class="registration__input"
-          placeholder="Phone Number" 
+          placeholder="Phone Number"
           formControlName="mobileNo"
-         />
-        </div>
-        <div *ngIf="signUpForm.controls.mobileNo.errors && signUpForm.controls.mobileNo.touched" class="errors">
-           Invalid Mobile Number
-       </div>
-       </div>
-    
-       <!-- Gender -->
-       <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Gender</div>
-        <div class="registration__input-container">
-         <i class="fas fa-venus-mars registration__icon"></i>
-         <div class="signup__radio-container">
+          ng2TelInput
+          [ng2TelInputOptions]="{ initialCountry: 'in' }"
+          (ng2TelOutput)="getNumber($event)"
+          (intlTelInputObject)="telInputObject($event)"
+          (countryChange)="onCountryChange($event)"
+        />
+      </div>
+      <div>
+        {{ signUpForm.controls.mobileNo.value }}
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.mobileNo.errors &&
+          signUpForm.controls.mobileNo.touched
+        "
+        class="errors"
+      >
+        Invalid Mobile Number
+      </div>
+    </div>
+
+    <!-- Gender -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Gender</div>
+      <div class="registration__input-container">
+        <i class="fas fa-venus-mars registration__icon"></i>
+        <div class="signup__radio-container">
           <div class="signup__radio-input-container">
-           <label for="male">Male</label>
-           <input type="radio" class="" name="gender" value="Male" formControlName="gender"/>
+            <label for="male">Male</label>
+            <input
+              type="radio"
+              class=""
+              name="gender"
+              value="Male"
+              formControlName="gender"
+            />
           </div>
           <div class="signup__radio-input-container">
-           <label for="male">Female</label>
-           <input type="radio" class="" name="gender" value="Female" formControlName="gender"/>
+            <label for="male">Female</label>
+            <input
+              type="radio"
+              class=""
+              name="gender"
+              value="Female"
+              formControlName="gender"
+            />
           </div>
-         </div>
         </div>
-        <div *ngIf="signUpForm.controls.gender.errors && signUpForm.controls.gender.touched" class="errors">
-           Invalid Gender
-       </div>
-       </div>
-    
-       <!-- age -->
-       <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Age</div>
-        <div class="registration__input-container">
-         <i class="fas fa-calendar-week registration__icon"></i>
-         <input type="number" class="registration__input" placeholder="Age"  formControlName="age" />
-        </div>
-        <div *ngIf="signUpForm.controls.age.errors && signUpForm.controls.age.touched" class="errors">
-           Invalid Age
-       </div>
-       </div>
-    
-       <!-- Country -->
-       <div class="registration__form-control registration__form-control--username">
-        <div class="registration__label">Country</div>
-        <div class="registration__input-container">
-         <i class="fas fa-globe registration__icon"></i>
-         <!-- <input type="text" class="registration__input" placeholder="Country"  formControlName="country" /> -->
-         <select class="registration__input" placeholder="Country"  formControlName="country">
-             <option value="0">Select your country</option>
-             <option *ngFor="let country of countries" value="{{country.country_id}}">{{country.country_name}}</option>
-         </select>
-        </div>
-        <div *ngIf="signUpForm.controls.country.errors && signUpForm.controls.country.touched" class="errors">
-           Invalid Country
-       </div>
-       </div>
- 
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.gender.errors &&
+          signUpForm.controls.gender.touched
+        "
+        class="errors"
+      >
+        Invalid Gender
+      </div>
+    </div>
+
+    <!-- age -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Age</div>
+      <div class="registration__input-container">
+        <i class="fas fa-calendar-week registration__icon"></i>
+        <input
+          type="date"
+          class="registration__input"
+          placeholder="DOB"
+          formControlName="age"
+        />
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.age.errors && signUpForm.controls.age.touched
+        "
+        class="errors"
+      >
+        Invalid DOB
+      </div>
+    </div>
+
+    <!-- Country -->
+    <div
+      class="registration__form-control registration__form-control--username"
+    >
+      <div class="registration__label">Country</div>
+      <div class="registration__input-container">
+        <i class="fas fa-globe registration__icon"></i>
+        <!-- <input type="text" class="registration__input" placeholder="Country"  formControlName="country" /> -->
+        <select
+          class="registration__input"
+          placeholder="Country"
+          formControlName="country"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
+      </div>
+      <div
+        *ngIf="
+          signUpForm.controls.country.errors &&
+          signUpForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
+    </div>
+
     <!-- Signup-Button -->
-    <button type="submit" class="registration__login-btn btn btn-primary block btn-lg" [disabled]="!signUpForm.valid">
-     Sign Up
+    <button
+      type="submit"
+      class="registration__login-btn btn btn-primary block btn-lg"
+      [disabled]="!signUpForm.valid"
+    >
+      Sign Up
     </button>
-   </div>
+  </div>
 </form>
 <block-ui></block-ui>

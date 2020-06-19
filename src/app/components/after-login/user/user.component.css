@@ -13,7 +13,7 @@
 
 .modal-profile .form-control {
   padding-bottom: 0;
-  height: 100%;
+  /* height: 100%; */
   padding: 0.4rem;
   align-items: center !important;
 }
@@ -38,4 +38,26 @@
 .application__profile-details--container img {
   border-radius: 50px;
   width: 50px;
+}
+
+.profile-form-control {
+  height: 5rem;
+}
+
+.profile-form-control select {
+  padding: 0.3rem;
+  margin: 0 !important;
+}
+
+.profile-modal__container {
+  overflow-y: scroll;
+  max-height: 80vh;
+}
+.modal-profile {
+}
+
+@media (max-width: 1200px) {
+  .brief-assesment__container {
+    flex-wrap: wrap;
+  }
 }

@@ -13,8 +13,8 @@
 
 .modal-profile .form-control {
   padding-bottom: 0;
-  height: 100%;
   padding: 0.4rem;
+  height: 100%;
   align-items: center !important;
 }
 
@@ -73,4 +73,17 @@
 
 .application__container {
   padding: 0 5rem;
+}
+
+.w-30 {
+  width: 30% !important;
+}
+
+.brief-assesment__container.accordian__main-data {
+  display: flex;
+}
+
+.brief-assesment__left {
+  width: 70% !important;
+  display: none;
 }
