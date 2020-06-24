@@ -1,0 +1,13 @@
+.logo-img {
+  width: 50%;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
+.registration__forgot-password {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  font-size: 14px;
+}

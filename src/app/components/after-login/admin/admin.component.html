@@ -12,6 +12,20 @@
   >
   <i class="far fa-user-circle application__nav--icon"></i>
 </div> -->
+<img
+  src="../../../../assets/images/postit.png"
+  alt=""
+  class="postit-icon"
+  (click)="postitToggle()"
+/>
+<div class="post-it" *ngIf="this.postItOpen">
+  <span class="postit-close" (click)="postitToggle()">x</span>
+  <div contenteditable="true">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore nostrum
+    fuga praesentium perspiciatis, fugit enim libero omnis dolor accusantium
+    maiores.
+  </div>
+</div>
 
 <div class="admin-profile-container">
   <div class="application__profile-details admin-profile-right">
@@ -19,7 +33,10 @@
       <h4 class="application__profile-details--container-name">
         {{ loggedProfile.first_name }}
       </h4>
-      <img [src]="profileImg" alt="Profile Photo" class="application__profile-details--icon"
+      <img
+        [src]="profileImg"
+        alt="Profile Photo"
+        class="application__profile-details--icon"
       />
     </div>
     <hr style="margin: 1rem 0;" />
@@ -27,7 +44,6 @@
   </div>
 </div>
 <div class="application__container">
-  <!-- APplication Profile -->
   <div class="application__profile">
     <div class="flex justify-end">
       <a
@@ -38,61 +54,93 @@
       >
     </div>
     <!-- Profile header -->
-    <div class="profile__header"></div>
     <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
-    <!-- <form [formGroup]="profilePhotoUpoadForm">
-
-    <div>
-      <input type='file' #profilePic (change)="onSelectProfileImage($event)" [accept]="profileImgFileTypes" formControlName="profilePhoto">
-      <button type="button" (click)="profilePic.click()" class="btn btn-primary btn-profile-photo">Edit Photo</button>
-    </div>
-  </form> -->
-    <div class="profile__name">
-      {{ loggedProfile.first_name }}
-    </div>
+    <div class="profile__name">{{ loggedProfile.first_name }}</div>
     <hr class="profile__line" />
     <!-- Profile Info -->
-    <!-- Gender -->
+    <!-- Date of Foundation -->
     <div class="profile__info">
-      <div class="lead-dark">
-        Gender
+      <div class="">
+        Date of Foundation
       </div>
-      <div class="semi-bold">
-        {{ loggedProfile.gender }}
+      <div class="semi-bold font-12">
+        {{ loggedProfile.date_of_foundation }}
       </div>
     </div>
-    <!-- Age -->
+    <!-- Country Registered -->
     <div class="profile__info">
-      <div class="lead-dark">
-        Age
+      <div class="">
+        Country Registered
       </div>
-      <div class="semi-bold">{{ loggedProfile.age }} years old</div>
-    </div>
-    <!-- Country -->
-    <div class="profile__info">
-      <div class="lead-dark">
-        Country
-      </div>
-      <div class="semi-bold">
+      <div class="semi-bold font-12">
         {{ loggedProfile.country_name }}
       </div>
     </div>
-    <!-- Contact -->
+    <!-- Field of Activity -->
     <div class="profile__info">
-      <div class="lead-dark">
-        Contact
+      <div class="">
+        Field of Activity
       </div>
-      <div class="semi-bold">
-        {{ loggedProfile.mobile_no }}
+      <div class="semi-bold font-12">
+        {{ loggedProfile.field }}
       </div>
     </div>
-    <!-- Email -->
-    <div class="profile__info">
-      <div class="lead-dark">
-        Email
+    <div class="profile__ci-header bg-primary-custom p-1_2 semi-bold">
+      Contact Info
+    </div>
+
+    <!-- ROW 1 -->
+    <div class="profile__ci-row mt-3_5">
+      <!-- Name -->
+      <div class="profile__ci-field">
+        <div class="">
+          Name
+        </div>
+        <div class="semi-bold font-12">
+          {{ loggedProfile.first_name }}
+        </div>
       </div>
-      <div class="semi-bold profile-email">
-        {{ loggedProfile.email_id }}
+      <!-- Age -->
+      <div class="profile__ci-field">
+        <div class="">
+          Age
+        </div>
+        <div class="semi-bold font-12">
+          {{ loggedProfile.age }}
+        </div>
+      </div>
+    </div>
+    <!-- ROW 2 -->
+    <div class="profile__ci-row mt-0_5">
+      <!-- Contact -->
+      <div class="profile__ci-field">
+        <div class="">
+          Contact
+        </div>
+        <div class="semi-bold font-12">
+          {{ loggedProfile.mobile_no }}
+        </div>
+      </div>
+      <!-- Gender -->
+      <div class="profile__ci-field">
+        <div class="">
+          Gender
+        </div>
+        <div class="semi-bold font-12">
+          {{ loggedProfile.gender }}
+        </div>
+      </div>
+    </div>
+    <!-- ROW 3 -->
+    <div class="profile__ci-row mt-0_5">
+      <!-- Name -->
+      <div class="profile__ci-field">
+        <div class="">
+          Country
+        </div>
+        <div class="semi-bold font-12">
+          {{ loggedProfile.country_name }}
+        </div>
       </div>
     </div>
   </div>
@@ -852,6 +900,8 @@
 <block-ui></block-ui>
 
 <!--Edit Profile model-->
+
+<!--Edit Profile model-->
 <jw-modal id="adminProfile-modal" class="modal-profile">
   <span
     class="close-button-profile close-button"
@@ -860,176 +910,257 @@
   >
   <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
     <div class="profile-modal__container">
-      <img [src]="profileImg" alt="Profile Photo" />
-      <div class="change-image-btn-container">
-        <input
-          type="file"
-          (change)="onSelectProfileImages($event)"
-          [accept]="profileImgFileTypes"
-        />
-        <button class="btn btn-primary">Change photo</button>
-      </div>
-      <!-- Name -->
-      <div class="form-control">
-        <p class="semi-bold">Name</p>
-        <input
-          type="text"
-          formControlName="fullName"
-          [value]="loggedProfile.first_name"
-        />
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.fullName.errors &&
-          editProfileForm.controls.fullName.touched
-        "
-        class="errors"
-      >
-        Invalid Name
-      </div>
-      <!-- DOB -->
-      <div class="form-control">
-        <p class="semi-bold">Date of birth</p>
-        <input
-          type="date"
-          placeholder="Date of Birth"
-          [value]="
-            loggedProfile.date_of_foundation == 'Nil'
-              ? ''
-              : loggedProfile.date_of_foundation
+      <div class="left">
+        <img [src]="profileImg" alt="Profile Photo" />
+        <div class="change-image-btn-container">
+          <input
+            type="file"
+            (change)="onSelectProfileImages($event)"
+            [accept]="profileImgFileTypes"
+          />
+          <button class="btn btn-primary">Update NGO logo</button>
+        </div>
+
+        <!-- Country registered -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Name of Foundation</p>
+          <input
+            type="text"
+            formControlName="name_of_foundation"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+
+        <!-- DOB -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Date of foundation</p>
+          <input
+            type="date"
+            class="w-100"
+            placeholder="Date of Foundation"
+            [value]="
+              loggedProfile.date_of_foundation == 'Nil'
+                ? ''
+                : loggedProfile.date_of_foundation
+            "
+            formControlName="date_of_foundation"
+            min=""
+            max=""
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.date_of_foundation.errors &&
+            editProfileForm.controls.date_of_foundation.touched
           "
-          formControlName="dob"
-          min=""
-          max=""
-        />
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.dob.errors &&
-          editProfileForm.controls.dob.touched
-        "
-        class="errors"
-      >
-        Invalid Date of Birth
-      </div>
-      <!-- Country -->
-      <div class="form-control">
-        <p class="semi-bold">Country</p>
-        <select
-          placeholder="Country"
-          formControlName="country"
-          [(ngModel)]="loggedProfile.r_country_id"
-          class="select-country"
+          class="errors"
         >
-          <option value="0">Select your country</option>
-          <option
-            *ngFor="let country of countries"
-            value="{{ country.country_id }}"
-            >{{ country.country_name }}</option
-          >
-        </select>
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.country.errors &&
-          editProfileForm.controls.country.touched
-        "
-        class="errors"
-      >
-        Invalid Country
-      </div>
-      <!-- Contact -->
-      <div class="form-control">
-        <p class="semi-bold">Contact</p>
-        <input
-          type="text"
-          placeholder="Phone Number"
-          formControlName="mobileNo"
-          [value]="
-            loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no
+          Invalid Date of Foundation
+        </div>
+
+        <!-- Country registered -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Country Registered</p>
+          <input
+            type="text"
+            formControlName="country_registered"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.country_registered.errors &&
+            editProfileForm.controls.country_registered.touched
           "
-        />
+          class="errors"
+        >
+          Invalid country_registered
+        </div>
+        <!-- Country -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Field of Activity</p>
+          <select
+            placeholder="Grant Category"
+            formControlName="fieldOfActivity"
+            class="w-100"
+            [(ngModel)]="loggedProfile.field_of_activity"
+          >
+            <option value="0">Select Field of Activity</option>
+            <option
+              *ngFor="let application of applications"
+              [value]="application.application_details_id"
+              >{{ application.application_name }}</option
+            >
+          </select>
+        </div>
+        <!-- Country -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Country</p>
+          <input
+            type="text"
+            formControlName="country"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.country.errors &&
+            editProfileForm.controls.country.touched
+          "
+          class="errors"
+        >
+          In Country
+        </div>
       </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.mobileNo.errors &&
-          editProfileForm.controls.mobileNo.touched
-        "
-        class="errors"
-      >
-        Invalid Contact
-      </div>
-      <!-- Gender -->
-      <div class="form-control">
-        <p class="semi-bold">Gender</p>
-        <div class="registration__input-container">
-          <div class="signup__radio-container">
-            <div class="signup__radio-input-container">
-              <i class="fas fa-venus-mars mr-1"></i>
-              <label for="male"> Male</label>
-              <input
-                type="radio"
-                class=""
-                name="gender"
-                value="Male"
-                formControlName="gender"
-                [checked]="loggedProfile.gender == 'Male' ? true : false"
-              />
-            </div>
-            <div class="signup__radio-input-container">
-              <label for="male">Female</label>
-              <input
-                type="radio"
-                class=""
-                name="gender"
-                value="Female"
-                formControlName="gender"
-                [checked]="loggedProfile.gender == 'Female' ? true : false"
-              />
+      <hr />
+      <h3 class="mb-2">Contact Info</h3>
+      <div class="right">
+        <!-- Full name -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Name</p>
+          <input
+            type="text"
+            formControlName="country"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.country.errors &&
+            editProfileForm.controls.country.touched
+          "
+          class="errors"
+        >
+          Invalid country
+        </div>
+
+        <!-- Age-->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Age</p>
+          <input
+            type="text"
+            formControlName="age"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.age.errors &&
+            editProfileForm.controls.age.touched
+          "
+          class="errors"
+        >
+          Invalid age
+        </div>
+
+        <!-- Contact -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Contact</p>
+          <input
+            type="text"
+            formControlName="contact"
+            [value]="loggedProfile.first_name"
+            class="w-100"
+          />
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.contact.errors &&
+            editProfileForm.controls.contact.touched
+          "
+          class="errors"
+        >
+          Invalid Contact
+        </div>
+
+        <!-- Gender -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Gender</p>
+          <div class="registration__input-container">
+            <div class="signup__radio-container">
+              <div class="signup__radio-input-container">
+                <i class="fas fa-venus-mars mr-1"></i>
+                <label for="male"> Male</label>
+                <input
+                  type="radio"
+                  class=""
+                  name="gender"
+                  value="Male"
+                  formControlName="gender"
+                  [checked]="loggedProfile.gender == 'Male' ? true : false"
+                />
+              </div>
+              <div class="signup__radio-input-container">
+                <label for="male">Female</label>
+                <input
+                  type="radio"
+                  class=""
+                  name="gender"
+                  value="Female"
+                  formControlName="gender"
+                  [checked]="loggedProfile.gender == 'Female' ? true : false"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.gender.errors &&
-          editProfileForm.controls.gender.touched
-        "
-        class="errors"
-      >
-        Invalid Gender
-      </div>
-
-      <!-- Age -->
-      <!-- <div class="form-control">
-    <p class="semi-bold">Age</p>
-    <span contenteditable="true">22</span>
-   </div> -->
-
-      <!-- Field of Activity -->
-      <!-- <div class="form-control">
-        <p class="semi-bold">Field of Activity</p>
-        <select
-          placeholder="Grant Category"
-          formControlName="applicationValues"
-          [(ngModel)]="loggedProfile.field_of_activity"
+        <div
+          *ngIf="
+            editProfileForm.controls.gender.errors &&
+            editProfileForm.controls.gender.touched
+          "
+          class="errors"
         >
-        <option value="0">Select Field of Activity</option>
-          <option
-            *ngFor="let application of applications"
-            [value]="application.application_details_id"
-            >{{ application.application_name }}</option
+          Invalid Gender
+        </div>
+
+        <!-- Age -->
+        <!-- <div class="form-control d-block">
+        <p class="semi-bold">Age</p>
+        <span contenteditable="true">22</span>
+       </div> -->
+
+        <!-- Country -->
+        <div class="form-control d-block profile-form-control">
+          <p class="semi-bold">Country</p>
+          <select
+            placeholder="Country"
+            formControlName="country"
+            [(ngModel)]="loggedProfile.r_country_id"
+            class="select-country w-100"
           >
-        </select>
-      </div> -->
-      <button
-        type="submit"
-        class="btn btn-primary semi-bold float-right"
-        [disabled]="!editProfileForm.valid"
-      >
-        Submit
-      </button>
+            <option value="0">Select your country</option>
+            <option
+              *ngFor="let country of countries"
+              value="{{ country.country_id }}"
+              >{{ country.country_name }}</option
+            >
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editProfileForm.controls.country.errors &&
+            editProfileForm.controls.country.touched
+          "
+          class="errors"
+        >
+          Invalid Country
+        </div>
+      </div>
     </div>
+    <button
+      type="submit"
+      class="btn btn-primary semi-bold float-right"
+      [disabled]="!editProfileForm.valid"
+    >
+      Submit
+    </button>
+    <!-- End of container -->
   </form>
 </jw-modal>
 
