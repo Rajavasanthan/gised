@@ -2,7 +2,13 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ProductService } from "../../../services/product.service";
 import { ServerCallService } from "../../../services/server-call.service";
-import { FormGroup, FormControl, Validators, FormArray, ValidatorFn } from "@angular/forms";
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormArray,
+  ValidatorFn,
+} from "@angular/forms";
 import { Router } from "@angular/router";
 import { Configurations } from "../../../config/configurations";
 
@@ -139,17 +145,20 @@ export class UserComponent implements OnInit {
     organizationName: new FormControl("", [Validators.required]),
     orgDetails: new FormControl("", [Validators.required]),
     signUpEmail: new FormControl("", [Validators.requiredTrue]),
-    sourceValue: new FormGroup({
-      newspaper: new FormControl(false),
-      edm: new FormControl(false),
-      sms: new FormControl(false),
-      website: new FormControl(false),
-      pressads: new FormControl(false),
-      online: new FormControl(false),
-      wordofmouth: new FormControl(false),
-      maildrop: new FormControl(false),
-      others: new FormControl(""),
-    },this.requireCheckboxesToBeCheckedValidator()),
+    sourceValue: new FormGroup(
+      {
+        newspaper: new FormControl(false),
+        edm: new FormControl(false),
+        sms: new FormControl(false),
+        website: new FormControl(false),
+        pressads: new FormControl(false),
+        online: new FormControl(false),
+        wordofmouth: new FormControl(false),
+        maildrop: new FormControl(false),
+        others: new FormControl(""),
+      },
+      this.requireCheckboxesToBeCheckedValidator()
+    ),
     emailId: new FormControl(""),
     status: new FormControl(2),
   });
@@ -222,7 +231,7 @@ export class UserComponent implements OnInit {
     this.detailedPresentationCompleted = 0;
     this.finalApprovalCompleted = 0;
     this.emailId = "";
-    this.initialPresentForm = 0;
+    this.initialPresentForm = 2;
 
     //Prepare this request for get logged user informations
     this.serverRequest = {
@@ -255,7 +264,8 @@ export class UserComponent implements OnInit {
           this.action = this.serverResponse.responseData.action;
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
-          this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
+          // -=*** REMOVE ***=-
+          // this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
           this.faq = this.serverResponse.responseData.faq;
 
           //Set for wordpress user name show
@@ -426,7 +436,8 @@ export class UserComponent implements OnInit {
   ////Form disable
   formsDisable() {
     this.firstContactForm.disable();
-    this.briefAssesmentForm.disable();
+    // -=*** Remove
+    // this.briefAssesmentForm.disable();
     this.detailedPresentaionForm.disable();
     this.finalApprovalForm.disable();
   }
@@ -1151,31 +1162,30 @@ export class UserComponent implements OnInit {
 
   //Select Any one Checkbox Validation
   requireCheckboxesToBeCheckedValidator(minRequired = 1): ValidatorFn {
-    return function validate (formGroup: FormGroup) {
+    return function validate(formGroup: FormGroup) {
       let checked = 0;
-  
-      Object.keys(formGroup.controls).forEach(key => {
+
+      Object.keys(formGroup.controls).forEach((key) => {
         const control = formGroup.controls[key];
-  
+
         if (control.value === true) {
-          checked ++;
+          checked++;
         }
       });
 
       //alert(formGroup.controls.others.value);
 
-      if(formGroup.controls.others.value != ''){
-        checked ++;
+      if (formGroup.controls.others.value != "") {
+        checked++;
       }
-  
+
       if (checked < minRequired) {
         return {
           requireCheckboxesToBeChecked: true,
         };
       }
-  
+
       return null;
     };
   }
-  
 }

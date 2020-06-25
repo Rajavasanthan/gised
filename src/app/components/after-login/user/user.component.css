@@ -7,6 +7,15 @@
   font-size: 20px;
 }
 
+.modal-profile {
+}
+
+.profile-modal__container {
+  max-height: 600px;
+  overflow-y: scroll;
+  padding: 1rem;
+}
+
 .modal-profile input {
   padding: 0.2rem;
 }
@@ -24,7 +33,6 @@
 
 .modal-profile .select-country {
   width: 80%;
-  margin-left: 1rem;
 }
 
 .application__profile-details--container-name {
@@ -38,4 +46,22 @@
 .application__profile-details--container img {
   border-radius: 50px;
   width: 50px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+#userProfile-modal .form-control {
+  display: block;
+  padding: 0.6rem;
+}
+
+#userProfile-modal .form-control input,
+#userProfile-modal .form-control select {
+  width: 100%;
+}
+
+#userProfile-modal .form-control > p {
+  margin-bottom: 0.5rem;
 }

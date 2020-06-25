@@ -19,7 +19,10 @@
       <h4 class="application__profile-details--container-name">
         {{ loggedProfile.first_name }}
       </h4>
-      <img [src]="profileImg" alt="Profile Photo" class="application__profile-details--icon"
+      <img
+        [src]="profileImg"
+        alt="Profile Photo"
+        class="application__profile-details--icon"
       />
     </div>
     <hr style="margin: 1rem 0;" />
@@ -52,6 +55,45 @@
     </div>
     <hr class="profile__line" />
     <!-- Profile Info -->
+
+    <!-- Name of Foundation -->
+    <div class="profile__info">
+      <div class="">
+        Name of Foundation
+      </div>
+      <div class="semi-bold font-12">
+        <!-- {{ loggedProfile.date_of_foundation }} -->
+      </div>
+    </div>
+
+    <!-- Date of Foundation -->
+    <div class="profile__info">
+      <div class="">
+        Date of Foundation
+      </div>
+      <div class="semi-bold font-12">
+        {{ loggedProfile.date_of_foundation }}
+      </div>
+    </div>
+    <!-- Country Registered -->
+    <div class="profile__info">
+      <div class="">
+        Country Registered
+      </div>
+      <div class="semi-bold font-12">
+        {{ loggedProfile.country_name }}
+      </div>
+    </div>
+    <!-- Field of Activity -->
+    <div class="profile__info">
+      <div class="">
+        Field of Activity
+      </div>
+      <div class="semi-bold font-12">
+        {{ loggedProfile.field }}
+      </div>
+    </div>
+
     <!-- Gender -->
     <div class="profile__info">
       <div class="lead-dark">
@@ -141,14 +183,28 @@
           <td>{{ record.email_id }}</td>
           <td>{{ record.mobile_no }}</td>
           <td>{{ record.status_value }}</td>
-          <td>
+          <td class="d-flex align-items-center">
             <button
               type="button"
-              class="btn btn-primary"
+              class="btn btn-primary view-form-btn"
               (click)="viewUserForm(record.gised_id, record.email_id)"
             >
               View Form
             </button>
+            <img
+              src="../../../../assets/images/postit.png"
+              alt=""
+              class="postit-icon"
+              (click)="postitToggle()"
+            />
+            <div class="post-it" class="d-none">
+              <span class="postit-close" (click)="postitToggle()">x</span>
+              <div contenteditable="true">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolore
+                nostrum fuga praesentium perspiciatis, fugit enim libero omnis
+                dolor accusantium maiores.
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -853,22 +909,88 @@
 
 <!--Edit Profile model-->
 <jw-modal id="adminProfile-modal" class="modal-profile">
-  <span
-    class="close-button-profile close-button"
-    (click)="closeModal('adminProfile-modal')"
-    >×</span
-  >
   <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
     <div class="profile-modal__container">
-      <img [src]="profileImg" alt="Profile Photo" />
+      <span
+        class="close-button-profile close-button"
+        (click)="closeModal('adminProfile-modal')"
+        >×</span
+      >
+      <div class="w-100 d-flex justify-content-center align-items-center">
+        <img [src]="profileImg" alt="Profile Photo" />
+      </div>
       <div class="change-image-btn-container">
         <input
           type="file"
           (change)="onSelectProfileImages($event)"
           [accept]="profileImgFileTypes"
         />
-        <button class="btn btn-primary">Change photo</button>
+        <button class="btn btn-primary cursor-pointer">Update NGO logo</button>
       </div>
+
+      <!-- Name of Foundation ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Name of foundation</p>
+        <input type="text" />
+      </div>
+      <!-- <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name of Foundation
+      </div> -->
+
+      <!-- DATE OF FOUNDATION ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Date of Foundation</p>
+        <input type="date" />
+      </div>
+      <!-- <div
+              *ngIf="
+                editProfileForm.controls.fullName.errors &&
+                editProfileForm.controls.fullName.touched
+              "
+              class="errors"
+            >
+              Invalid Date of Foundation
+            </div> -->
+
+      <!-- Country registered ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Country Registered</p>
+        <input type="text" />
+      </div>
+      <!-- <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Country registered
+      </div> -->
+
+      <!-- Field of Activity -->
+      <div class="form-control">
+        <p class="semi-bold">Field of Activity</p>
+        <select
+          placeholder="Grant Category"
+          formControlName="applicationValues"
+          [(ngModel)]="loggedProfile.field_of_activity"
+          class="p-1"
+        >
+          <option value="0">Select Field of Activity</option>
+          <option
+            *ngFor="let application of applications"
+            [value]="application.application_details_id"
+            >{{ application.application_name }}</option
+          >
+        </select>
+      </div>
+
       <!-- Name -->
       <div class="form-control">
         <p class="semi-bold">Name</p>
@@ -912,32 +1034,7 @@
       >
         Invalid Date of Birth
       </div>
-      <!-- Country -->
-      <div class="form-control">
-        <p class="semi-bold">Country</p>
-        <select
-          placeholder="Country"
-          formControlName="country"
-          [(ngModel)]="loggedProfile.r_country_id"
-          class="select-country"
-        >
-          <option value="0">Select your country</option>
-          <option
-            *ngFor="let country of countries"
-            value="{{ country.country_id }}"
-            >{{ country.country_name }}</option
-          >
-        </select>
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.country.errors &&
-          editProfileForm.controls.country.touched
-        "
-        class="errors"
-      >
-        Invalid Country
-      </div>
+
       <!-- Contact -->
       <div class="form-control">
         <p class="semi-bold">Contact</p>
@@ -1000,28 +1097,39 @@
         Invalid Gender
       </div>
 
+      <!-- Country -->
+      <div class="form-control">
+        <p class="semi-bold">Country</p>
+        <select
+          placeholder="Country"
+          formControlName="country"
+          [(ngModel)]="loggedProfile.r_country_id"
+          class="select-country m-0 p-1"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.country.errors &&
+          editProfileForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
+
       <!-- Age -->
       <!-- <div class="form-control">
     <p class="semi-bold">Age</p>
     <span contenteditable="true">22</span>
    </div> -->
 
-      <!-- Field of Activity -->
-      <!-- <div class="form-control">
-        <p class="semi-bold">Field of Activity</p>
-        <select
-          placeholder="Grant Category"
-          formControlName="applicationValues"
-          [(ngModel)]="loggedProfile.field_of_activity"
-        >
-        <option value="0">Select Field of Activity</option>
-          <option
-            *ngFor="let application of applications"
-            [value]="application.application_details_id"
-            >{{ application.application_name }}</option
-          >
-        </select>
-      </div> -->
       <button
         type="submit"
         class="btn btn-primary semi-bold float-right"
