@@ -906,15 +906,17 @@
                     <input
                       type="file"
                       class=""
+                      formControlName="ngoCertifiedOfficial"
                       [accept]="fileTypes"
                       multiple
+                      (change)="onFileChangeNgoCertifiedOfficial($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
                   </div>
                   &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
+                    >{{ uploadFiles_2_5Len }} Files Selected</span
                   >
                 </div>
                 <div
@@ -933,15 +935,17 @@
                     <input
                       type="file"
                       class=""
+                      formControlName="ngoCertifiedDeed"
                       [accept]="fileTypes"
                       multiple
+                      (change)="onFileChangeNgoCertifiedDeed($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
                   </div>
                   &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
+                    >{{ uploadFiles_2_6Len }} Files Selected</span
                   >
                 </div>
                 <div
@@ -960,15 +964,17 @@
                     <input
                       type="file"
                       class=""
+                      formControlName="ngoCertifiedBudget"
                       [accept]="fileTypes"
                       multiple
+                      (change)="onFileChangeNgoCertifiedBudget($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
                   </div>
                   &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
+                    >{{ uploadFiles_2_7Len }} Files Selected</span
                   >
                 </div>
                 <div
@@ -987,15 +993,17 @@
                     <input
                       type="file"
                       class=""
+                      formControlName="ngoCertifiedActivity"
                       [accept]="fileTypes"
                       multiple
+                      (change)="onFileChangeNgoCertifiedActivity($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
                   </div>
                   &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
+                    >{{ uploadFiles_2_8Len }} Files Selected</span
                   >
                 </div>
                 <div
@@ -1013,15 +1021,17 @@
                     <input
                       type="file"
                       class=""
+                      formControlName="certifiedId"
                       [accept]="fileTypes"
                       multiple
+                      (change)="onFileChangeCertifiedId($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
                   </div>
                   &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
+                    >{{ uploadFiles_2_9Len }} Files Selected</span
                   >
                 </div>
                 <div

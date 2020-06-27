@@ -81,12 +81,22 @@ export class UserComponent implements OnInit {
   uploadFiles_2_2: string[] = [];
   uploadFiles_2_3: string[] = [];
   uploadFiles_2_4: string[] = [];
+  uploadFiles_2_5: string[] = [];
+  uploadFiles_2_6: string[] = [];
+  uploadFiles_2_7: string[] = [];
+  uploadFiles_2_8: string[] = [];
+  uploadFiles_2_9: string[] = [];
 
   uploadFiles_2_0Len = 0;
   uploadFiles_2_1Len = 0;
   uploadFiles_2_2Len = 0;
   uploadFiles_2_3Len = 0;
   uploadFiles_2_4Len = 0;
+  uploadFiles_2_5Len = 0;
+  uploadFiles_2_6Len = 0;
+  uploadFiles_2_7Len = 0;
+  uploadFiles_2_8Len = 0;
+  uploadFiles_2_9Len = 0;
 
   //Detailed Presentation Files
   uploadFiles_3_0: string[] = [];
@@ -197,6 +207,11 @@ export class UserComponent implements OnInit {
     estimatedBudget: new FormControl(""),
     periodOfTime: new FormControl(""),
     purposeOfProject2: new FormControl(""),
+    ngoCertifiedOfficial: new FormControl(""),
+    ngoCertifiedDeed: new FormControl(""),
+    ngoCertifiedBudget: new FormControl(""),
+    ngoCertifiedActivity: new FormControl(""),
+    certifiedId: new FormControl(""), 
     emailId: new FormControl(""),
     status: new FormControl(2),
     uploadedFiles: new FormControl(),
@@ -916,6 +931,61 @@ export class UserComponent implements OnInit {
     }
   }
 
+  onFileChangeNgoCertifiedOfficial(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size > this.maxAllowedSize) {
+        alert("File is too big! Max Allowed 15MB");
+      } else {
+        this.uploadFiles_2_5.push(event.target.files[i]);
+        this.uploadFiles_2_5Len = this.uploadFiles_2_5Len + 1;
+      }
+    }
+  }
+
+  onFileChangeNgoCertifiedDeed(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size > this.maxAllowedSize) {
+        alert("File is too big! Max Allowed 15MB");
+      } else {
+        this.uploadFiles_2_6.push(event.target.files[i]);
+        this.uploadFiles_2_6Len = this.uploadFiles_2_6Len + 1;
+      }
+    }
+  }
+
+  onFileChangeNgoCertifiedBudget(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size > this.maxAllowedSize) {
+        alert("File is too big! Max Allowed 15MB");
+      } else {
+        this.uploadFiles_2_7.push(event.target.files[i]);
+        this.uploadFiles_2_7Len = this.uploadFiles_2_7Len + 1;
+      }
+    }
+  }
+
+  onFileChangeNgoCertifiedActivity(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size > this.maxAllowedSize) {
+        alert("File is too big! Max Allowed 15MB");
+      } else {
+        this.uploadFiles_2_8.push(event.target.files[i]);
+        this.uploadFiles_2_8Len = this.uploadFiles_2_8Len + 1;
+      }
+    }
+  }
+
+  onFileChangeCertifiedId(event) {
+    for (var i = 0; i < event.target.files.length; i++) {
+      if (event.target.files[i].size > this.maxAllowedSize) {
+        alert("File is too big! Max Allowed 15MB");
+      } else {
+        this.uploadFiles_2_9.push(event.target.files[i]);
+        this.uploadFiles_2_9Len = this.uploadFiles_2_9Len + 1;
+      }
+    }
+  }
+
   //Brief assesment form insertion
   briefAssesmentFormInsert() {
     if (this.presentFormNo == 0) {
@@ -952,6 +1022,28 @@ export class UserComponent implements OnInit {
     for (var i = 0; i < this.uploadFiles_2_4.length; i++) {
       formData.append("purpose1[]", this.uploadFiles_2_4[i]);
     }
+
+    for (var i = 0; i < this.uploadFiles_2_5.length; i++) {
+      formData.append("ngoCertifiedOfficial[]", this.uploadFiles_2_5[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_6.length; i++) {
+      formData.append("ngoCertifiedDeed[]", this.uploadFiles_2_6[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_7.length; i++) {
+      formData.append("ngoCertifiedBudget[]", this.uploadFiles_2_7[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_8.length; i++) {
+      formData.append("ngoCertifiedActivity[]", this.uploadFiles_2_8[i]);
+    }
+
+    for (var i = 0; i < this.uploadFiles_2_9.length; i++) {
+      formData.append("certifiedId[]", this.uploadFiles_2_9[i]);
+    }
+
+    formData.append("formValue", "2");
 
     this.fileUpload(formData, 2);
   }
@@ -1048,6 +1140,8 @@ export class UserComponent implements OnInit {
     for (var i = 0; i < this.uploadFiles_3_4.length; i++) {
       formData.append("purpose1[]", this.uploadFiles_3_4[i]);
     }
+
+    formData.append("formValue", "3");
 
     this.fileUpload(formData, 3);
   }
