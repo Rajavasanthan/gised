@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { BlockUI, NgBlockUI } from "ng-block-ui";
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import Swal from "sweetalert2";
 
 import { ValidationService } from "../../../services/validation.service";
@@ -13,6 +13,7 @@ import { ServerCallService } from "../../../services/server-call.service";
   styleUrls: ["./sing-up.component.css"],
 })
 export class SingUpComponent implements OnInit {
+
   @BlockUI() blockUI: NgBlockUI;
 
   serverRequest: any;
@@ -23,28 +24,13 @@ export class SingUpComponent implements OnInit {
   loader: string;
 
   signUpForm = new FormGroup({
-    fullName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.namePattern),
-    ]),
-    nameOforganization: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.organizationPattern),
-    ]),
-    emailId: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.emailIdPattern),
-    ]),
-    mobileNo: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.mobilePattern),
-    ]),
-    gender: new FormControl("", [Validators.required]),
-    age: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.dob),
-    ]),
-    country: new FormControl(0, [Validators.required, Validators.min(1)]),
+    fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
+    organizationName : new FormControl(''),
+    emailId : new FormControl('', [Validators.required, Validators.pattern(this.validation.emailIdPattern)]),
+    mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
+    gender : new FormControl('', [Validators.required]),
+    age : new FormControl('', [Validators.required]),
+    country : new FormControl(0, [Validators.required,Validators.min(1)])
   });
 
   constructor(
@@ -89,7 +75,9 @@ export class SingUpComponent implements OnInit {
   }
 
   ngOnInit() {
+
     //this.signUpForm.get('country').setValue('0');
+
   }
 
   checkEmailId() {
@@ -128,7 +116,6 @@ export class SingUpComponent implements OnInit {
       action: "signup",
       requestData: this.signUpForm.value,
     };
-    console.log(this.signUpForm.value);
 
     this.loader = "Creating your profile on GISED";
     this.blockUI.start(this.loader);
@@ -163,18 +150,5 @@ export class SingUpComponent implements OnInit {
         console.log("Completed");
       }
     );
-  }
-
-  hasError(event) {
-    console.log(event);
-  }
-  getNumber(event) {
-    console.log(event);
-  }
-  telInputObject(event) {
-    console.log(event);
-  }
-  onCountryChange(event) {
-    console.log(event);
   }
 }

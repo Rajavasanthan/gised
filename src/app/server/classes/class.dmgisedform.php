@@ -8,6 +8,7 @@ class dmgisedform {
     var $r_user_id;
     var $r_status_id;
     var $status;
+    var $sticky;
 
     //Initial values for the variables
     function __construct() {
@@ -15,6 +16,7 @@ class dmgisedform {
         $this->r_user_id = 0;
         $this->r_status_id = 0;
         $this->status = '';
+        $this->sticky = '';
     }
 
     //Insert query for the table
@@ -23,7 +25,8 @@ class dmgisedform {
                                             $this->gised_form_id,
                                             $this->r_user_id,
                                             $this->r_status_id,
-                                            '$this->status'
+                                            '$this->status',
+                                            '$this->sticky'
                                             )";
 
         return $sql;
@@ -78,6 +81,11 @@ class dmgisedform {
             $camaa = ', ';
         }
         
+        if($this->sticky != '') {
+            $sql = $sql . $camaa." sticky = '" . $this->sticky ."'";
+            $camaa = ', ';
+        }
+
         $sql = $sql . " where ";
 
         if($this->gised_form_id != 0) {

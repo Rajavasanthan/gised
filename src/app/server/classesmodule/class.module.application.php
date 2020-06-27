@@ -111,6 +111,7 @@
             $sql = $gisedObj->insertdmgisedform();
             $result = dbConnection::insertQuery($sql);
             $gisedId = dbConnection::$dbObj->insert_id;
+            $this->output['GISEDFORM'] = $sql;
 
             require_once "classes/class.dmformfirstcontact.php";
             $dmfirstcontactObj = new dmformfirstcontact();
@@ -127,7 +128,7 @@
             $sql = $dmfirstcontactObj->insertdmformfirstcontact();
             $result = dbConnection::insertQuery($sql);
             $dmfirstcontactId = dbConnection::$dbObj->insert_id;
-            $this->output['sssss'] = $sql;
+            $this->output['sathees'] = $sql;
 
             require_once "classes/class.factstatustrackingdetails.php";
             $trackObj = new factstatustrackingdetails();
@@ -227,11 +228,25 @@
             $briefAssesObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
+            $briefAssesObj->web_url = $this->commonObj->escapeMysqlSpecialString($this->input['websiteUrl']);
             $briefAssesObj->uploads = json_encode($this->input['uploadedFiles']);
+            $briefAssesObj->streetAddress = $this->commonObj->escapeMysqlSpecialString($this->input['streetAddress']);
+            $briefAssesObj->zipCode = $this->commonObj->escapeMysqlSpecialString($this->input['zipCode']);
+            $briefAssesObj->city = $this->commonObj->escapeMysqlSpecialString($this->input['city']);
+            $briefAssesObj->country = $this->commonObj->escapeMysqlSpecialString($this->input['country']);
+            $briefAssesObj->ngoFoundedDate = ($this->input['ngoFoundedDate']=="") ? "1970-01-01" : $this->commonObj->escapeMysqlSpecialString($this->input['ngoFoundedDate']);
+            $briefAssesObj->countriesNgoActive = $this->commonObj->escapeMysqlSpecialString($this->input['countriesNgoActive']);
+            $briefAssesObj->ngoVisionMission = $this->commonObj->escapeMysqlSpecialString($this->input['ngoVisionMission']);
+            $briefAssesObj->ngoGoal = $this->commonObj->escapeMysqlSpecialString($this->input['ngoGoal']);
+            $briefAssesObj->ngoLongTermStrategy = $this->commonObj->escapeMysqlSpecialString($this->input['ngoLongTermStrategy']);
+            $briefAssesObj->ngoOfferedActivities = $this->commonObj->escapeMysqlSpecialString($this->input['ngoOfferedActivities']);
+            $briefAssesObj->ngoPlanning = $this->commonObj->escapeMysqlSpecialString($this->input['ngoPlanning']);
+            $briefAssesObj->ngoFinance = $this->commonObj->escapeMysqlSpecialString($this->input['ngoFinanced']);
             $sql = $briefAssesObj->insertdmformbriefassesment();
             $result = dbConnection::insertQuery($sql);
             $briefAssesId = dbConnection::$dbObj->insert_id;
-            $this->output['fileup'] = $briefAssesObj->uploads;
+            $this->output['fileuppp'] = $briefAssesObj->uploads;
+            $this->output['BRIEFQUERY'] = $sql;
 
             require_once "classes/class.dmgisedform.php";
             $gisedObj = new dmgisedform();
@@ -296,6 +311,18 @@
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
             $briefAssesObj->uploads = $this->uploadFileCheck($this->input['uploadedFiles'], 2, $result[0]['r_form_id']);
+            $briefAssesObj->streetAddress = $this->commonObj->escapeMysqlSpecialString($this->input['streetAddress']);
+            $briefAssesObj->zipCode = $this->commonObj->escapeMysqlSpecialString($this->input['zipCode']);
+            $briefAssesObj->city = $this->commonObj->escapeMysqlSpecialString($this->input['city']);
+            $briefAssesObj->country = $this->commonObj->escapeMysqlSpecialString($this->input['country']);
+            $briefAssesObj->ngoFoundedDate = ($this->input['ngoFoundedDate']=="") ? "1970-01-01" : $this->commonObj->escapeMysqlSpecialString($this->input['ngoFoundedDate']);
+            $briefAssesObj->countriesNgoActive = $this->commonObj->escapeMysqlSpecialString($this->input['countriesNgoActive']);
+            $briefAssesObj->ngoVisionMission = $this->commonObj->escapeMysqlSpecialString($this->input['ngoVisionMission']);
+            $briefAssesObj->ngoGoal = $this->commonObj->escapeMysqlSpecialString($this->input['ngoGoal']);
+            $briefAssesObj->ngoLongTermStrategy = $this->commonObj->escapeMysqlSpecialString($this->input['ngoLongTermStrategy']);
+            $briefAssesObj->ngoOfferedActivities = $this->commonObj->escapeMysqlSpecialString($this->input['ngoOfferedActivities']);
+            $briefAssesObj->ngoPlanning = $this->commonObj->escapeMysqlSpecialString($this->input['ngoPlanning']);
+            $briefAssesObj->ngoFinance = $this->commonObj->escapeMysqlSpecialString($this->input['ngoFinanced']);
             $briefAssesObj->form_brief_assesment_id = $result[0]['r_form_id'];
             $sql = $briefAssesObj->updatedmformbriefassesment();
             $result = dbConnection::updateQuery($sql);

@@ -11,6 +11,18 @@ class dmformbriefassesment {
     var $telephone_number;
     var $website_url;
     var $uploads;
+    var $streetAddress;
+    var $zipCode;
+    var $city;
+    var $country;
+    var $ngoFoundedDate;
+    var $countriesNgoActive;
+    var $ngoVisionMission;
+    var $ngoGoal;
+    var $ngoLongTermStrategy;
+    var $ngoOfferedActivities;
+    var $ngoPlanning;
+    var $ngoFinance;
     var $created_date_time;
     var $updated_date_time;
 
@@ -23,6 +35,18 @@ class dmformbriefassesment {
         $this->telephone_number = '';
         $this->website_url = '';
         $this->uploads = '';
+        $this->streetAddress = '';
+        $this->zipCode = '';
+        $this->city = '';
+        $this->country = '';
+        $this->ngoFoundedDate = '0000-00-00';
+        $this->countriesNgoActive = '';
+        $this->ngoVisionMission = '';
+        $this->ngoGoal = '';
+        $this->ngoLongTermStrategy = '';
+        $this->ngoOfferedActivities = '';
+        $this->ngoPlanning = '';
+        $this->ngoFinance = '';
         $this->created_date_time = '0000-00-00 00:00:00';
         $this->updated_date_time = '0000-00-00 00:00:00';
     }
@@ -37,6 +61,18 @@ class dmformbriefassesment {
                                             '$this->telephone_number',
                                             '$this->website_url',
                                             compress('$this->uploads'),
+                                            '$this->streetAddress',
+                                            '$this->zipCode',
+                                            '$this->city',
+                                            '$this->country',
+                                            '$this->ngoFoundedDate',
+                                            '$this->countriesNgoActive',
+                                            '$this->ngoVisionMission',
+                                            '$this->ngoGoal',
+                                            '$this->ngoLongTermStrategy',
+                                            '$this->ngoOfferedActivities',
+                                            '$this->ngoPlanning',
+                                            '$this->ngoFinance',
                                             now(),
                                             now()
                                             )";
@@ -119,6 +155,66 @@ class dmformbriefassesment {
 
         if($this->uploads != '') {
             $sql = $sql . $camaa." uploads = compress('" . $this->uploads ."')";
+            $camaa = ', ';
+        }        
+
+        if($this->streetAddress != '') {
+            $sql = $sql . $camaa." street_address = '" . $this->streetAddress ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->zipCode != '') {
+            $sql = $sql . $camaa." zip_code = '" . $this->zipCode ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->city != '') {
+            $sql = $sql . $camaa." city = '" . $this->city ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->country != '') {
+            $sql = $sql . $camaa." country = '" . $this->country ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoFoundedDate != '') {
+            $sql = $sql . $camaa." ngo_founded_date = '" . $this->ngoFoundedDate ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->countriesNgoActive != '') {
+            $sql = $sql . $camaa." countries_ngo_active = '" . $this->countriesNgoActive ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoVisionMission != '') {
+            $sql = $sql . $camaa." ngo_vision_mission = '" . $this->ngoVisionMission ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoGoal != '') {
+            $sql = $sql . $camaa." ngo_goal = '" . $this->ngoGoal ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoLongTermStrategy != '') {
+            $sql = $sql . $camaa." ngo_long_term_strategy = '" . $this->ngoLongTermStrategy ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoOfferedActivities != '') {
+            $sql = $sql . $camaa." ngo_offered_activities = '" . $this->ngoOfferedActivities ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoPlanning != '') {
+            $sql = $sql . $camaa." ngo_planning = '" . $this->ngoPlanning ."'";
+            $camaa = ', ';
+        }        
+
+        if($this->ngoFinance != '') {
+            $sql = $sql . $camaa." ngo_financed = '" . $this->ngoFinance ."'";
             $camaa = ', ';
         }        
         

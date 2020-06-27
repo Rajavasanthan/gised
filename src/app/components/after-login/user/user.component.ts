@@ -179,46 +179,24 @@ export class UserComponent implements OnInit {
       Validators.pattern(this.validation.telePhonePattern),
     ]),
     website: new FormControl("", [Validators.required]),
-    websiteName: new FormControl("", [Validators.required]),
-    streetAddress: new FormControl("", [Validators.required]),
-    zipCode: new FormControl("", [Validators.required]),
-    city: new FormControl("", [Validators.required]),
-    country: new FormControl("", [Validators.required]),
-    date: new FormControl("", [Validators.required]),
-    countryActive: new FormControl("", [Validators.required]),
-    termStrategy: new FormControl("", [Validators.required]),
-    visionMission: new FormControl("", [Validators.required]),
-    progressOfNgo: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(250),
-      Validators.min(20),
-    ]),
-    programActivity: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(250),
-      Validators.min(20),
-    ]),
-    partnerships: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(250),
-      Validators.min(20),
-    ]),
-    ngoFinance: new FormControl("", [
-      Validators.required,
-      Validators.maxLength(250),
-      Validators.min(20),
-    ]),
-
+    websiteUrl : new  FormControl(""),
+    streetAddress : new  FormControl(""),
+    zipCode : new  FormControl(""),
+    city : new  FormControl(""),
+    country : new  FormControl(""),
+    ngoFoundedDate : new  FormControl(""),
+    countriesNgoActive : new  FormControl(""),
+    ngoVisionMission : new  FormControl(""),
+    ngoGoal : new  FormControl(""),
+    ngoLongTermStrategy : new  FormControl(""),
+    ngoOfferedActivities : new  FormControl(""),
+    ngoPlanning : new  FormControl(""),
+    ngoFinanced : new  FormControl(""),
     purposeOfProject1: new FormControl(""),
     detailedInformation: new FormControl(""),
     estimatedBudget: new FormControl(""),
     periodOfTime: new FormControl(""),
     purposeOfProject2: new FormControl(""),
-    certifiedRegistration: new FormControl(""),
-    activityReport: new FormControl(""),
-    certifiedId: new FormControl(""),
-    deedOfFoundation: new FormControl(""),
-    budgetReport: new FormControl(""),
     emailId: new FormControl(""),
     status: new FormControl(2),
     uploadedFiles: new FormControl(),
@@ -266,7 +244,7 @@ export class UserComponent implements OnInit {
     this.detailedPresentationCompleted = 0;
     this.finalApprovalCompleted = 0;
     this.emailId = "";
-    this.initialPresentForm = 2;
+    this.initialPresentForm = 1;
 
     //Prepare this request for get logged user informations
     this.serverRequest = {
@@ -299,6 +277,7 @@ export class UserComponent implements OnInit {
           this.action = this.serverResponse.responseData.action;
           this.emailId = this.loggedProfile.email_id;
           this.profileImg = this.loggedProfile.profileImg;
+          // -=*** REMOVE ***=-
           this.initialPresentForm = this.serverResponse.responseData.presentFormNo;
           this.faq = this.serverResponse.responseData.faq;
 
@@ -470,6 +449,7 @@ export class UserComponent implements OnInit {
   ////Form disable
   formsDisable() {
     this.firstContactForm.disable();
+    // -=*** Remove
     // this.briefAssesmentForm.disable();
     this.detailedPresentaionForm.disable();
     this.finalApprovalForm.disable();
@@ -591,6 +571,67 @@ export class UserComponent implements OnInit {
         this.briefAssesmentValues.website_url == "Y" ? true : false
       );
     }
+    if (this.briefAssesmentValues.street_address != "") {
+      this.briefAssesmentForm.controls.streetAddress.setValue(
+        this.briefAssesmentValues.street_address
+      );
+    }
+    if (this.briefAssesmentValues.zip_code != "") {
+      this.briefAssesmentForm.controls.zipCode.setValue(
+        this.briefAssesmentValues.zip_code
+      );
+    }
+    if (this.briefAssesmentValues.city != "") {
+      this.briefAssesmentForm.controls.city.setValue(
+        this.briefAssesmentValues.city
+      );
+    }
+    if (this.briefAssesmentValues.country != "") {
+      this.briefAssesmentForm.controls.country.setValue(
+        this.briefAssesmentValues.country
+      );
+    }
+    if (this.briefAssesmentValues.ngo_founded_date != "") {
+      this.briefAssesmentForm.controls.ngoFoundedDate.setValue(
+        this.briefAssesmentValues.ngo_founded_date
+      );
+    }
+    if (this.briefAssesmentValues.countries_ngo_active != "") {
+      this.briefAssesmentForm.controls.countriesNgoActive.setValue(
+        this.briefAssesmentValues.countries_ngo_active
+      );
+    }
+    if (this.briefAssesmentValues.ngo_vision_mission != "") {
+      this.briefAssesmentForm.controls.ngoVisionMission.setValue(
+        this.briefAssesmentValues.ngo_vision_mission
+      );
+    }
+    if (this.briefAssesmentValues.ngo_goal != "") {
+      this.briefAssesmentForm.controls.ngoGoal.setValue(
+        this.briefAssesmentValues.ngo_goal
+      );
+    }
+    if (this.briefAssesmentValues.ngo_long_term_strategy != "") {
+      this.briefAssesmentForm.controls.ngoLongTermStrategy.setValue(
+        this.briefAssesmentValues.ngo_long_term_strategy
+      );
+    }
+    if (this.briefAssesmentValues.ngo_offered_activities != "") {
+      this.briefAssesmentForm.controls.ngoOfferedActivities.setValue(
+        this.briefAssesmentValues.ngo_offered_activities
+      );
+    }
+    if (this.briefAssesmentValues.ngo_planning != "") {
+      this.briefAssesmentForm.controls.ngoPlanning.setValue(
+        this.briefAssesmentValues.ngo_planning
+      );
+    }
+    if (this.briefAssesmentValues.ngo_financed != "") {
+      this.briefAssesmentForm.controls.ngoFinanced.setValue(
+        this.briefAssesmentValues.ngo_financed
+      );
+    }
+
   }
 
   feedBackFormSubmit() {
@@ -1109,27 +1150,17 @@ export class UserComponent implements OnInit {
 
   //Edit Profile
   editProfileForm = new FormGroup({
-    // Fullname
     fullName: new FormControl("", [
       Validators.required,
       Validators.pattern(this.validation.namePattern),
     ]),
-    // Fullname
-    name_of_foundation: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.namePattern),
-    ]),
-    date_of_foundation: new FormControl("", [Validators.required]),
+    dob: new FormControl("", [Validators.required]),
     mobileNo: new FormControl("", [
       Validators.required,
       Validators.pattern(this.validation.mobilePattern),
     ]),
-    country_registered: new FormControl("", [Validators.required]),
-    age: new FormControl("", [Validators.required]),
-
     gender: new FormControl("", [Validators.required]),
     country: new FormControl(0, [Validators.required, Validators.min(1)]),
-    fieldOfActivity: new FormControl("", [Validators.required]),
     applicationValues: new FormControl(0, [
       Validators.required,
       Validators.min(1),

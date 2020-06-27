@@ -13,7 +13,18 @@
     <img [src]="profileImg" alt="Profile Photo" class="profile__image" />
     <div class="profile__name">{{ loggedProfile.first_name }}</div>
     <hr class="profile__line" />
+
     <!-- Profile Info -->
+    <!-- Name of Foundation -->
+    <div class="profile__info">
+      <div class="">
+        Name of Foundation
+      </div>
+      <div class="semi-bold font-12">
+        {{ loggedProfile.organization_name }}
+      </div>
+    </div>
+
     <!-- Date of Foundation -->
     <div class="profile__info">
       <div class="">
@@ -310,7 +321,7 @@
               </div>
               <!-- Email -->
               <div class="first-contact__form-control">
-                <span>Email</span>
+                <span>Email *</span>
                 <input
                   type="text"
                   class="first-contact__input"
@@ -367,7 +378,7 @@
               </div>
               <!-- Sign up for details -->
               <div class="first-contact__form-control">
-                <span>Sign up for emails *</span>
+                <span>Sign up for emails</span>
                 <input
                   type="checkbox"
                   class="first-contact__right--checkbox"
@@ -520,7 +531,10 @@
       [formGroup]="briefAssesmentForm"
       (ngSubmit)="briefAssesmentFormInsert()"
     >
-      <div class="accordian__section brief-assesment" id="briefAssesmentFormId">
+      <div
+        class="accordian__section brief-assesment open"
+        id="briefAssesmentFormId"
+      >
         <div class="accordian__number">
           <span class="accordian__number--digit">2</span>
           <i class="fas fa-check none accordian__number--check"></i>
@@ -546,9 +560,10 @@
               This section of your application is complete
             </div>
           </div>
-          <div class="brief-assesment__container accordian__main-data d-flex">
+          <div
+            class="brief-assesment__container accordian__main-data d-flex" *ngIf="initialPresentForm >= 2">
             <div class="brief-assesment__left">
-              <div class="brief-assesment__form-control">
+              <div class="brief-assesment__form-control d-flex">
                 <span class="">Name</span>
                 <input
                   type="text"
@@ -620,41 +635,43 @@
               >
                 Enter Telephone Number
               </div>
-
               <div class="brief-assesment__form-control d-block">
-                <span class="">Website (Optional)</span>
+                <span class="mr-2">Website (Optional)</span>
                 <input
                   type="checkbox"
-                  formControlName="website"
                   #website
+                  formControlName="website"
                   [checked]="
                     briefAssesmentValues?.website_url === 'Y' ? true : false
                   "
                 />
+                <!-- *** ADDED -->
                 <div>
                   <input
-                    class="d-block"
+                    class="d-block p-1 mt-1"
                     *ngIf="website.checked"
                     type="text"
-                    formControlName="websiteName"
                     name=""
                     id=""
+                    formControlName="websiteUrl"
                   />
                 </div>
               </div>
-
-              <!-- ========================= -->
-              <!-- TELL US MORE ABOUT NGO -->
-              <!-- === -->
+              <!-- ====== -->
+              <!-- ===***addded  -->
+              <hr />
               <h6>Tell us more about your NGO</h6>
+
               <div class="brief-assesment__form-control d-block">
-                <span class="">Where is your NGO registered</span>
+                <span class="mb-1 d-block w-100"
+                  >Where is your NGO registered</span
+                >
                 <div class="mb-1">
                   <input
                     type="text"
                     class="brief-assesment__form-control--input"
+                    [value]="briefAssesmentValues?.street_address"
                     formControlName="streetAddress"
-                    [value]="briefAssesmentValues?.telephone_number"
                     placeholder="Street address"
                   />
                 </div>
@@ -662,8 +679,8 @@
                   <input
                     type="text"
                     class="brief-assesment__form-control--input"
+                    [value]="briefAssesmentValues?.zip_code"
                     formControlName="zipCode"
-                    [value]="briefAssesmentValues?.telephone_number"
                     placeholder="Zipcode"
                   />
                 </div>
@@ -672,8 +689,8 @@
                   <input
                     type="text"
                     class="brief-assesment__form-control--input"
+                    [value]="briefAssesmentValues?.city"
                     formControlName="city"
-                    [value]="briefAssesmentValues?.telephone_number"
                     placeholder="City"
                   />
                 </div>
@@ -681,87 +698,58 @@
                   <input
                     type="text"
                     class="brief-assesment__form-control--input"
+                    [value]="briefAssesmentValues?.country"
                     formControlName="country"
-                    [value]="briefAssesmentValues?.telephone_number"
                     placeholder="Country"
                   />
                 </div>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.telephoneNo.errors &&
-                  briefAssesmentForm.controls.telephoneNo.touched
-                "
-                class="errors"
-              >
-                Enter NGO regsitration details
-              </div>
+
+              <!-- === -->
+
               <!-- Founded -->
               <div class="brief-assesment__form-control d-block">
-                <span class="">When was NGO founded</span>
+                <span class="d-block w-100">When was NGO founded</span>
                 <input
                   type="date"
                   class="brief-assesment__form-control--input"
-                  formControlName="date"
-                  [value]="briefAssesmentValues?.telephone_number"
+                  [value]="briefAssesmentValues?.ngo_founded_date"
+                  formControlName="ngoFoundedDate"
                 />
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.date.errors &&
-                  briefAssesmentForm.controls.date.touched
-                "
-                class="errors"
-              >
-                Correct Information Required
-              </div>
+
+              <!-- === -->
 
               <!-- NGO country active -->
               <div class="brief-assesment__form-control d-block">
-                <span class=""
+                <span class="d-block w-100"
                   >In which country/countries is the NGO active</span
                 >
                 <input
                   type="text"
                   class="brief-assesment__form-control--input"
-                  formControlName="countryActive"
-                  [value]="briefAssesmentValues?.telephone_number"
+                  formControlName="countriesNgoActive"
+                  [value]="briefAssesmentValues?.countries_ngo_active"
                 />
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.countryActive.errors &&
-                  briefAssesmentForm.controls.countryActive.touched
-                "
-                class="errors"
-              >
-                Correct Information Required
-              </div>
 
-              <!-- Vision mission -->
+              <!-- === -->
               <!-- NGO country active -->
               <div class="brief-assesment__form-control d-block">
-                <span class="">Please explain clearly ngo vision/mission</span>
+                <span class="d-block w-100"
+                  >Please explain clearly ngo vision/mission</span
+                >
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input"
-                  formControlName="visionMission"
-                  [value]="briefAssesmentValues?.telephone_number"
+                  formControlName="ngoVisionMission"
+                  [value]="briefAssesmentValues?.ngo_vision_mission"
                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.visionMission.errors &&
-                  briefAssesmentForm.controls.visionMission.touched
-                "
-                class="errors"
-              >
-                Correct Information Required
-              </div>
-              <!-- === -->
-              <!-- ===================== -->
-              <!-- ====== -->
+
+              <!-- --------------------------------- === --------------------------------- -->
+
               <div class="brief-assesment__fileupload-section">
                 <div class="brief-assesment__fileupload-container">
                   <span class=""
@@ -880,7 +868,6 @@
                 >
                   {{ file.displayFileName }}
                 </div>
-                <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class=""
                     >Purpose of the Project, specifying the problems and issues
@@ -911,7 +898,7 @@
                 >
                   {{ file.displayFileName }}
                 </div>
-                <!-- === -->
+
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Official Registration </span>
@@ -919,10 +906,8 @@
                     <input
                       type="file"
                       class=""
-                      formControlName="certifiedRegistration"
                       [accept]="fileTypes"
                       multiple
-                      (change)="onFileChangePurpose1($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
@@ -948,10 +933,8 @@
                     <input
                       type="file"
                       class=""
-                      formControlName="deedOfFoundation"
                       [accept]="fileTypes"
                       multiple
-                      (change)="onFileChangePurpose1($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
@@ -977,10 +960,8 @@
                     <input
                       type="file"
                       class=""
-                      formControlName="budgetReport"
                       [accept]="fileTypes"
                       multiple
-                      (change)="onFileChangePurpose1($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
@@ -1006,10 +987,8 @@
                     <input
                       type="file"
                       class=""
-                      formControlName="activityReport"
                       [accept]="fileTypes"
                       multiple
-                      (change)="onFileChangePurpose1($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
@@ -1034,10 +1013,8 @@
                     <input
                       type="file"
                       class=""
-                      formControlName="certifiedId"
                       [accept]="fileTypes"
                       multiple
-                      (change)="onFileChangePurpose1($event)"
                     />
                     <button class="btn-upload" type="button">
                       Upload
@@ -1091,20 +1068,12 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="progressOfNgo"
-                  [value]="briefAssesmentValues?.full_name"
-                >
+                  formControlName="ngoGoal"
+                  [value]="briefAssesmentValues?.ngo_goal"
+                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
-                "
-                class="errors"
-              >
-                Invalid Name
-              </div>
+
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
                 <div class="">
@@ -1114,20 +1083,12 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="termStrategy"
-                  [value]="briefAssesmentValues?.full_name"
+                  formControlName="ngoLongTermStrategy"
+                  [value]="briefAssesmentValues?.ngo_long_term_strategy"
                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
-                "
-                class="errors"
-              >
-                Required field, characters must be between 25-250
-              </div>
+
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
                 <div class="">
@@ -1137,20 +1098,12 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="programActivity"
-                  [value]="briefAssesmentValues?.full_name"
+                  formControlName="ngoOfferedActivities"
+                  [value]="briefAssesmentValues?.ngo_offered_activities"
                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.progressOfNgo.errors &&
-                  briefAssesmentForm.controls.progressOfNgo.touched
-                "
-                class="errors"
-              >
-                Required field, characters must be between 25-250
-              </div>
+
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
                 <div class="">
@@ -1161,20 +1114,12 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="partnerships"
-                  [value]="briefAssesmentValues?.full_name"
+                  formControlName="ngoPlanning"
+                  [value]="briefAssesmentValues?.ngo_planning"
                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
-                "
-                class="errors"
-              >
-                Required field, characters must be between 25-250
-              </div>
+
               <!-- === -->
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1185,20 +1130,12 @@
                 <textarea
                   type="text"
                   class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoFinance"
-                  [value]="briefAssesmentValues?.full_name"
+                  formControlName="ngoFinanced"
+                  [value]="briefAssesmentValues?.ngo_financed"
                 >
                 </textarea>
               </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
-                "
-                class="errors"
-              >
-                Required field, characters must be between 25-250
-              </div>
+
               <!-- === -->
             </div>
           </div>
@@ -1503,263 +1440,234 @@
 
 <!--Edit Profile model-->
 <jw-modal id="userProfile-modal" class="modal-profile">
-  <span
-    class="close-button-profile close-button"
-    (click)="closeModal('userProfile-modal')"
-    >×</span
-  >
   <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
     <div class="profile-modal__container">
-      <div class="left">
+      <span
+        class="close-button-profile close-button"
+        (click)="closeModal('userProfile-modal')"
+        >×</span
+      >
+      <div class="w-100 d-flex justify-content-center align-items-center">
         <img [src]="profileImg" alt="Profile Photo" />
-        <div class="change-image-btn-container">
-          <input
-            type="file"
-            (change)="onSelectProfileImages($event)"
-            [accept]="profileImgFileTypes"
-          />
-          <button class="btn btn-primary">Update NGO logo</button>
-        </div>
-
-        <!-- Country registered -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Name of Foundation</p>
-          <input
-            type="text"
-            formControlName="name_of_foundation"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-
-        <!-- DOB -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Date of foundation</p>
-          <input
-            type="date"
-            class="w-100"
-            placeholder="Date of Foundation"
-            [value]="
-              loggedProfile.date_of_foundation == 'Nil'
-                ? ''
-                : loggedProfile.date_of_foundation
-            "
-            formControlName="date_of_foundation"
-            min=""
-            max=""
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.date_of_foundation.errors &&
-            editProfileForm.controls.date_of_foundation.touched
-          "
-          class="errors"
-        >
-          Invalid Date of Foundation
-        </div>
-
-        <!-- Country registered -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Country Registered</p>
-          <input
-            type="text"
-            formControlName="country_registered"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.country_registered.errors &&
-            editProfileForm.controls.country_registered.touched
-          "
-          class="errors"
-        >
-          Invalid country_registered
-        </div>
-        <!-- Country -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Field of Activity</p>
-          <select
-            placeholder="Grant Category"
-            formControlName="fieldOfActivity"
-            class="w-100"
-            [(ngModel)]="loggedProfile.field_of_activity"
-          >
-            <option value="0">Select Field of Activity</option>
-            <option
-              *ngFor="let application of applications"
-              [value]="application.application_details_id"
-              >{{ application.application_name }}</option
-            >
-          </select>
-        </div>
-        <!-- Country -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Country</p>
-          <input
-            type="text"
-            formControlName="country"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.country.errors &&
-            editProfileForm.controls.country.touched
-          "
-          class="errors"
-        >
-          In Country
-        </div>
       </div>
-      <hr />
-      <h3 class="mb-2">Contact Info</h3>
-      <div class="right">
-        <!-- Full name -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Name</p>
-          <input
-            type="text"
-            formControlName="country"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.country.errors &&
-            editProfileForm.controls.country.touched
-          "
-          class="errors"
-        >
-          Invalid country
-        </div>
+      <div class="change-image-btn-container">
+        <input
+          type="file"
+          (change)="onSelectProfileImages($event)"
+          [accept]="profileImgFileTypes"
+        />
+        <button class="btn btn-primary cursor-pointer">Update NGO logo</button>
+      </div>
 
-        <!-- Age-->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Age</p>
-          <input
-            type="text"
-            formControlName="age"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.age.errors &&
-            editProfileForm.controls.age.touched
-          "
-          class="errors"
-        >
-          Invalid age
-        </div>
+      <!-- Name of Foundation ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Name of foundation</p>
+        <input type="text" />
+      </div>
+      <!-- <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name of Foundation
+      </div> -->
 
-        <!-- Contact -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Contact</p>
-          <input
-            type="text"
-            formControlName="contact"
-            [value]="loggedProfile.first_name"
-            class="w-100"
-          />
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.contact.errors &&
-            editProfileForm.controls.contact.touched
-          "
-          class="errors"
-        >
-          Invalid Contact
-        </div>
+      <!-- DATE OF FOUNDATION ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Date of Foundation</p>
+        <input type="date" />
+      </div>
+      <!-- <div
+              *ngIf="
+                editProfileForm.controls.fullName.errors &&
+                editProfileForm.controls.fullName.touched
+              "
+              class="errors"
+            >
+              Invalid Date of Foundation
+            </div> -->
 
-        <!-- Gender -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Gender</p>
-          <div class="registration__input-container">
-            <div class="signup__radio-container">
-              <div class="signup__radio-input-container">
-                <i class="fas fa-venus-mars mr-1"></i>
-                <label for="male"> Male</label>
-                <input
-                  type="radio"
-                  class=""
-                  name="gender"
-                  value="Male"
-                  formControlName="gender"
-                  [checked]="loggedProfile.gender == 'Male' ? true : false"
-                />
-              </div>
-              <div class="signup__radio-input-container">
-                <label for="male">Female</label>
-                <input
-                  type="radio"
-                  class=""
-                  name="gender"
-                  value="Female"
-                  formControlName="gender"
-                  [checked]="loggedProfile.gender == 'Female' ? true : false"
-                />
-              </div>
+      <!-- Country registered ***added -->
+      <div class="form-control">
+        <p class="semi-bold">Country Registered</p>
+        <input type="text" />
+      </div>
+      <!-- <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Country registered
+      </div> -->
+
+      <!-- Field of Activity -->
+      <div class="form-control">
+        <p class="semi-bold">Field of Activity</p>
+        <select
+          placeholder="Grant Category"
+          formControlName="applicationValues"
+          [(ngModel)]="loggedProfile.field_of_activity"
+          class="p-1"
+        >
+          <option value="0">Select Field of Activity</option>
+          <option
+            *ngFor="let application of applications"
+            [value]="application.application_details_id"
+            >{{ application.application_name }}</option
+          >
+        </select>
+      </div>
+
+      <!-- Name -->
+      <div class="form-control">
+        <p class="semi-bold">Name</p>
+        <input
+          type="text"
+          formControlName="fullName"
+          [value]="loggedProfile.first_name"
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.fullName.errors &&
+          editProfileForm.controls.fullName.touched
+        "
+        class="errors"
+      >
+        Invalid Name
+      </div>
+      <!-- DOB -->
+      <div class="form-control">
+        <p class="semi-bold">Date of birth</p>
+        <input
+          type="date"
+          placeholder="Date of Birth"
+          [value]="
+            loggedProfile.date_of_foundation == 'Nil'
+              ? ''
+              : loggedProfile.date_of_foundation
+          "
+          formControlName="dob"
+          min=""
+          max=""
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.dob.errors &&
+          editProfileForm.controls.dob.touched
+        "
+        class="errors"
+      >
+        Invalid Date of Birth
+      </div>
+
+      <!-- Contact -->
+      <div class="form-control">
+        <p class="semi-bold">Contact</p>
+        <input
+          type="text"
+          placeholder="Phone Number"
+          formControlName="mobileNo"
+          [value]="
+            loggedProfile.mobile_no == 'Nil' ? '' : loggedProfile.mobile_no
+          "
+        />
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.mobileNo.errors &&
+          editProfileForm.controls.mobileNo.touched
+        "
+        class="errors"
+      >
+        Invalid Contact
+      </div>
+      <!-- Gender -->
+      <div class="form-control">
+        <p class="semi-bold">Gender</p>
+        <div class="registration__input-container">
+          <div class="signup__radio-container">
+            <div class="signup__radio-input-container">
+              <i class="fas fa-venus-mars mr-1"></i>
+              <label for="male"> Male</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Male"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Male' ? true : false"
+              />
+            </div>
+            <div class="signup__radio-input-container">
+              <label for="male">Female</label>
+              <input
+                type="radio"
+                class=""
+                name="gender"
+                value="Female"
+                formControlName="gender"
+                [checked]="loggedProfile.gender == 'Female' ? true : false"
+              />
             </div>
           </div>
         </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.gender.errors &&
-            editProfileForm.controls.gender.touched
-          "
-          class="errors"
-        >
-          Invalid Gender
-        </div>
-
-        <!-- Age -->
-        <!-- <div class="form-control d-block">
-        <p class="semi-bold">Age</p>
-        <span contenteditable="true">22</span>
-       </div> -->
-
-        <!-- Country -->
-        <div class="form-control d-block profile-form-control">
-          <p class="semi-bold">Country</p>
-          <select
-            placeholder="Country"
-            formControlName="country"
-            [(ngModel)]="loggedProfile.r_country_id"
-            class="select-country w-100"
-          >
-            <option value="0">Select your country</option>
-            <option
-              *ngFor="let country of countries"
-              value="{{ country.country_id }}"
-              >{{ country.country_name }}</option
-            >
-          </select>
-        </div>
-        <div
-          *ngIf="
-            editProfileForm.controls.country.errors &&
-            editProfileForm.controls.country.touched
-          "
-          class="errors"
-        >
-          Invalid Country
-        </div>
       </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.gender.errors &&
+          editProfileForm.controls.gender.touched
+        "
+        class="errors"
+      >
+        Invalid Gender
+      </div>
+
+      <!-- Country -->
+      <div class="form-control">
+        <p class="semi-bold">Country</p>
+        <select
+          placeholder="Country"
+          formControlName="country"
+          [(ngModel)]="loggedProfile.r_country_id"
+          class="select-country m-0 p-1"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.country.errors &&
+          editProfileForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
+
+      <!-- Age -->
+      <!-- <div class="form-control">
+    <p class="semi-bold">Age</p>
+    <span contenteditable="true">22</span>
+   </div> -->
+
+      <button
+        type="submit"
+        class="btn btn-primary semi-bold float-right"
+        [disabled]="!editProfileForm.valid"
+      >
+        Submit
+      </button>
     </div>
-    <button
-      type="submit"
-      class="btn btn-primary semi-bold float-right"
-      [disabled]="!editProfileForm.valid"
-    >
-      Submit
-    </button>
-    <!-- End of container -->
   </form>
 </jw-modal>

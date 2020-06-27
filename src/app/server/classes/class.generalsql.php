@@ -9,7 +9,8 @@ class generalsql {
                     concat(du.title,'. ',du.first_name,' ',du.last_name) AS user_name,
                     du.email_id, 
                     du.mobile_no,
-                    ds.status_value   
+                    ds.status_value,
+                    fstd.*  
                 FROM 
                     dm_gised_form dgf,
                     dm_user du,

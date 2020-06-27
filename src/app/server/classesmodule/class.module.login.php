@@ -88,6 +88,7 @@
             $dmUserObj->mobile_no = $this->input['mobileNo'];
             $dmUserObj->title = ($this->input['gender'] == "Male") ? "Mr" : "Ms" ;
             $dmUserObj->first_name = $this->input['fullName'];
+            $dmUserObj->organization_name = $this->input['organizationName'];
             $dmUserObj->gender = $this->input['gender'];
             $dmUserObj->age = $this->input['age'];
             $dmUserObj->r_state_id = 1;
