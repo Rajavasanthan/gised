@@ -61,3 +61,15 @@
     flex-wrap: wrap;
   }
 }
+
+#userProfile-modal .form-control input {
+  width: 100%;
+}
+
+#userProfile-modal .form-control select {
+  width: 100%;
+}
+
+#userProfile-modal .form-control > p {
+  margin-bottom: 0.5rem;
+}
