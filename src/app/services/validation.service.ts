@@ -13,6 +13,8 @@ export class ValidationService {
   dob: any;
   descriptionPattern: any;
   organizationPattern: any;
+  webSiteUrl: any;
+  numberPattern: any;
 
   constructor() {
     this.validationStatus = true;
@@ -25,6 +27,8 @@ export class ValidationService {
     // this.agePattern = /(?:\b|-)([1-9]{1,2}[0]?|100)\b/;
     this.dob = /^\d{4}-\d{2}-\d{2}$/;
     this.descriptionPattern = /^.{25,}$/;
+    this.webSiteUrl = /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+    this.numberPattern = /^[-+]?[0-9]+$/;
   }
 
   /*minAndMaxError(min,max){

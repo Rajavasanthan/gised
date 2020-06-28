@@ -6,6 +6,7 @@ class generalsql {
 
         $sql = "SELECT  
                     dgf.gised_form_id as gised_id, 
+                    dgf.sticky,
                     concat(du.title,'. ',du.first_name,' ',du.last_name) AS user_name,
                     du.email_id, 
                     du.mobile_no,

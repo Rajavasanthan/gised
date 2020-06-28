@@ -41,9 +41,25 @@
                 case 'approverprocess':
                     $this->approverProcessAction();
                     break;
+                case 'sticky':
+                    $this->stickyAction();
+                    break;
                 default:
                     $this->defaultAction();
             }
+        }
+
+        function stickyAction() {
+
+            require_once "classes/class.dmgisedform.php";
+            $gisedObj = new dmgisedform();
+            $gisedObj->gised_form_id = $this->input['gisedId'];
+            $gisedObj->sticky = $this->input['text'];
+            $sql = $gisedObj->updatedmgisedform();
+            $result = dbConnection::updateQuery($sql);
+
+            $this->output['emailId'] = $this->input['emailId'];
+
         }
 
         function approverProcessAction() {
@@ -310,6 +326,7 @@
             $briefAssesObj->email_id = $this->commonObj->escapeMysqlSpecialString($this->input['email']);
             $briefAssesObj->telephone_number = $this->input['telephoneNo'];
             $briefAssesObj->website_url = ($this->input['website']) ? 'Y' : 'N' ;
+            $briefAssesObj->web_url = $this->commonObj->escapeMysqlSpecialString($this->input['websiteUrl']);
             $briefAssesObj->uploads = $this->uploadFileCheck($this->input['uploadedFiles'], 2, $result[0]['r_form_id']);
             $briefAssesObj->streetAddress = $this->commonObj->escapeMysqlSpecialString($this->input['streetAddress']);
             $briefAssesObj->zipCode = $this->commonObj->escapeMysqlSpecialString($this->input['zipCode']);

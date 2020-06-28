@@ -131,7 +131,7 @@
     }
 
     
-    if($formsVal == "2"){
+    if($formsVal == 2){
         $arrayVals['ngoCertifiedOfficial'][0] = "No Files";
         $arrayVals['ngoCertifiedDeed'][0] = "No Files";
         $arrayVals['ngoCertifiedBudget'][0] = "No Files";
@@ -241,7 +241,8 @@
 
 
     }
-       
+      
+    
     header("Access-Control-Allow-Origin: *");
 	header("Content-Type: application/json");
 	echo json_encode($arrayVals);

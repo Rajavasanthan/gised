@@ -10,6 +10,7 @@ class dmformbriefassesment {
     var $email_id;
     var $telephone_number;
     var $website_url;
+    var $web_url;
     var $uploads;
     var $streetAddress;
     var $zipCode;
@@ -34,6 +35,7 @@ class dmformbriefassesment {
         $this->email_id = '';
         $this->telephone_number = '';
         $this->website_url = '';
+        $this->web_url = '';
         $this->uploads = '';
         $this->streetAddress = '';
         $this->zipCode = '';
@@ -60,6 +62,7 @@ class dmformbriefassesment {
                                             '$this->email_id',
                                             '$this->telephone_number',
                                             '$this->website_url',
+                                            '$this->web_url',
                                             compress('$this->uploads'),
                                             '$this->streetAddress',
                                             '$this->zipCode',
@@ -150,6 +153,11 @@ class dmformbriefassesment {
 
         if($this->website_url != '') {
             $sql = $sql . $camaa." website_url = '" . $this->website_url ."'";
+            $camaa = ', ';
+        }
+
+        if($this->web_url != '') {
+            $sql = $sql . $camaa." web_url = '" . $this->web_url ."'";
             $camaa = ', ';
         }
 

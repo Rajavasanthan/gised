@@ -656,6 +656,15 @@
                     formControlName="websiteUrl"
                   />
                 </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.websiteUrl.errors &&
+                    briefAssesmentForm.controls.websiteUrl.touched
+                  "
+                  class="errors"
+                >
+                  Invalid WebSite Url
+                </div>
               </div>
               <!-- ====== -->
               <!-- ===***addded  -->
@@ -675,6 +684,15 @@
                     placeholder="Street address"
                   />
                 </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.streetAddress.errors &&
+                    briefAssesmentForm.controls.streetAddress.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Street Address
+                </div>
                 <div class="mb-1">
                   <input
                     type="text"
@@ -684,7 +702,15 @@
                     placeholder="Zipcode"
                   />
                 </div>
-
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.zipCode.errors &&
+                    briefAssesmentForm.controls.zipCode.touched
+                  "
+                  class="errors"
+                >
+                  Invalid ZipCode
+                </div>
                 <div class="mb-1">
                   <input
                     type="text"
@@ -694,6 +720,15 @@
                     placeholder="City"
                   />
                 </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.city.errors &&
+                    briefAssesmentForm.controls.city.touched
+                  "
+                  class="errors"
+                >
+                  Invalid City
+                </div>
                 <div class="mb-1">
                   <input
                     type="text"
@@ -702,6 +737,15 @@
                     formControlName="country"
                     placeholder="Country"
                   />
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.country.errors &&
+                    briefAssesmentForm.controls.country.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Country
                 </div>
               </div>
 
@@ -717,6 +761,15 @@
                   formControlName="ngoFoundedDate"
                 />
               </div>
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoFoundedDate.errors &&
+                    briefAssesmentForm.controls.ngoFoundedDate.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Date
+                </div>
 
               <!-- === -->
 
@@ -732,6 +785,15 @@
                   [value]="briefAssesmentValues?.countries_ngo_active"
                 />
               </div>
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.countriesNgoActive.errors &&
+                    briefAssesmentForm.controls.countriesNgoActive.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Countries Ngo Active
+                </div>
 
               <!-- === -->
               <!-- NGO country active -->
@@ -747,6 +809,15 @@
                 >
                 </textarea>
               </div>
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoVisionMission.errors &&
+                    briefAssesmentForm.controls.ngoVisionMission.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Vision Mission
+                </div>
 
               <!-- --------------------------------- === --------------------------------- -->
 
@@ -1082,7 +1153,17 @@
                   [value]="briefAssesmentValues?.ngo_goal"
                  >
                 </textarea>
+                
               </div>
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoGoal.errors &&
+                    briefAssesmentForm.controls.ngoGoal.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Goal
+                </div>
 
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1098,6 +1179,15 @@
                 >
                 </textarea>
               </div>
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoLongTermStrategy.errors &&
+                    briefAssesmentForm.controls.ngoLongTermStrategy.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Long Term Strategy
+                </div>
 
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1113,7 +1203,15 @@
                 >
                 </textarea>
               </div>
-
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoOfferedActivities.errors &&
+                    briefAssesmentForm.controls.ngoOfferedActivities.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Offered Activities
+                </div>
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
                 <div class="">
@@ -1129,7 +1227,15 @@
                 >
                 </textarea>
               </div>
-
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoPlanning.errors &&
+                    briefAssesmentForm.controls.ngoPlanning.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Planning
+                </div>
               <!-- === -->
               <!-- === -->
               <div class="brief-assesment__form-control d-block">
@@ -1145,7 +1251,15 @@
                 >
                 </textarea>
               </div>
-
+              <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoFinanced.errors &&
+                    briefAssesmentForm.controls.ngoFinanced.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Financed
+                </div>
               <!-- === -->
             </div>
           </div>
@@ -1472,47 +1586,51 @@
       <!-- Name of Foundation ***added -->
       <div class="form-control">
         <p class="semi-bold">Name of foundation</p>
-        <input type="text" />
+        <input type="text" formControlName="nameOfFoundation"
+        [value]="loggedProfile.first_name"/>
       </div>
-      <!-- <div
+      <div
         *ngIf="
-          editProfileForm.controls.fullName.errors &&
-          editProfileForm.controls.fullName.touched
+          editProfileForm.controls.nameOfFoundation.errors &&
+          editProfileForm.controls.nameOfFoundation.touched
         "
         class="errors"
       >
         Invalid Name of Foundation
-      </div> -->
+      </div>
 
       <!-- DATE OF FOUNDATION ***added -->
       <div class="form-control">
         <p class="semi-bold">Date of Foundation</p>
-        <input type="date" />
+        <input type="date" formControlName="dateOfFoundation"
+        [value]="loggedProfile.first_name"/>
       </div>
-      <!-- <div
+      <div
               *ngIf="
-                editProfileForm.controls.fullName.errors &&
-                editProfileForm.controls.fullName.touched
+                editProfileForm.controls.dateOfFoundation.errors &&
+                editProfileForm.controls.dateOfFoundation.touched
               "
               class="errors"
             >
               Invalid Date of Foundation
-            </div> -->
+            </div>
 
       <!-- Country registered ***added -->
       <div class="form-control">
         <p class="semi-bold">Country Registered</p>
-        <input type="text" />
+        <input type="text"
+        formControlName="countryReg"
+        [value]="loggedProfile.first_name" />
       </div>
-      <!-- <div
+      <div
         *ngIf="
-          editProfileForm.controls.fullName.errors &&
-          editProfileForm.controls.fullName.touched
+          editProfileForm.controls.countryReg.errors &&
+          editProfileForm.controls.countryReg.touched
         "
         class="errors"
       >
         Invalid Country registered
-      </div> -->
+      </div>
 
       <!-- Field of Activity -->
       <div class="form-control">

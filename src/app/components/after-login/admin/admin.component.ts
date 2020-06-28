@@ -61,11 +61,9 @@ export class AdminComponent implements OnInit {
   profileImg : any;
   countries: any;
   showPostit = false;
-  postitToggle() {
-    this.showPostit = !this.showPostit;
-  }
-
-   //Files Size Allowed
+  stickyGisedId : number;
+  
+  //Files Size Allowed
    maxAllowedSize = Configurations.MAX_FILE_UPLOAD_SIZE;
 
    //Files Accepet Types
@@ -180,6 +178,14 @@ export class AdminComponent implements OnInit {
     submitButton : new FormControl(''),
     emailId : new FormControl(''),
     status : new FormControl(2)
+  });
+
+  //Final approval form and variables declared
+  stickyForm = new FormGroup({
+    submitButton : new FormControl(''),
+    emailId : new FormControl(''),
+    gisedId : new FormControl(0),
+    text : new FormControl('')
   });
 
   holdApprovalForm = new FormGroup({
@@ -347,6 +353,53 @@ export class AdminComponent implements OnInit {
 
     this.blockUI.stop();
     this.loader = "";
+
+  }
+
+  postitToggle(action) {
+
+    if(action=='OPEN') {
+      this.showPostit = true;
+    } else {
+      this.showPostit = false;
+    }
+
+  }
+
+  stickySubmit(gisedId,index) {
+
+    this.stickyForm.controls.gisedId.setValue(gisedId);
+    this.stickyForm.controls.emailId.setValue(this.emailId);
+    this.stickyForm.controls.text.setValue(document.getElementById('sticky'+index).innerHTML);
+
+    this.serverRequest = {
+      'token' : localStorage.getItem('token'),
+      'module' : 'application',
+      'action' : 'sticky',
+      'requestData' : this.stickyForm.value 
+    }  
+
+    this.loader = "Saving the sticky data";
+    this.blockUI.start(this.loader);
+
+    this.server.sendToServer(this.serverRequest).
+    subscribe((response) => {
+      this.serverResponse = JSON.parse(this.server.decryption(response['response']));
+      console.log('RESPONSE : ', JSON.stringify(this.serverResponse));
+      console.log('RESPONSE : ', this.serverResponse);
+      this.product.checkToken(this.serverResponse.responseData.token);
+      this.blockUI.stop();
+      this.loader = "";
+      Swal.fire("Your sticky saved successfully");
+      //this.postitToggle("CLOSE");
+    }, (error) => {
+      this.blockUI.stop();
+      this.loader = "";
+      this.errorMsg = 'Sorry! Something went wrong';
+      Swal.fire(this.errorMsg);
+    }, () => {
+      console.log('Completed');
+    });
 
   }
 
