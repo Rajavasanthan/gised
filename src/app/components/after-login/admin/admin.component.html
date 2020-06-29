@@ -808,25 +808,99 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Official Registration </span>
                 </div>
+                <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
+                  "
+                  style="margin: 5px;"
+                >
+                  Download
+                </button>
+              </div>
+              <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Deed of Foundation </span>
                 </div>
+                <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
+                  "
+                  style="margin: 5px;"
+                >
+                  Download
+                </button>
+              </div>
+              <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual budget report </span>
                 </div>
+                <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
+                  "
+                  style="margin: 5px;"
+                >
+                  Download
+                </button>
+              </div>
+              <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual activity report </span>
                 </div>
+                <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
+                  "
+                  style="margin: 5px;"
+                >
+                  Download
+                </button>
+              </div>
+              <br />
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">Certified ID of the Applicant </span>
                 </div>
+                <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
+                  "
+                  style="margin: 5px;"
+                >
+                  Download
+                </button>
+              </div>
                 <!-- === -->
               </div>
             </div>
