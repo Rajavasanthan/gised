@@ -177,7 +177,9 @@
         <tr *ngIf="userRequestListCount == 0">
           <td colspan="5" style="text-align: center;">No records</td>
         </tr>
-        <tr *ngFor="let record of userRequestList;let indexOfOnElement = index;">
+        <tr
+          *ngFor="let record of userRequestList; let indexOfOnElement = index"
+        >
           <td>GISED{{ record.gised_id }}</td>
           <td>{{ record.user_name }}</td>
           <td>{{ record.email_id }}</td>
@@ -198,17 +200,26 @@
               (click)="postitToggle('OPEN')"
             />
             <form [formGroup]="stickyForm">
-            <div *ngIf="showPostit" class="postit-container">
-              <div class="post-it">
-                <span class="postit-close" (click)="postitToggle('CLOSE')">x</span>
-                <div id="sticky{{indexOfOnElement}}" contenteditable="true">
-                  {{record.sticky}}
+              <div *ngIf="showPostit"  (click)="postitToggle('CLOSE')" class="sticky-backdrop"></div>
+              <div *ngIf="showPostit" class="postit-container">
+                <div class="post-it">
+                  <span class="postit-close" (click)="postitToggle('CLOSE')"
+                    >x</span
+                  >
+                  <div id="sticky{{ indexOfOnElement }}" contenteditable="true">
+                    {{ record.sticky }}
+                  </div>
+                </div>
+                <div class="postit-submit-container clearfix">
+                  <button
+                    class="btn postit-submit"
+                    type="button"
+                    (click)="stickySubmit(record.gised_id, indexOfOnElement)"
+                  >
+                    submit
+                  </button>
                 </div>
               </div>
-              <div class="postit-submit-container clearfix">
-                <button class="btn postit-submit" type="button" (click)="stickySubmit(record.gised_id,indexOfOnElement)">submit</button>
-              </div>
-            </div>
             </form>
           </td>
         </tr>
@@ -839,12 +850,7 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Official Registration </span>
                   <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      [accept]="fileTypes"
-                      multiple
-                    />
+                    <input type="file" class="" [accept]="fileTypes" multiple />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
@@ -866,12 +872,7 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Deed of Foundation </span>
                   <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      [accept]="fileTypes"
-                      multiple
-                    />
+                    <input type="file" class="" [accept]="fileTypes" multiple />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
@@ -893,12 +894,7 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual budget report </span>
                   <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      [accept]="fileTypes"
-                      multiple
-                    />
+                    <input type="file" class="" [accept]="fileTypes" multiple />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
@@ -920,12 +916,7 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual activity report </span>
                   <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      [accept]="fileTypes"
-                      multiple
-                    />
+                    <input type="file" class="" [accept]="fileTypes" multiple />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
@@ -946,12 +937,7 @@
                 <div class="brief-assesment__fileupload-container">
                   <span class="">Certified ID of the Applicant </span>
                   <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      [accept]="fileTypes"
-                      multiple
-                    />
+                    <input type="file" class="" [accept]="fileTypes" multiple />
                     <button class="btn-upload" type="button">
                       Upload
                     </button>
@@ -981,7 +967,7 @@
                   type="text"
                   class="brief-assesment__form-control--input w-100"
                   [value]="briefAssesmentValues?.ngo_goal"
-                 >
+                >
                 </textarea>
               </div>
 
