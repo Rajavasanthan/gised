@@ -511,8 +511,7 @@ export class UserComponent implements OnInit {
   ////Form disable
   formsDisable() {
     this.firstContactForm.disable();
-    // -=*** Remove
-    // this.briefAssesmentForm.disable();
+    this.briefAssesmentForm.disable();
     this.detailedPresentaionForm.disable();
     this.finalApprovalForm.disable();
   }

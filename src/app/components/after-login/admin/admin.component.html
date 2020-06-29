@@ -487,7 +487,6 @@
     <!-- Brief Assesment -->
     <form
       [formGroup]="briefAssesmentForm"
-      (ngSubmit)="briefAssesmentFormInsert()"
     >
       <div
         class="accordian__section brief-assesment open"
@@ -700,256 +699,133 @@
                     >Purpose of the Project, specifying the problems and issues
                     it will address
                   </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="purposeOfProject1"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePurpose($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_0Len }} Files Selected</span
-                  >
                 </div>
                 <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject1
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject1
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
                   "
-                  style="display: block; font-size: 14px;"
+                  style="margin: 5px;"
                 >
-                  {{ file.displayFileName }}
-                </div>
+                  Download
+                </button>
+              </div>
+              <br />
                 <div class="brief-assesment__fileupload-container">
                   <span class=""
                     >Detailed Information about the organization conducting the
                     project
                   </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="detailedInformation"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeDetailed($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_1Len }} Files Selected</span
-                  >
                 </div>
                 <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads
-                      ?.detailedInformation
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.detailedInformation
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
                   "
-                  style="display: block; font-size: 14px;"
+                  style="margin: 5px;"
                 >
-                  {{ file.displayFileName }}
+                  Download
+                </button>
                 </div>
+                <br />
                 <div class="brief-assesment__fileupload-container">
                   <span class="">Estimated overall Budget </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="estimatedBudget"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeEstimated($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_2Len }} Files Selected</span
-                  >
                 </div>
                 <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.estimatedBudget
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.estimatedBudget
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
                   "
-                  style="display: block; font-size: 14px;"
+                  style="margin: 5px;"
                 >
-                  {{ file.displayFileName }}
-                </div>
+                  Download
+                </button>
+              </div>
+              <br />
                 <div class="brief-assesment__fileupload-container">
                   <span class=""
                     >Period of time for which founds are requested
                   </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="periodOfTime"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePeriod($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_3Len }} Files Selected</span
-                  >
                 </div>
                 <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.periodOfTime
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
                   "
-                  style="display: block; font-size: 14px;"
+                  style="margin: 5px;"
                 >
-                  {{ file.displayFileName }}
-                </div>
+                  Download
+                </button>
+              </div>
+              <br />
                 <div class="brief-assesment__fileupload-container">
                   <span class=""
                     >Purpose of the Project, specifying the problems and issues
                     it will address
                   </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="purposeOfProject2"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePurpose1($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
                 </div>
                 <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}&nbsp;<button
+                  type="button"
+                  (click)="
+                    fileDownload(file.displayFileName, file.downloadFileName)
                   "
-                  style="display: block; font-size: 14px;"
+                  style="margin: 5px;"
                 >
-                  {{ file.displayFileName }}
-                </div>
+                  Download
+                </button>
+              </div>
+              <br />
 
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Official Registration </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input type="file" class="" [accept]="fileTypes" multiple />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
                 </div>
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Deed of Foundation </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input type="file" class="" [accept]="fileTypes" multiple />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
                 </div>
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual budget report </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input type="file" class="" [accept]="fileTypes" multiple />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
                 </div>
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual activity report </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input type="file" class="" [accept]="fileTypes" multiple />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
                 </div>
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">Certified ID of the Applicant </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input type="file" class="" [accept]="fileTypes" multiple />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
                 </div>
                 <!-- === -->
               </div>
@@ -1027,6 +903,35 @@
               </div>
 
               <!-- === -->
+
+              <div
+              class="first-contact__admin-btn-container"
+              *ngIf="presentFormNo == 2"
+            >
+              <button
+                type="button"
+                class="btn btn-primary first-contact__submit-btn"
+                (click)="formApprove(2)"
+              >
+                Approve
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary first-contact__submit-btn"
+                (click)="openModal('hold-modal')"
+              >
+                Hold
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger first-contact__submit-btn"
+                (click)="openModal('reject-modal')"
+              >
+                Reject
+              </button>
+            </div>
+
+
             </div>
           </div>
         </div>
