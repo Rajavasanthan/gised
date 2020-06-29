@@ -18,7 +18,7 @@
     <!-- Name of Foundation -->
     <div class="profile__info">
       <div class="">
-        Name of Foundation
+        Name of the NGO
       </div>
       <div class="semi-bold font-12">
         {{ loggedProfile.organization_name }}
@@ -1586,8 +1586,12 @@
 
       <!-- Name of Foundation ***added -->
       <div class="form-control d-block h-100">
-        <p class="semi-bold">Name of foundation</p>
-        <input type="text" formControlName="nameOfFoundation" [value]="loggedProfile.organization_name"/>
+        <p class="semi-bold">Name of the NGO</p>
+        <input
+          type="text"
+          formControlName="nameOfFoundation"
+          [value]="loggedProfile.organization_name"
+        />
       </div>
       <div
         *ngIf="
@@ -1596,13 +1600,21 @@
         "
         class="errors"
       >
-        Invalid Name of Foundation
+        Invalid Name of the NGO
       </div>
 
       <!-- DATE OF FOUNDATION ***added -->
       <div class="form-control d-block h-100">
         <p class="semi-bold">Date of Foundation</p>
-        <input type="date" formControlName="dateOfFoundation" [value]="loggedProfile.date_of_foundation == 'Nil' ? '' : loggedProfile.date_of_foundation"/>
+        <input
+          type="date"
+          formControlName="dateOfFoundation"
+          [value]="
+            loggedProfile.date_of_foundation == 'Nil'
+              ? ''
+              : loggedProfile.date_of_foundation
+          "
+        />
       </div>
       <div
         *ngIf="
