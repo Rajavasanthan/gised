@@ -397,7 +397,49 @@ export class UserComponent implements OnInit {
     );
   }
 
+  //Edit Profile
+  editProfileForm = new FormGroup({
+    nameOfFoundation: new FormControl("", [Validators.required]),
+    dateOfFoundation: new FormControl("", [Validators.required]),
+    countryReg: new FormControl("", [Validators.required]),
+    fullName: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.namePattern),
+    ]),
+    dob: new FormControl("", [Validators.required]),
+    mobileNo: new FormControl("", [
+      Validators.required,
+      Validators.pattern(this.validation.mobilePattern),
+    ]),
+    gender: new FormControl("", [Validators.required]),
+    country: new FormControl(0, [Validators.required, Validators.min(1)]),
+    applicationValues: new FormControl(0, [
+      Validators.required,
+      Validators.min(1),
+    ]),
+    image: new FormControl("", [Validators.required]),
+    emailId: new FormControl(""),
+  });
+
   setProfileValues() {
+    if (this.loggedProfile.organization_name != "") {
+      //alert("name :"+this.loggedProfile.first_name);
+      this.editProfileForm.controls.nameOfFoundation.setValue(
+        this.loggedProfile.organization_name
+      );
+    }
+    if (this.loggedProfile.age != "0000-00-00") {
+      this.editProfileForm.controls.dob.setValue(
+        this.loggedProfile.age
+      );
+    }
+    if (this.loggedProfile.countryReg != 1) {
+      this.editProfileForm.controls.country.setValue(
+        this.loggedProfile.r_country_id
+      );
+    } else {
+      this.editProfileForm.controls.country.setValue(0);
+    }
     if (this.loggedProfile.first_name != "") {
       //alert("name :"+this.loggedProfile.first_name);
       this.editProfileForm.controls.fullName.setValue(
@@ -409,6 +451,7 @@ export class UserComponent implements OnInit {
         this.loggedProfile.date_of_foundation
       );
     }
+    
     if (this.loggedProfile.mobile_no != "Nil") {
       this.editProfileForm.controls.mobileNo.setValue(
         this.loggedProfile.mobile_no
@@ -1245,30 +1288,6 @@ export class UserComponent implements OnInit {
   closeModal(id: string) {
     this.modal.close(id);
   }
-
-  //Edit Profile
-  editProfileForm = new FormGroup({
-    nameOfFoundation: new FormControl("", [Validators.required]),
-    dateOfFoundation: new FormControl("", [Validators.required]),
-    countryReg: new FormControl("", [Validators.required]),
-    fullName: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.namePattern),
-    ]),
-    dob: new FormControl("", [Validators.required]),
-    mobileNo: new FormControl("", [
-      Validators.required,
-      Validators.pattern(this.validation.mobilePattern),
-    ]),
-    gender: new FormControl("", [Validators.required]),
-    country: new FormControl(0, [Validators.required, Validators.min(1)]),
-    applicationValues: new FormControl(0, [
-      Validators.required,
-      Validators.min(1),
-    ]),
-    image: new FormControl("", [Validators.required]),
-    emailId: new FormControl(""),
-  });
 
   //Edit Profile Image
   onSelectProfileImages(event) {

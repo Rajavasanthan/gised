@@ -50,8 +50,9 @@
             $dmUserObj->email_id = $this->input['emailId'];
             $sql = $dmUserObj->selectdmuser();
             $result = dbConnection::selectQuery($sql);
-
+            
             if(isset($result[0]['email_id'])) {
+                
                 require_once "classes/class.factuser.php";
                 $factUserObj = new factuser();
                 $factUserObj->r_user_id = $result[0]['user_id'];

@@ -117,9 +117,9 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = ($result[0]['application_name']) ? $result[0]['application_name'] : 'Nil' ;
 
-            $from = new DateTime($userResult[0]['age']);
+            $from = new DateTime(Date("Y-m-d",strtotime($userResult[0]['age'])));
             $to   = new DateTime('today');
-            $userResult[0]['age'] = $from->diff($to)->y;
+            $userResult[0]['calculated_age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
@@ -418,6 +418,7 @@
             $dmUserObj->age = $this->input['dob'];
             $dmUserObj->date_of_foundation = $this->input['dateOfFoundation'];
             $dmUserObj->field_of_activity = $this->input['applicationValues'];
+            $dmUserObj->r_country_id_registerd = $this->input['countryReg'];
             $sql = $dmUserObj->updatedmuser();
             $result = dbConnection::updateQuery($sql);
 
@@ -450,9 +451,10 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = $result[0]['application_name'];
 
+            $userResult[0]['age'] = Date("Y-m-d",strtotime($userResult[0]['age']));
             $from = new DateTime($userResult[0]['age']);
             $to   = new DateTime('today');
-            $userResult[0]['age'] = $from->diff($to)->y;
+            $userResult[0]['calculated_age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
                 foreach($value AS $innerKey => $innerValue) {
                     $this->output['loggedProfile'][$innerKey] = $this->formatedProfileData($innerKey, $innerValue);
