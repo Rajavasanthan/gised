@@ -99,11 +99,6 @@
           class="registration__input"
           placeholder="Phone Number"
           formControlName="mobileNo"
-          ng2TelInput
-          [ng2TelInputOptions]="{ initialCountry: 'in' }"
-          (ng2TelOutput)="getNumber($event)"
-          (intlTelInputObject)="telInputObject($event)"
-          (countryChange)="onCountryChange($event)"
         />
       </div>
       <div>
