@@ -1586,8 +1586,7 @@
       <!-- Name of Foundation ***added -->
       <div class="form-control">
         <p class="semi-bold">Name of foundation</p>
-        <input type="text" formControlName="nameOfFoundation"
-        [value]="loggedProfile.first_name"/>
+        <input type="text" formControlName="nameOfFoundation" [value]="loggedProfile.organization_name"/>
       </div>
       <div
         *ngIf="
@@ -1602,8 +1601,7 @@
       <!-- DATE OF FOUNDATION ***added -->
       <div class="form-control">
         <p class="semi-bold">Date of Foundation</p>
-        <input type="date" formControlName="dateOfFoundation"
-        [value]="loggedProfile.first_name"/>
+        <input type="date" formControlName="dateOfFoundation" [value]="loggedProfile.date_of_foundation == 'Nil' ? '' : loggedProfile.date_of_foundation"/>
       </div>
       <div
               *ngIf="
@@ -1618,9 +1616,7 @@
       <!-- Country registered ***added -->
       <div class="form-control">
         <p class="semi-bold">Country Registered</p>
-        <input type="text"
-        formControlName="countryReg"
-        [value]="loggedProfile.first_name" />
+        <input type="text" formControlName="countryReg" [value]="loggedProfile.first_name" />
       </div>
       <div
         *ngIf="
@@ -1674,11 +1670,7 @@
         <input
           type="date"
           placeholder="Date of Birth"
-          [value]="
-            loggedProfile.date_of_foundation == 'Nil'
-              ? ''
-              : loggedProfile.date_of_foundation
-          "
+          [value]="loggedProfile.date_of_foundation == 'Nil' ? '' : loggedProfile.date_of_foundation"
           formControlName="dob"
           min=""
           max=""

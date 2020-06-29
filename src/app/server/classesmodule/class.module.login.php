@@ -95,12 +95,14 @@
             $dmUserObj->r_country_id = $this->input['country'];
             $sql = $dmUserObj->insertdmuser();
             $result = dbConnection::insertQuery($sql);
+            $this->output['dmuser'] = $sql;
 
             require_once "classes/class.dmpassword.php";
             $dmPassObj = new dmpassword();
             $dmPassObj->login_password = $this->input['emailId'];
             $sql = $dmPassObj->insertdmpassword();
             $result = dbConnection::insertQuery($sql);
+            $this->output['dmpassword'] = $sql;
 
             $dmUserObj->__construct();
             $dmUserObj->email_id = $this->input['emailId'];
@@ -118,6 +120,7 @@
             $factUserObj->r_user_type_id = 2;
             $sql = $factUserObj->insertfactuser();
             $result = dbConnection::insertQuery($sql);
+            $this->output['factuser'] = $sql;
 
             $this->forgotPasswordAction();
 

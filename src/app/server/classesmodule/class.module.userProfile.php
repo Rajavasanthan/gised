@@ -117,7 +117,7 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = ($result[0]['application_name']) ? $result[0]['application_name'] : 'Nil' ;
 
-            $from = new DateTime($userResult[0]['date_of_foundation']);
+            $from = new DateTime($userResult[0]['age']);
             $to   = new DateTime('today');
             $userResult[0]['age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
@@ -408,13 +408,15 @@
 
             require_once "classes/class.dmuser.php";
             $dmUserObj = new dmuser();
+            $dmUserObj->organization_name = $this->input['nameOfFoundation'];
             $dmUserObj->email_id = $this->input['emailId'];
             $dmUserObj->mobile_no = $this->input['mobileNo'];
             $dmUserObj->title = ($this->input['gender'] == "Male") ? "Mr" : "Ms" ;
             $dmUserObj->first_name = $this->input['fullName'];
             $dmUserObj->gender = $this->input['gender'];
             $dmUserObj->r_country_id = $this->input['country'];
-            $dmUserObj->date_of_foundation = $this->input['dob'];
+            $dmUserObj->age = $this->input['dob'];
+            $dmUserObj->date_of_foundation = $this->input['dateOfFoundation'];
             $dmUserObj->field_of_activity = $this->input['applicationValues'];
             $sql = $dmUserObj->updatedmuser();
             $result = dbConnection::updateQuery($sql);
@@ -448,7 +450,7 @@
             $result = dbConnection::selectQuery($sql);
             $this->output['loggedProfile']['field'] = $result[0]['application_name'];
 
-            $from = new DateTime($userResult[0]['date_of_foundation']);
+            $from = new DateTime($userResult[0]['age']);
             $to   = new DateTime('today');
             $userResult[0]['age'] = $from->diff($to)->y;
             foreach($userResult AS $key => $value) {
