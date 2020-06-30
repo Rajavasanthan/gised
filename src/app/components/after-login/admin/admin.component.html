@@ -67,7 +67,7 @@
     </div>
 
     <!-- Date of Foundation -->
-    <div class="profile__info">
+    <div class="profile__info d-none">
       <div class="">
         Date of Foundation
       </div>
@@ -76,7 +76,7 @@
       </div>
     </div>
     <!-- Country Registered -->
-    <div class="profile__info">
+    <div class="profile__info d-none">
       <div class="">
         Country Registered
       </div>
@@ -85,7 +85,7 @@
       </div>
     </div>
     <!-- Field of Activity -->
-    <div class="profile__info">
+    <div class="profile__info d-none">
       <div class="">
         Field of Activity
       </div>
@@ -815,98 +815,111 @@
                   <span class="">NGO's certified Official Registration </span>
                 </div>
                 <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.ngoCertifiedOfficial"
-                style="display: block; font-size: 14px;"
-              >
-                {{ file.displayFileName }}&nbsp;<button
-                  type="button"
-                  (click)="
-                    fileDownload(file.displayFileName, file.downloadFileName)
+                  *ngFor="
+                    let file of briefAssesmentValues?.uploads
+                      ?.ngoCertifiedOfficial
                   "
-                  style="margin: 5px;"
+                  style="display: block; font-size: 14px;"
                 >
-                  Download
-                </button>
-              </div>
-              <br />
+                  {{ file.displayFileName }}&nbsp;<button
+                    type="button"
+                    (click)="
+                      fileDownload(file.displayFileName, file.downloadFileName)
+                    "
+                    style="margin: 5px;"
+                  >
+                    Download
+                  </button>
+                </div>
+                <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's certified Deed of Foundation </span>
                 </div>
                 <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.ngoCertifiedDeed"
-                style="display: block; font-size: 14px;"
-              >
-                {{ file.displayFileName }}&nbsp;<button
-                  type="button"
-                  (click)="
-                    fileDownload(file.displayFileName, file.downloadFileName)
+                  *ngFor="
+                    let file of briefAssesmentValues?.uploads?.ngoCertifiedDeed
                   "
-                  style="margin: 5px;"
+                  style="display: block; font-size: 14px;"
                 >
-                  Download
-                </button>
-              </div>
-              <br />
+                  {{ file.displayFileName }}&nbsp;<button
+                    type="button"
+                    (click)="
+                      fileDownload(file.displayFileName, file.downloadFileName)
+                    "
+                    style="margin: 5px;"
+                  >
+                    Download
+                  </button>
+                </div>
+                <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual budget report </span>
                 </div>
                 <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.ngoCertifiedBudget"
-                style="display: block; font-size: 14px;"
-              >
-                {{ file.displayFileName }}&nbsp;<button
-                  type="button"
-                  (click)="
-                    fileDownload(file.displayFileName, file.downloadFileName)
+                  *ngFor="
+                    let file of briefAssesmentValues?.uploads
+                      ?.ngoCertifiedBudget
                   "
-                  style="margin: 5px;"
+                  style="display: block; font-size: 14px;"
                 >
-                  Download
-                </button>
-              </div>
-              <br />
+                  {{ file.displayFileName }}&nbsp;<button
+                    type="button"
+                    (click)="
+                      fileDownload(file.displayFileName, file.downloadFileName)
+                    "
+                    style="margin: 5px;"
+                  >
+                    Download
+                  </button>
+                </div>
+                <br />
                 <!-- === -->
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">NGO's annual activity report </span>
                 </div>
                 <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.ngoCertifiedActivity"
-                style="display: block; font-size: 14px;"
-              >
-                {{ file.displayFileName }}&nbsp;<button
-                  type="button"
-                  (click)="
-                    fileDownload(file.displayFileName, file.downloadFileName)
+                  *ngFor="
+                    let file of briefAssesmentValues?.uploads
+                      ?.ngoCertifiedActivity
                   "
-                  style="margin: 5px;"
+                  style="display: block; font-size: 14px;"
                 >
-                  Download
-                </button>
-              </div>
-              <br />
+                  {{ file.displayFileName }}&nbsp;<button
+                    type="button"
+                    (click)="
+                      fileDownload(file.displayFileName, file.downloadFileName)
+                    "
+                    style="margin: 5px;"
+                  >
+                    Download
+                  </button>
+                </div>
+                <br />
                 <!-- === -->
                 <div class="brief-assesment__fileupload-container">
                   <span class="">Certified ID of the Applicant </span>
                 </div>
                 <div
-                *ngFor="let file of briefAssesmentValues?.uploads?.certifiedId"
-                style="display: block; font-size: 14px;"
-              >
-                {{ file.displayFileName }}&nbsp;<button
-                  type="button"
-                  (click)="
-                    fileDownload(file.displayFileName, file.downloadFileName)
+                  *ngFor="
+                    let file of briefAssesmentValues?.uploads?.certifiedId
                   "
-                  style="margin: 5px;"
+                  style="display: block; font-size: 14px;"
                 >
-                  Download
-                </button>
-              </div>
+                  {{ file.displayFileName }}&nbsp;<button
+                    type="button"
+                    (click)="
+                      fileDownload(file.displayFileName, file.downloadFileName)
+                    "
+                    style="margin: 5px;"
+                  >
+                    Download
+                  </button>
+                </div>
                 <!-- === -->
               </div>
             </div>
@@ -1237,114 +1250,27 @@
 <block-ui></block-ui>
 
 <!--Edit Profile model-->
+
+<!--Edit Profile model-->
 <jw-modal id="adminProfile-modal" class="modal-profile">
+  <span
+    class="close-button-profile close-button"
+    (click)="closeModal('adminProfile-modal')"
+    >×</span
+  >
   <form [formGroup]="editProfileForm" (ngSubmit)="editProfileSubmit()">
     <div class="profile-modal__container">
-      <span
-        class="close-button-profile close-button"
-        (click)="closeModal('adminProfile-modal')"
-        >×</span
-      >
-      <div class="w-100 d-flex justify-content-center align-items-center">
-        <img [src]="profileImg" alt="Profile Photo" />
-      </div>
+      <img [src]="profileImg" alt="Profile Photo" />
       <div class="change-image-btn-container">
         <input
           type="file"
           (change)="onSelectProfileImages($event)"
           [accept]="profileImgFileTypes"
         />
-        <button class="btn btn-primary cursor-pointer">Update NGO logo</button>
+        <button class="btn btn-primary">Update NGO logo</button>
       </div>
-
-      <!-- Name of Foundation ***added -->
-      <div class="form-control d-block h-100">
-        <p class="semi-bold">Name of the NGO</p>
-        <input
-          type="text"
-          formControlName="nameOfFoundation"
-          [value]="loggedProfile.organization_name"
-        />
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.nameOfFoundation.errors &&
-          editProfileForm.controls.nameOfFoundation.touched
-        "
-        class="errors"
-      >
-        Invalid Name of Foundation
-      </div>
-
-      <!-- DATE OF FOUNDATION ***added -->
-      <div class="form-control d-block h-100">
-        <p class="semi-bold">Date of Foundation</p>
-        <input
-          type="date"
-          formControlName="dateOfFoundation"
-          [value]="
-            loggedProfile.date_of_foundation == 'Nil'
-              ? ''
-              : loggedProfile.date_of_foundation
-          "
-        />
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.dateOfFoundation.errors &&
-          editProfileForm.controls.dateOfFoundation.touched
-        "
-        class="errors"
-      >
-        Invalid Date of Foundation
-      </div>
-
-      <!-- Country registered ***added -->
-      <div class="form-control d-block h-100">
-        <p class="semi-bold">Country Registered</p>
-        <select
-          placeholder="Country"
-          formControlName="countryReg"
-          [(ngModel)]="loggedProfile.r_country_id_registerd"
-          class="select-country m-0 p-1"
-        >
-          <option value="0">Select your country</option>
-          <option
-            *ngFor="let country of countries"
-            value="{{ country.country_id }}"
-            >{{ country.country_name }}</option
-          >
-        </select>
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.countryReg.errors &&
-          editProfileForm.controls.countryReg.touched
-        "
-        class="errors"
-      >
-        Invalid Country
-      </div>
-      <!-- Field of Activity -->
-      <div class="form-control d-block h-100">
-        <p class="semi-bold">Field of Activity</p>
-        <select
-          placeholder="Grant Category"
-          formControlName="applicationValues"
-          [(ngModel)]="loggedProfile.field_of_activity"
-          class="p-1"
-        >
-          <option value="0">Select Field of Activity</option>
-          <option
-            *ngFor="let application of applications"
-            [value]="application.application_details_id"
-            >{{ application.application_name }}</option
-          >
-        </select>
-      </div>
-
       <!-- Name -->
-      <div class="form-control d-block h-100">
+      <div class="form-control">
         <p class="semi-bold">Name</p>
         <input
           type="text"
@@ -1362,12 +1288,16 @@
         Invalid Name
       </div>
       <!-- DOB -->
-      <div class="form-control d-block h-100">
+      <div class="form-control">
         <p class="semi-bold">Date of birth</p>
         <input
           type="date"
           placeholder="Date of Birth"
-          [value]="loggedProfile.age == 'Nil' ? '' : loggedProfile.age"
+          [value]="
+            loggedProfile.date_of_foundation == 'Nil'
+              ? ''
+              : loggedProfile.date_of_foundation
+          "
           formControlName="dob"
           min=""
           max=""
@@ -1382,9 +1312,34 @@
       >
         Invalid Date of Birth
       </div>
-
+      <!-- Country -->
+      <div class="form-control">
+        <p class="semi-bold">Country</p>
+        <select
+          placeholder="Country"
+          formControlName="country"
+          [(ngModel)]="loggedProfile.r_country_id"
+          class="select-country ml-0"
+        >
+          <option value="0">Select your country</option>
+          <option
+            *ngFor="let country of countries"
+            value="{{ country.country_id }}"
+            >{{ country.country_name }}</option
+          >
+        </select>
+      </div>
+      <div
+        *ngIf="
+          editProfileForm.controls.country.errors &&
+          editProfileForm.controls.country.touched
+        "
+        class="errors"
+      >
+        Invalid Country
+      </div>
       <!-- Contact -->
-      <div class="form-control d-block h-100">
+      <div class="form-control">
         <p class="semi-bold">Contact</p>
         <input
           type="text"
@@ -1405,7 +1360,7 @@
         Invalid Contact
       </div>
       <!-- Gender -->
-      <div class="form-control d-block h-100">
+      <div class="form-control">
         <p class="semi-bold">Gender</p>
         <div class="registration__input-container">
           <div class="signup__radio-container">
@@ -1445,39 +1400,28 @@
         Invalid Gender
       </div>
 
-      <!-- Country -->
-      <div class="form-control d-block h-100">
-        <p class="semi-bold">Country</p>
-        <select
-          placeholder="Country"
-          formControlName="country"
-          [(ngModel)]="loggedProfile.r_country_id"
-          class="select-country m-0 p-1"
-        >
-          <option value="0">Select your country</option>
-          <option
-            *ngFor="let country of countries"
-            value="{{ country.country_id }}"
-            >{{ country.country_name }}</option
-          >
-        </select>
-      </div>
-      <div
-        *ngIf="
-          editProfileForm.controls.country.errors &&
-          editProfileForm.controls.country.touched
-        "
-        class="errors"
-      >
-        Invalid Country
-      </div>
-
       <!-- Age -->
       <!-- <div class="form-control">
-        <p class="semi-bold">Age</p>
-        <span contenteditable="true">22</span>
-       </div> -->
+    <p class="semi-bold">Age</p>
+    <span contenteditable="true">22</span>
+   </div> -->
 
+      <!-- Field of Activity -->
+      <!-- <div class="form-control">
+        <p class="semi-bold">Field of Activity</p>
+        <select
+          placeholder="Grant Category"
+          formControlName="applicationValues"
+          [(ngModel)]="loggedProfile.field_of_activity"
+        >
+        <option value="0">Select Field of Activity</option>
+          <option
+            *ngFor="let application of applications"
+            [value]="application.application_details_id"
+            >{{ application.application_name }}</option
+          >
+        </select>
+      </div> -->
       <button
         type="submit"
         class="btn btn-primary semi-bold float-right"

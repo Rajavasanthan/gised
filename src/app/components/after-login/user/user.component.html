@@ -561,562 +561,683 @@
             </div>
           </div>
           <div
-            class="brief-assesment__container accordian__main-data d-flex"
-            *ngIf="initialPresentForm >= 2"
+            class="brief-assesment__container accordian__main-data"
+            *ngIf="initialPresentForm >= 0"
           >
-            <div class="brief-assesment__left">
-              <div class="brief-assesment__form-control d-flex">
-                <span class="">Name</span>
-                <input
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="name"
-                  [value]="briefAssesmentValues?.full_name"
-                />
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.name.errors &&
-                  briefAssesmentForm.controls.name.touched
-                "
-                class="errors"
-              >
-                Invalid Name
-              </div>
-              <div class="brief-assesment__form-control">
-                <span class="">Address</span>
-                <input
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="address"
-                  [value]="briefAssesmentValues?.address"
-                />
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.address.errors &&
-                  briefAssesmentForm.controls.address.touched
-                "
-                class="errors"
-              >
-                Enter Address
-              </div>
-              <div class="brief-assesment__form-control">
-                <span class="">Email</span>
-                <input
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="email"
-                  [value]="briefAssesmentValues?.email_id"
-                />
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.email.errors &&
-                  briefAssesmentForm.controls.email.touched
-                "
-                class="errors"
-              >
-                Invalid Email Id
-              </div>
-              <div class="brief-assesment__form-control">
-                <span class="">Telephone Number</span>
-                <input
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="telephoneNo"
-                  [value]="briefAssesmentValues?.telephone_number"
-                />
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.telephoneNo.errors &&
-                  briefAssesmentForm.controls.telephoneNo.touched
-                "
-                class="errors"
-              >
-                Enter Telephone Number
-              </div>
-              <div class="brief-assesment__form-control d-block">
-                <span class="mr-2">Website (Optional)</span>
-                <input
-                  type="checkbox"
-                  #website
-                  formControlName="website"
-                  [checked]="
-                    briefAssesmentValues?.website_url === 'Y' ? true : false
-                  "
-                />
-                <!-- *** ADDED -->
-                <div>
+            <div class="d-flex flex-column flex-lg-row">
+              <div class="brief-assesment__left mr-5">
+                <div class="brief-assesment__form-control d-flex">
+                  <span class="">Name</span>
                   <input
-                    class="d-block p-1 mt-1"
-                    *ngIf="website.checked"
                     type="text"
-                    name=""
-                    id=""
-                    formControlName="websiteUrl"
+                    class="brief-assesment__form-control--input"
+                    formControlName="name"
+                    [value]="briefAssesmentValues?.full_name"
                   />
                 </div>
                 <div
                   *ngIf="
-                    briefAssesmentForm.controls.websiteUrl.errors &&
-                    briefAssesmentForm.controls.websiteUrl.touched
+                    briefAssesmentForm.controls.name.errors &&
+                    briefAssesmentForm.controls.name.touched
                   "
                   class="errors"
                 >
-                  Invalid WebSite Url
+                  Invalid Name
                 </div>
-              </div>
-              <!-- ====== -->
-              <!-- ===***addded  -->
-              <hr />
-              <h6>Tell us more about your NGO</h6>
+                <div class="brief-assesment__form-control">
+                  <span class="">Address</span>
+                  <input
+                    type="text"
+                    class="brief-assesment__form-control--input"
+                    formControlName="address"
+                    [value]="briefAssesmentValues?.address"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.address.errors &&
+                    briefAssesmentForm.controls.address.touched
+                  "
+                  class="errors"
+                >
+                  Enter Address
+                </div>
+                <div class="brief-assesment__form-control">
+                  <span class="">Email</span>
+                  <input
+                    type="text"
+                    class="brief-assesment__form-control--input"
+                    formControlName="email"
+                    [value]="briefAssesmentValues?.email_id"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.email.errors &&
+                    briefAssesmentForm.controls.email.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Email Id
+                </div>
+                <div class="brief-assesment__form-control">
+                  <span class="">Telephone Number</span>
+                  <input
+                    type="text"
+                    class="brief-assesment__form-control--input"
+                    formControlName="telephoneNo"
+                    [value]="briefAssesmentValues?.telephone_number"
+                  />
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.telephoneNo.errors &&
+                    briefAssesmentForm.controls.telephoneNo.touched
+                  "
+                  class="errors"
+                >
+                  Enter Telephone Number
+                </div>
+                <div class="brief-assesment__form-control d-block">
+                  <span class="mr-2">Website (Optional)</span>
+                  <input
+                    type="checkbox"
+                    #website
+                    formControlName="website"
+                    [checked]="
+                      briefAssesmentValues?.website_url === 'Y' ? true : false
+                    "
+                  />
+                  <!-- *** ADDED -->
+                  <div>
+                    <input
+                      class="d-block p-1 mt-1"
+                      *ngIf="website.checked"
+                      type="text"
+                      name=""
+                      id=""
+                      formControlName="websiteUrl"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      briefAssesmentForm.controls.websiteUrl.errors &&
+                      briefAssesmentForm.controls.websiteUrl.touched
+                    "
+                    class="errors"
+                  >
+                    Invalid WebSite Url
+                  </div>
+                </div>
+                <!-- ====== -->
+                <!-- ===***addded  -->
+                <hr />
+                <h6>Tell us more about your NGO</h6>
 
-              <div class="brief-assesment__form-control d-block">
-                <span class="mb-1 d-block w-100"
-                  >Where is your NGO registered</span
-                >
-                <div class="mb-1">
+                <div class="brief-assesment__form-control d-block">
+                  <span class="mb-1 d-block w-100"
+                    >Where is your NGO registered</span
+                  >
+                  <div class="mb-1">
+                    <input
+                      type="text"
+                      class="brief-assesment__form-control--input"
+                      [value]="briefAssesmentValues?.street_address"
+                      formControlName="streetAddress"
+                      placeholder="Street address"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      briefAssesmentForm.controls.streetAddress.errors &&
+                      briefAssesmentForm.controls.streetAddress.touched
+                    "
+                    class="errors"
+                  >
+                    Invalid Street Address
+                  </div>
+                  <div class="mb-1">
+                    <input
+                      type="text"
+                      class="brief-assesment__form-control--input"
+                      [value]="briefAssesmentValues?.zip_code"
+                      formControlName="zipCode"
+                      placeholder="Zipcode"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      briefAssesmentForm.controls.zipCode.errors &&
+                      briefAssesmentForm.controls.zipCode.touched
+                    "
+                    class="errors"
+                  >
+                    Invalid ZipCode
+                  </div>
+                  <div class="mb-1">
+                    <input
+                      type="text"
+                      class="brief-assesment__form-control--input"
+                      [value]="briefAssesmentValues?.city"
+                      formControlName="city"
+                      placeholder="City"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      briefAssesmentForm.controls.city.errors &&
+                      briefAssesmentForm.controls.city.touched
+                    "
+                    class="errors"
+                  >
+                    Invalid City
+                  </div>
+                  <div class="mb-1">
+                    <input
+                      type="text"
+                      class="brief-assesment__form-control--input"
+                      [value]="briefAssesmentValues?.country"
+                      formControlName="country"
+                      placeholder="Country"
+                    />
+                  </div>
+                  <div
+                    *ngIf="
+                      briefAssesmentForm.controls.country.errors &&
+                      briefAssesmentForm.controls.country.touched
+                    "
+                    class="errors"
+                  >
+                    Invalid Country
+                  </div>
+                </div>
+
+                <!-- === -->
+
+                <!-- Founded -->
+                <div class="brief-assesment__form-control d-block">
+                  <span class="d-block w-100">When was NGO founded</span>
                   <input
-                    type="text"
+                    type="date"
                     class="brief-assesment__form-control--input"
-                    [value]="briefAssesmentValues?.street_address"
-                    formControlName="streetAddress"
-                    placeholder="Street address"
+                    [value]="briefAssesmentValues?.ngo_founded_date"
+                    formControlName="ngoFoundedDate"
                   />
                 </div>
                 <div
                   *ngIf="
-                    briefAssesmentForm.controls.streetAddress.errors &&
-                    briefAssesmentForm.controls.streetAddress.touched
+                    briefAssesmentForm.controls.ngoFoundedDate.errors &&
+                    briefAssesmentForm.controls.ngoFoundedDate.touched
                   "
                   class="errors"
                 >
-                  Invalid Street Address
+                  Invalid Date
                 </div>
-                <div class="mb-1">
+
+                <!-- === -->
+
+                <!-- NGO country active -->
+                <div class="brief-assesment__form-control d-block">
+                  <span class="d-block w-100"
+                    >In which country/countries is the NGO active</span
+                  >
                   <input
                     type="text"
                     class="brief-assesment__form-control--input"
-                    [value]="briefAssesmentValues?.zip_code"
-                    formControlName="zipCode"
-                    placeholder="Zipcode"
+                    formControlName="countriesNgoActive"
+                    [value]="briefAssesmentValues?.countries_ngo_active"
                   />
                 </div>
                 <div
                   *ngIf="
-                    briefAssesmentForm.controls.zipCode.errors &&
-                    briefAssesmentForm.controls.zipCode.touched
+                    briefAssesmentForm.controls.countriesNgoActive.errors &&
+                    briefAssesmentForm.controls.countriesNgoActive.touched
                   "
                   class="errors"
                 >
-                  Invalid ZipCode
+                  Invalid Countries Ngo Active
                 </div>
-                <div class="mb-1">
-                  <input
+
+                <!-- === -->
+                <!-- NGO country active -->
+                <div class="brief-assesment__form-control d-block">
+                  <span class="d-block w-100"
+                    >Please explain clearly ngo vision/mission</span
+                  >
+                  <textarea
                     type="text"
                     class="brief-assesment__form-control--input"
-                    [value]="briefAssesmentValues?.city"
-                    formControlName="city"
-                    placeholder="City"
-                  />
+                    formControlName="ngoVisionMission"
+                    [value]="briefAssesmentValues?.ngo_vision_mission"
+                  >
+                  </textarea>
                 </div>
                 <div
                   *ngIf="
-                    briefAssesmentForm.controls.city.errors &&
-                    briefAssesmentForm.controls.city.touched
+                    briefAssesmentForm.controls.ngoVisionMission.errors &&
+                    briefAssesmentForm.controls.ngoVisionMission.touched
                   "
                   class="errors"
                 >
-                  Invalid City
+                  Invalid Ngo Vision Mission
                 </div>
-                <div class="mb-1">
-                  <input
+
+                <!-- --------------------------------- === --------------------------------- -->
+              </div>
+              <div class="brief-assesment__right">
+                <div class="brief-assesment__form-control d-block">
+                  <div class="">
+                    What is the progress the NGO has made (or is making) toward
+                    its goal ? <i class="fas fa-map-marker-edit"></i>
+                  </div>
+                  <textarea
                     type="text"
-                    class="brief-assesment__form-control--input"
-                    [value]="briefAssesmentValues?.country"
-                    formControlName="country"
-                    placeholder="Country"
-                  />
+                    class="brief-assesment__form-control--input w-100"
+                    formControlName="ngoGoal"
+                    [value]="briefAssesmentValues?.ngo_goal"
+                  >
+                  </textarea>
                 </div>
                 <div
                   *ngIf="
-                    briefAssesmentForm.controls.country.errors &&
-                    briefAssesmentForm.controls.country.touched
+                    briefAssesmentForm.controls.ngoGoal.errors &&
+                    briefAssesmentForm.controls.ngoGoal.touched
                   "
                   class="errors"
                 >
-                  Invalid Country
+                  Invalid Ngo Goal
                 </div>
+
+                <!-- === -->
+                <div class="brief-assesment__form-control d-block">
+                  <div class="">
+                    What is the long term Strategy of the NGO ?
+                    <i class="fas fa-map-marker-edit"></i>
+                  </div>
+                  <textarea
+                    type="text"
+                    class="brief-assesment__form-control--input w-100"
+                    formControlName="ngoLongTermStrategy"
+                    [value]="briefAssesmentValues?.ngo_long_term_strategy"
+                  >
+                  </textarea>
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoLongTermStrategy.errors &&
+                    briefAssesmentForm.controls.ngoLongTermStrategy.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Long Term Strategy
+                </div>
+
+                <!-- === -->
+                <div class="brief-assesment__form-control d-block">
+                  <div class="">
+                    What are different the programs/activities offered by NGO ?
+                    <i class="fas fa-map-marker-edit"></i>
+                  </div>
+                  <textarea
+                    type="text"
+                    class="brief-assesment__form-control--input w-100"
+                    formControlName="ngoOfferedActivities"
+                    [value]="briefAssesmentValues?.ngo_offered_activities"
+                  >
+                  </textarea>
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoOfferedActivities.errors &&
+                    briefAssesmentForm.controls.ngoOfferedActivities.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Offered Activities
+                </div>
+                <!-- === -->
+                <div class="brief-assesment__form-control d-block">
+                  <div class="">
+                    Which partnerships has the NGO's established in the past and
+                    with whom is the NGO currently planning ?
+                    <i class="fas fa-map-marker-edit"></i>
+                  </div>
+                  <textarea
+                    type="text"
+                    class="brief-assesment__form-control--input w-100"
+                    formControlName="ngoPlanning"
+                    [value]="briefAssesmentValues?.ngo_planning"
+                  >
+                  </textarea>
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoPlanning.errors &&
+                    briefAssesmentForm.controls.ngoPlanning.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Planning
+                </div>
+                <!-- === -->
+                <!-- === -->
+                <div class="brief-assesment__form-control d-block">
+                  <div class="">
+                    How is the work of NGO financed ?
+                    <i class="fas fa-map-marker-edit"></i>
+                  </div>
+                  <textarea
+                    type="text"
+                    class="brief-assesment__form-control--input w-100"
+                    formControlName="ngoFinanced"
+                    [value]="briefAssesmentValues?.ngo_financed"
+                  >
+                  </textarea>
+                </div>
+                <div
+                  *ngIf="
+                    briefAssesmentForm.controls.ngoFinanced.errors &&
+                    briefAssesmentForm.controls.ngoFinanced.touched
+                  "
+                  class="errors"
+                >
+                  Invalid Ngo Financed
+                </div>
+                <!-- === -->
+              </div>
+            </div>
+            <div class="brief-assesment__fileupload-section">
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject1"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_0Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject1
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Detailed Information about the organization conducting the
+                  project
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="detailedInformation"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeDetailed($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_1Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.detailedInformation
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class="">Estimated overall Budget </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="estimatedBudget"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeEstimated($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_2Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.estimatedBudget
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Period of time for which founds are requested
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="periodOfTime"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePeriod($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_3Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="let file of briefAssesmentValues?.uploads?.periodOfTime"
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <div class="brief-assesment__fileupload-container">
+                <span class=""
+                  >Purpose of the Project, specifying the problems and issues it
+                  will address
+                </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="purposeOfProject2"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangePurpose1($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_4Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
               </div>
 
               <!-- === -->
-
-              <!-- Founded -->
-              <div class="brief-assesment__form-control d-block">
-                <span class="d-block w-100">When was NGO founded</span>
-                <input
-                  type="date"
-                  class="brief-assesment__form-control--input"
-                  [value]="briefAssesmentValues?.ngo_founded_date"
-                  formControlName="ngoFoundedDate"
-                />
+              <div class="brief-assesment__fileupload-container">
+                <span class="">NGO's certified Official Registration </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="ngoCertifiedOfficial"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeNgoCertifiedOfficial($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_5Len }} Files Selected</span
+                >
               </div>
               <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoFoundedDate.errors &&
-                  briefAssesmentForm.controls.ngoFoundedDate.touched
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
                 "
-                class="errors"
+                style="display: block; font-size: 14px;"
               >
-                Invalid Date
+                {{ file.displayFileName }}
               </div>
-
               <!-- === -->
-
-              <!-- NGO country active -->
-              <div class="brief-assesment__form-control d-block">
-                <span class="d-block w-100"
-                  >In which country/countries is the NGO active</span
-                >
-                <input
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="countriesNgoActive"
-                  [value]="briefAssesmentValues?.countries_ngo_active"
-                />
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.countriesNgoActive.errors &&
-                  briefAssesmentForm.controls.countriesNgoActive.touched
-                "
-                class="errors"
-              >
-                Invalid Countries Ngo Active
-              </div>
-
               <!-- === -->
-              <!-- NGO country active -->
-              <div class="brief-assesment__form-control d-block">
-                <span class="d-block w-100"
-                  >Please explain clearly ngo vision/mission</span
+              <div class="brief-assesment__fileupload-container">
+                <span class="">NGO's certified Deed of Foundation </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="ngoCertifiedDeed"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeNgoCertifiedDeed($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_6Len }} Files Selected</span
                 >
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input"
-                  formControlName="ngoVisionMission"
-                  [value]="briefAssesmentValues?.ngo_vision_mission"
-                >
-                </textarea>
               </div>
               <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoVisionMission.errors &&
-                  briefAssesmentForm.controls.ngoVisionMission.touched
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
                 "
-                class="errors"
+                style="display: block; font-size: 14px;"
               >
-                Invalid Ngo Vision Mission
+                {{ file.displayFileName }}
               </div>
-
-              <!-- --------------------------------- === --------------------------------- -->
-
-              <div class="brief-assesment__fileupload-section">
-                <div class="brief-assesment__fileupload-container">
-                  <span class=""
-                    >Purpose of the Project, specifying the problems and issues
-                    it will address
-                  </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="purposeOfProject1"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePurpose($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_0Len }} Files Selected</span
-                  >
+              <!-- === -->
+              <!-- === -->
+              <div class="brief-assesment__fileupload-container">
+                <span class="">NGO's annual budget report </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="ngoCertifiedBudget"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeNgoCertifiedBudget($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
                 </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject1
-                  "
-                  style="display: block; font-size: 14px;"
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_7Len }} Files Selected</span
                 >
-                  {{ file.displayFileName }}
-                </div>
-                <div class="brief-assesment__fileupload-container">
-                  <span class=""
-                    >Detailed Information about the organization conducting the
-                    project
-                  </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="detailedInformation"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeDetailed($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_1Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads
-                      ?.detailedInformation
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">Estimated overall Budget </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="estimatedBudget"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeEstimated($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_2Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.estimatedBudget
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <div class="brief-assesment__fileupload-container">
-                  <span class=""
-                    >Period of time for which founds are requested
-                  </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="periodOfTime"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePeriod($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_3Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.periodOfTime
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <div class="brief-assesment__fileupload-container">
-                  <span class=""
-                    >Purpose of the Project, specifying the problems and issues
-                    it will address
-                  </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="purposeOfProject2"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangePurpose1($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_4Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-
-                <!-- === -->
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">NGO's certified Official Registration </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="ngoCertifiedOfficial"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeNgoCertifiedOfficial($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_5Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <!-- === -->
-                <!-- === -->
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">NGO's certified Deed of Foundation </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="ngoCertifiedDeed"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeNgoCertifiedDeed($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_6Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <!-- === -->
-                <!-- === -->
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">NGO's annual budget report </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="ngoCertifiedBudget"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeNgoCertifiedBudget($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_7Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <!-- === -->
-                <!-- === -->
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">NGO's annual activity report </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="ngoCertifiedActivity"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeNgoCertifiedActivity($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_8Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <!-- === -->
-                <div class="brief-assesment__fileupload-container">
-                  <span class="">Certified ID of the Applicant </span>
-                  <div *ngIf="briefAssesmentCompleted == 0">
-                    <input
-                      type="file"
-                      class=""
-                      formControlName="certifiedId"
-                      [accept]="fileTypes"
-                      multiple
-                      (change)="onFileChangeCertifiedId($event)"
-                    />
-                    <button class="btn-upload" type="button">
-                      Upload
-                    </button>
-                  </div>
-                  &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
-                    >{{ uploadFiles_2_9Len }} Files Selected</span
-                  >
-                </div>
-                <div
-                  *ngFor="
-                    let file of briefAssesmentValues?.uploads?.purposeOfProject2
-                  "
-                  style="display: block; font-size: 14px;"
-                >
-                  {{ file.displayFileName }}
-                </div>
-                <!-- === -->
               </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <!-- === -->
+              <!-- === -->
+              <div class="brief-assesment__fileupload-container">
+                <span class="">NGO's annual activity report </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="ngoCertifiedActivity"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeNgoCertifiedActivity($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_8Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <!-- === -->
+              <div class="brief-assesment__fileupload-container">
+                <span class="">Certified ID of the Applicant </span>
+                <div *ngIf="briefAssesmentCompleted == 0">
+                  <input
+                    type="file"
+                    class=""
+                    formControlName="certifiedId"
+                    [accept]="fileTypes"
+                    multiple
+                    (change)="onFileChangeCertifiedId($event)"
+                  />
+                  <button class="btn-upload" type="button">
+                    Upload
+                  </button>
+                </div>
+                &nbsp;&nbsp;<span *ngIf="briefAssesmentCompleted == 0"
+                  >{{ uploadFiles_2_9Len }} Files Selected</span
+                >
+              </div>
+              <div
+                *ngFor="
+                  let file of briefAssesmentValues?.uploads?.purposeOfProject2
+                "
+                style="display: block; font-size: 14px;"
+              >
+                {{ file.displayFileName }}
+              </div>
+              <!-- === -->
+            </div>
+            <div>
               <button
                 type="submit"
                 class="btn btn-primary brief-assesment__submit-btn text-center"
@@ -1141,127 +1262,6 @@
               >
                 Share the details
               </button>
-            </div>
-            <div class="brief-assesment__right">
-              <div class="brief-assesment__form-control d-block">
-                <div class="">
-                  What is the progress the NGO has made (or is making) toward
-                  its goal ? <i class="fas fa-map-marker-edit"></i>
-                </div>
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoGoal"
-                  [value]="briefAssesmentValues?.ngo_goal"
-                >
-                </textarea>
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoGoal.errors &&
-                  briefAssesmentForm.controls.ngoGoal.touched
-                "
-                class="errors"
-              >
-                Invalid Ngo Goal
-              </div>
-
-              <!-- === -->
-              <div class="brief-assesment__form-control d-block">
-                <div class="">
-                  What is the long term Strategy of the NGO ?
-                  <i class="fas fa-map-marker-edit"></i>
-                </div>
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoLongTermStrategy"
-                  [value]="briefAssesmentValues?.ngo_long_term_strategy"
-                >
-                </textarea>
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoLongTermStrategy.errors &&
-                  briefAssesmentForm.controls.ngoLongTermStrategy.touched
-                "
-                class="errors"
-              >
-                Invalid Ngo Long Term Strategy
-              </div>
-
-              <!-- === -->
-              <div class="brief-assesment__form-control d-block">
-                <div class="">
-                  What are different the programs/activities offered by NGO ?
-                  <i class="fas fa-map-marker-edit"></i>
-                </div>
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoOfferedActivities"
-                  [value]="briefAssesmentValues?.ngo_offered_activities"
-                >
-                </textarea>
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoOfferedActivities.errors &&
-                  briefAssesmentForm.controls.ngoOfferedActivities.touched
-                "
-                class="errors"
-              >
-                Invalid Ngo Offered Activities
-              </div>
-              <!-- === -->
-              <div class="brief-assesment__form-control d-block">
-                <div class="">
-                  Which partnerships has the NGO's established in the past and
-                  with whom is the NGO currently planning ?
-                  <i class="fas fa-map-marker-edit"></i>
-                </div>
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoPlanning"
-                  [value]="briefAssesmentValues?.ngo_planning"
-                >
-                </textarea>
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoPlanning.errors &&
-                  briefAssesmentForm.controls.ngoPlanning.touched
-                "
-                class="errors"
-              >
-                Invalid Ngo Planning
-              </div>
-              <!-- === -->
-              <!-- === -->
-              <div class="brief-assesment__form-control d-block">
-                <div class="">
-                  How is the work of NGO financed ?
-                  <i class="fas fa-map-marker-edit"></i>
-                </div>
-                <textarea
-                  type="text"
-                  class="brief-assesment__form-control--input w-100"
-                  formControlName="ngoFinanced"
-                  [value]="briefAssesmentValues?.ngo_financed"
-                >
-                </textarea>
-              </div>
-              <div
-                *ngIf="
-                  briefAssesmentForm.controls.ngoFinanced.errors &&
-                  briefAssesmentForm.controls.ngoFinanced.touched
-                "
-                class="errors"
-              >
-                Invalid Ngo Financed
-              </div>
-              <!-- === -->
             </div>
           </div>
         </div>
