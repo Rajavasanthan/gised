@@ -1,0 +1,13 @@
+a:hover {
+  color: orange;
+}
+
+.registration__footer {
+  background-color: orange;
+  min-height: 50px;
+  position: relative;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

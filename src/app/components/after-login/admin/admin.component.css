@@ -188,3 +188,7 @@
   background-color: darkgray;
   border: 1px solid black;
 }
+
+a:hover {
+  color: orange;
+}

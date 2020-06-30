@@ -73,3 +73,7 @@
 #userProfile-modal .form-control > p {
   margin-bottom: 0.5rem;
 }
+
+a:hover {
+  color: orange;
+}
