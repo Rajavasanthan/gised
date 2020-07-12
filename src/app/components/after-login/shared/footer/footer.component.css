@@ -11,3 +11,7 @@ a:hover {
   align-items: center;
   justify-content: center;
 }
+
+.registration__footer > a {
+  color: white !important;
+}

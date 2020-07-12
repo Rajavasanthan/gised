@@ -9,11 +9,12 @@ import { AdminComponent } from '../../components/after-login/admin/admin.compone
 import { UserComponent } from '../../components/after-login/user/user.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalModule } from '../../modal';
+import { FooterComponent } from 'src/app/components/after-login/shared/footer/footer.component';
 
 @NgModule({
   declarations: [
   AdminComponent,
-  UserComponent],
+  UserComponent,FooterComponent],
   providers:[{provide: LocationStrategy, useClass: HashLocationStrategy},ProductService],
   imports: [
     CommonModule,

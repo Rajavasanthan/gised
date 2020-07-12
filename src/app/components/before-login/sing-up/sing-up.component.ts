@@ -27,7 +27,8 @@ export class SingUpComponent implements OnInit {
     fullName : new FormControl('', [Validators.required,Validators.pattern(this.validation.namePattern)]),
     organizationName : new FormControl('', [Validators.required]),
     emailId : new FormControl('', [Validators.required, Validators.pattern(this.validation.emailIdPattern)]),
-    mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
+    // mobileNo : new FormControl('', [Validators.required,Validators.pattern(this.validation.mobilePattern)]),
+    mobileNo : new FormControl('', [Validators.required]),
     gender : new FormControl('', [Validators.required]),
     age : new FormControl('', [Validators.required]),
     country : new FormControl(0, [Validators.required,Validators.min(1)])

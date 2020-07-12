@@ -1,3 +1,7 @@
 a:hover {
   color: orange;
 }
+
+.registration__footer > a {
+  color: white;
+}
